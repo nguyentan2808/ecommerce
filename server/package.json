@@ -1,0 +1,32 @@
+{
+    "name": "server-1",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "scripts": {
+        "start": "node dist/index.js",
+        "dev": "nodemon dist/index.js",
+        "start-ts": "nodemon --exec ts-node src/index.ts",
+        "watch": "tsc --watch"
+    },
+    "devDependencies": {
+        "@types/express": "^4.17.13",
+        "@types/node": "^17.0.8",
+        "nodemon": "^2.0.15",
+        "ts-node": "^10.4.0",
+        "typescript": "^4.5.4"
+    },
+    "dependencies": {
+        "apollo-server-core": "^3.6.1",
+        "apollo-server-express": "^3.6.1",
+        "argon2": "^0.28.3",
+        "class-validator": "^0.13.2",
+        "dotenv": "^11.0.0",
+        "express": "^4.17.2",
+        "graphql": "^15.5.1",
+        "pg": "^8.7.1",
+        "reflect-metadata": "^0.1.13",
+        "type-graphql": "^1.1.1",
+        "typeorm": "^0.2.41"
+    }
+}
