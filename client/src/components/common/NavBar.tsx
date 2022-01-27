@@ -1,4 +1,5 @@
 import { Button, IconButton, Input } from "@chakra-ui/react";
+import useTrans from "hooks/useTrans";
 import { throttle } from "lodash";
 import { useTheme } from "next-themes";
 import Image from "next/image";
@@ -16,6 +17,7 @@ import { FiMenu } from "react-icons/fi";
 import { MdOutlineAccountCircle } from "react-icons/md";
 import { toast } from "react-toastify";
 import logo from "../../../public/logo.png";
+import Languages from "./Language";
 import styles from "./styles.module.css";
 
 const MobileNavBar = () => {
@@ -29,10 +31,19 @@ const MobileNavBar = () => {
         </div>
     );
 };
+
 const NavBar: React.FC = () => {
     const router = useRouter();
     const { theme, setTheme } = useTheme();
     const [isHide, setHide] = React.useState(false);
+    const trans = useTrans();
+
+    const menu = [
+        { name: trans.navbar.shops, href: "/" },
+        { name: trans.navbar.offers, href: "/" },
+        { name: "FAQ", href: "/help" },
+        { name: trans.navbar.contact, href: "/contact" },
+    ];
 
     const handleDarkMode = () => {
         setTheme(theme === "dark" ? "light" : "dark");
@@ -44,8 +55,6 @@ const NavBar: React.FC = () => {
     const handleHideNavbar = throttle(() => {
         setHide(!isHide);
     }, 200);
-
-    React.useEffect(() => {});
 
     return (
         <>
@@ -64,12 +73,12 @@ const NavBar: React.FC = () => {
                         />
                     </a>
                 </Link>
-                <div className="hidden sm:flex gap-8 items-center ">
+                <div className="hidden sm:flex items-center gap-8">
                     <Input
                         variant="outline"
                         placeholder="Search"
-                        // className="shadow"
                         bg={"white"}
+                        w={48}
                     />
 
                     <IconButton
@@ -80,18 +89,14 @@ const NavBar: React.FC = () => {
                         icon={<BsFillMoonStarsFill />}
                     />
 
-                    <Link href="/contact">
-                        <a className="text-lg opacity-70">Shops</a>
-                    </Link>
-                    <Link href="/contact">
-                        <a className="text-lg opacity-70">Offers</a>
-                    </Link>
-                    <Link href="/help">
-                        <a className="text-lg opacity-70">FAQ</a>
-                    </Link>
-                    <Link href="/contact">
-                        <a className="text-lg opacity-70">Contact</a>
-                    </Link>
+                    {menu.map((item, index) => (
+                        <Link key={index} href={item.href}>
+                            <a className="text-lg opacity-70">{item.name}</a>
+                        </Link>
+                    ))}
+
+                    <Languages />
+
                     {/* <Menu>
                         <MenuButton>
                             <Avatar
@@ -105,13 +110,14 @@ const NavBar: React.FC = () => {
                             <MenuItem>Link 3</MenuItem>
                         </MenuList>
                     </Menu> */}
+
                     <Link href="/login">
                         <a>
                             <Button
                                 colorScheme="teal"
                                 onClick={() => router.push("/login")}
                             >
-                                Join
+                                {trans.navbar.loginBtn}
                             </Button>
                         </a>
                     </Link>
@@ -131,4 +137,5 @@ const NavBar: React.FC = () => {
         </>
     );
 };
+
 export default NavBar;

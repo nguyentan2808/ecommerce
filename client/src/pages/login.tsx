@@ -19,7 +19,7 @@ const Login: React.FC = () => {
     return (
         <div className="flex flex-col md:flex-row h-[calc(100vh-var(--navbar-height))]">
             <div className="p-8 flex flex-1 justify-center items-center">
-                <Stack spacing={8} className="w-full max-w-md">
+                <Stack spacing={6} className="w-full max-w-md">
                     <Heading fontSize={"2xl"}>Sign in to your account</Heading>
                     <FormControl id="email">
                         <FormLabel>Email address</FormLabel>
