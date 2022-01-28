@@ -1,9 +1,9 @@
-._navbar {
+.navbar_bg {
     background-color: rgba(255, 255, 255, 0.8);
     backdrop-filter: saturate(180%) blur(5px);
 }
 
-._hide {
+.hide {
     transform: translateY(calc(-1 * var(--navbar-height)));
     margin-top: calc(-1 * var(--navbar-height));
 }
@@ -17,7 +17,7 @@
     -webkit-box-orient: vertical;
 }
 
-.arrow::after {
+/* .arrow::after {
     content: "";
     position: absolute;
     bottom: 100%;
@@ -26,4 +26,4 @@
     border-width: 5px;
     border-style: solid;
     border-color: transparent transparent black transparent;
-}
+} */

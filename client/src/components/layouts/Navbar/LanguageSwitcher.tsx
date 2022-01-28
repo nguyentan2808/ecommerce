@@ -1,4 +1,3 @@
-import useTrans from "hooks/useTrans";
 import { useRouter } from "next/router";
 import React from "react";
 import { HiCheck } from "react-icons/hi";
@@ -10,9 +9,8 @@ const listLanguages = [
     { name: "Tiếng Việt", lang: "vi" },
 ];
 
-const Language: React.FC = () => {
+const LanguageSwitcher: React.FC = () => {
     const router = useRouter();
-    const trans = useTrans();
 
     const [isHide, setHide] = React.useState(true);
     const [selected, setSelected] = React.useState(() => {
@@ -40,9 +38,7 @@ const Language: React.FC = () => {
 
             {/* Popover */}
             {!isHide && (
-                <div
-                    className={`absolute top-[100%] flex flex-col bg-white border border-gray-300 rounded shadow ${styles.arrow}`}
-                >
+                <div className="absolute top-[90%] flex flex-col bg-white border border-gray-300 rounded shadow">
                     {listLanguages.map((item, index) => {
                         const isCheck = selected === item.name;
                         return (
@@ -70,4 +66,4 @@ const Language: React.FC = () => {
     );
 };
 
-export default Language;
+export default LanguageSwitcher;

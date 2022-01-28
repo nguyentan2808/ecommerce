@@ -4,6 +4,7 @@ const vi = {
         contact: "Liên hệ",
         offers: "Ưu đãi",
         shops: "Cửa hàng",
+        search: "Tìm kiếm",
     },
 };
 export default vi;

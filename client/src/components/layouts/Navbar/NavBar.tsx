@@ -16,8 +16,8 @@ import { BsFillMoonStarsFill } from "react-icons/bs";
 import { FiMenu } from "react-icons/fi";
 import { MdOutlineAccountCircle } from "react-icons/md";
 import { toast } from "react-toastify";
-import logo from "../../../public/logo.png";
-import Languages from "./Language";
+import logo from "../../../../public/logo.png";
+import Languages from "./LanguageSwitcher";
 import styles from "./styles.module.css";
 
 const MobileNavBar = () => {
@@ -60,7 +60,7 @@ const NavBar: React.FC = () => {
         <>
             <header
                 className={`py-4 w-full sticky top-0 border-b shadow flex justify-center sm:justify-between items-center px-4 z-10 h-[var(--navbar-height)] ease-linear duration-200 ${
-                    styles._navbar
+                    styles.navbar_bg
                 } ${isHide ? styles._hide : ""}`}
             >
                 <Link href="/">
@@ -76,7 +76,7 @@ const NavBar: React.FC = () => {
                 <div className="hidden sm:flex items-center gap-8">
                     <Input
                         variant="outline"
-                        placeholder="Search"
+                        placeholder={trans.navbar.search}
                         bg={"white"}
                         w={48}
                     />
@@ -124,7 +124,7 @@ const NavBar: React.FC = () => {
                 </div>
 
                 <div
-                    className={`absolute top-[100%] shadow z-11 left-0 p-3 rounded cursor-pointer rounded-t-none select-none ${styles._navbar}`}
+                    className={`absolute top-[100%] shadow z-11 left-0 p-3 rounded cursor-pointer rounded-t-none select-none ${styles.navbar_bg}`}
                     onClick={handleHideNavbar}
                 >
                     <FiMenu className="text-xl" />

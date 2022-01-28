@@ -1,13 +1,13 @@
-import "styles/globals.css";
-import type { AppProps } from "next/app";
-import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
-import theme from "theme";
-import Navbar from "components/common/NavBar";
-import Footer from "components/common/Footer";
+import { ChakraProvider } from "@chakra-ui/react";
+import Footer from "components/layouts/Footer/Footer";
+import Navbar from "components/layouts/Navbar";
 import { ThemeProvider } from "next-themes";
-import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer } from "react-toastify";
+import type { AppProps } from "next/app";
 import React from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "styles/globals.css";
+import theme from "theme";
 
 function MyApp({ Component, pageProps }: AppProps) {
     return (
