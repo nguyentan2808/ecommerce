@@ -25,7 +25,7 @@ const LanguageSwitcher: React.FC = () => {
 
     const changeLang = (lang: { name: string; lang: string }) => {
         setSelected(lang.name);
-        router.push("/", "/", { locale: lang.lang });
+        router.push(router.pathname, router.pathname, { locale: lang.lang });
     };
 
     return (

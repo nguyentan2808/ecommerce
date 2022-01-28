@@ -61,7 +61,7 @@ const NavBar: React.FC = () => {
             <header
                 className={`py-4 w-full sticky top-0 border-b shadow flex justify-center sm:justify-between items-center px-4 z-10 h-[var(--navbar-height)] ease-linear duration-200 ${
                     styles.navbar_bg
-                } ${isHide ? styles._hide : ""}`}
+                } ${isHide ? styles.hide : ""}`}
             >
                 <Link href="/">
                     <a>

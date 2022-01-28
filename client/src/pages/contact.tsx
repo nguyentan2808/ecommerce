@@ -19,8 +19,11 @@ import {
 } from "react-icons/io";
 import { toast } from "react-toastify";
 import image from "@public/contact.png";
+import useTrans from "hooks/useTrans";
 
 const Contact: React.FC = () => {
+    const trans = useTrans();
+
     return (
         <>
             <Head>
@@ -33,7 +36,7 @@ const Contact: React.FC = () => {
 
                         <div className="flex flex-col mb-6">
                             <span className="font-semibold text-heading mb-2">
-                                Address
+                                {trans.contact.information_address}
                             </span>
                             <span className="text-sm text-body">
                                 Nha Be, Ho Chi Minh City
@@ -41,7 +44,7 @@ const Contact: React.FC = () => {
                         </div>
                         <div className="flex flex-col mb-6">
                             <span className="font-semibold text-heading mb-2">
-                                Phone
+                                {trans.contact.information_phone}
                             </span>
                             <span className="text-sm text-body">
                                 +84 333 571 180
@@ -50,7 +53,7 @@ const Contact: React.FC = () => {
                         <div></div>
                         <div className="flex flex-col mb-6">
                             <span className="font-semibold text-heading mb-2">
-                                Email
+                                {trans.contact.information_email}
                             </span>
                             <span className="text-sm text-body">
                                 Tanpro01635147801@gmail.com
@@ -59,7 +62,7 @@ const Contact: React.FC = () => {
 
                         <div className="flex flex-col mb-3">
                             <span className="font-semibold text-heading mb-2">
-                                Follow Us
+                                {trans.contact.information_follow_us}
                             </span>
                             <div className="w-2/3 flex justify-between py-1">
                                 <Link
@@ -107,28 +110,34 @@ const Contact: React.FC = () => {
                     </div>
                     <div className="w-full p-8 bg-white rounded-md md:ml-16 mt-6 md:mt-0 shadow-md">
                         <h3 className="mb-7 text-xl md:text-2xl font-body font-bold text-heading">
-                            Questions, Comments, Or Concerns?
+                            {trans.contact.form_header}
                         </h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
                             <FormControl>
-                                <FormLabel htmlFor="email">Name</FormLabel>
+                                <FormLabel htmlFor="email">
+                                    {trans.contact.form_name}
+                                </FormLabel>
                                 <Input id="name" type="text" />
                             </FormControl>
                             <FormControl>
-                                <FormLabel htmlFor="email">Email</FormLabel>
+                                <FormLabel htmlFor="email">
+                                    {trans.contact.form_email}
+                                </FormLabel>
                                 <Input id="email" type="email" />
                             </FormControl>
                         </div>
                         <div className="grid grid-cols-1 mb-6">
                             <FormControl>
-                                <FormLabel htmlFor="email">Subject</FormLabel>
+                                <FormLabel htmlFor="email">
+                                    {trans.contact.form_subject}
+                                </FormLabel>
                                 <Input id="name" type="text" />
                             </FormControl>
                         </div>
                         <div className="grid grid-cols-1 mb-6">
                             <FormControl>
                                 <FormLabel htmlFor="email">
-                                    Description
+                                    {trans.contact.form_description}
                                 </FormLabel>
                                 <Textarea size="md" resize="vertical" />
                             </FormControl>
@@ -139,14 +148,14 @@ const Contact: React.FC = () => {
                                 colorScheme="teal"
                                 focusBorderColor="teal"
                             >
-                                I accept receive email promotion from Pickbazar.
+                                {trans.contact.form_accept_notify}
                             </Checkbox>
                         </div>
                         <Button
                             className="bg-red-500"
                             onClick={() => toast("oke")}
                         >
-                            Submit
+                            {trans.contact.form_submit_btn}
                         </Button>
                     </div>
                 </div>
