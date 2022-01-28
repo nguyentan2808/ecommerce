@@ -19,5 +19,11 @@ const vi = {
         information_email: "Email",
         information_follow_us: "Theo dõi chúng tôi",
     },
+    forgot_password: {
+        form_header: "Quên mật khẩu",
+        form_description:
+            "Vui lòng nhập email hoặc số di động để tìm kiếm tài khoản của bạn.",
+        form_submit_btn: "Gửi",
+    },
 };
 export default vi;

@@ -140,7 +140,7 @@ const Footer: React.FC = () => {
                     maxW="6xl"
                     className="mb-12 sm:mb-0 py-4 flex justify-between items-center"
                 >
-                    <div>
+                    <div className="mr-2">
                         © 2022{" "}
                         <Link href="https://www.facebook.com/nguyentan2808/">
                             <a className="font-semibold">Nguyen Tan</a>

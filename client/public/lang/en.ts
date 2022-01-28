@@ -20,5 +20,11 @@ const en = {
         information_email: "Email",
         information_follow_us: "Follow us",
     },
+    forgot_password: {
+        form_header: "Forgot Password",
+        form_description:
+            "Please enter your email address or mobile number to search for your account.",
+        form_submit_btn: "Send",
+    },
 };
 export default en;

@@ -1,31 +1,29 @@
 import {
-    Flex,
-    Stack,
-    Heading,
-    Text,
-    Input,
     Button,
-    Icon,
-    useColorModeValue,
     createIcon,
+    Heading,
+    Icon,
+    Input,
+    Stack,
+    Text,
+    useColorModeValue,
 } from "@chakra-ui/react";
+import useTrans from "hooks/useTrans";
 
-export default function CardWithIllustration() {
+const Forgot_Password = () => {
+    const trans = useTrans();
+
     return (
-        <Flex
-            minH={"100vh"}
-            align={"center"}
-            justify={"center"}
-            py={12}
-            bg={useColorModeValue("gray.50", "gray.800")}
-        >
+        <div className="flex items-center bg-gray-50 justify-center min-h-[calc(100vh-var(--navbar-height))]">
             <Stack
-                boxShadow={"2xl"}
+                maxW={"md"}
+                boxShadow={"md"}
                 bg={useColorModeValue("white", "gray.700")}
                 rounded={"xl"}
                 p={10}
                 spacing={8}
                 align={"center"}
+                className="-mt-20"
             >
                 <Icon as={NotificationIcon} w={24} h={24} />
                 <Stack align={"center"} spacing={2}>
@@ -34,10 +32,14 @@ export default function CardWithIllustration() {
                         fontSize={"2xl"}
                         color={useColorModeValue("gray.800", "gray.200")}
                     >
-                        Forgot password
+                        {trans.forgot_password.form_header}
                     </Heading>
-                    <Text fontSize={"lg"} color={"gray.500"}>
-                        Subscribe to our newsletter & stay up to date!
+                    <Text
+                        fontSize={"md"}
+                        color={"gray.500"}
+                        textAlign={"center"}
+                    >
+                        {trans.forgot_password.form_description}
                     </Text>
                 </Stack>
                 <Stack
@@ -47,7 +49,7 @@ export default function CardWithIllustration() {
                 >
                     <Input
                         type={"text"}
-                        placeholder={"john@doe.net"}
+                        placeholder={"john@gmail.com"}
                         color={useColorModeValue("gray.800", "gray.200")}
                         bg={useColorModeValue("gray.100", "gray.600")}
                         rounded={"full"}
@@ -65,13 +67,13 @@ export default function CardWithIllustration() {
                         _hover={{ bg: "blue.500" }}
                         _focus={{ bg: "blue.500" }}
                     >
-                        Send
+                        {trans.forgot_password.form_submit_btn}
                     </Button>
                 </Stack>
             </Stack>
-        </Flex>
+        </div>
     );
-}
+};
 
 const NotificationIcon = createIcon({
     displayName: "Notification",
@@ -179,3 +181,5 @@ const NotificationIcon = createIcon({
         </g>
     ),
 });
+
+export default Forgot_Password;

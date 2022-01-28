@@ -40,13 +40,13 @@ const LanguageSwitcher: React.FC = () => {
             {!isHide && (
                 <>
                     <div className="fixed h-screen w-[99%] top-0 left-0 bg-transparent z-13"></div>
-                    <div className="absolute top-[90%] flex flex-col bg-white border border-gray-300 rounded shadow">
+                    <div className="absolute top-[90%] flex flex-col bg-white border border-gray-300 rounded-md shadow py-1">
                         {listLanguages.map((item, index) => {
                             const isCheck = selected === item.name;
                             return (
                                 <div
                                     key={index}
-                                    className={`flex items-center hover:bg-gray-200 px-2 py-1 min-w-[10rem] ${
+                                    className={`flex items-center hover:bg-gray-200 p-2 min-w-[10rem] ${
                                         isCheck ? "bg-gray-200" : ""
                                     }`}
                                     onClick={() => changeLang(item)}

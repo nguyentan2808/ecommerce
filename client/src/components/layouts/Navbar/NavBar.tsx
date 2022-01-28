@@ -1,4 +1,5 @@
-import { Button, IconButton, Input } from "@chakra-ui/react";
+import { Button, Input } from "@chakra-ui/react";
+import logo from "@public/logo.png";
 import useTrans from "hooks/useTrans";
 import { throttle } from "lodash";
 import { useTheme } from "next-themes";
@@ -12,11 +13,9 @@ import {
     BiMenuAltLeft,
     BiSearchAlt,
 } from "react-icons/bi";
-import { BsFillMoonStarsFill } from "react-icons/bs";
 import { FiMenu } from "react-icons/fi";
 import { MdOutlineAccountCircle } from "react-icons/md";
 import { toast } from "react-toastify";
-import logo from "@public/logo.png";
 import Languages from "./LanguageSwitcher";
 import styles from "./styles.module.css";
 
@@ -81,13 +80,13 @@ const NavBar: React.FC = () => {
                         w={48}
                     />
 
-                    <IconButton
+                    {/* <IconButton
                         onClick={handleDarkMode}
                         colorScheme={"black"}
                         variant={"ghost"}
                         aria-label="toggle-dark-mode"
                         icon={<BsFillMoonStarsFill />}
-                    />
+                    /> */}
 
                     {menu.map((item, index) => (
                         <Link key={index} href={item.href}>
@@ -124,7 +123,7 @@ const NavBar: React.FC = () => {
                 </div>
 
                 <div
-                    className={`absolute top-[100%] shadow z-11 left-0 p-3 rounded cursor-pointer rounded-t-none select-none ${styles.navbar_bg}`}
+                    className={`absolute top-[100%] shadow z-11 left-0 p-3 cursor-pointer rounded-br-md select-none ${styles.navbar_bg}`}
                     onClick={handleHideNavbar}
                 >
                     <FiMenu className="text-xl" />

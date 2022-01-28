@@ -17,7 +17,7 @@ import Link from "next/link";
 
 const Login: React.FC = () => {
     return (
-        <div className="flex flex-col md:flex-row h-[calc(100vh-var(--navbar-height))]">
+        <div className="flex flex-col md:flex-row min-h-[calc(100vh-var(--navbar-height))]">
             <div className="p-8 flex flex-1 justify-center items-center">
                 <Stack spacing={6} className="w-full max-w-md">
                     <Heading fontSize={"2xl"}>Sign in to your account</Heading>
@@ -65,7 +65,7 @@ const Login: React.FC = () => {
                     </Stack>
                 </Stack>
             </div>
-            <Flex flex={1}>
+            <div className=" sm:flex flex-1">
                 <Image
                     alt={"Login Image"}
                     objectFit={"cover"}
@@ -73,7 +73,7 @@ const Login: React.FC = () => {
                         "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1352&q=80"
                     }
                 />
-            </Flex>
+            </div>
         </div>
     );
 };
