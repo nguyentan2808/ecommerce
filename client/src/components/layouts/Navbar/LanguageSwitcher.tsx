@@ -38,29 +38,32 @@ const LanguageSwitcher: React.FC = () => {
 
             {/* Popover */}
             {!isHide && (
-                <div className="absolute top-[90%] flex flex-col bg-white border border-gray-300 rounded shadow">
-                    {listLanguages.map((item, index) => {
-                        const isCheck = selected === item.name;
-                        return (
-                            <div
-                                key={index}
-                                className={`flex items-center hover:bg-gray-200 px-2 py-1 min-w-[10rem] ${
-                                    isCheck ? "bg-gray-200" : ""
-                                }`}
-                                onClick={() => changeLang(item)}
-                            >
-                                <div className="w-6">
-                                    {isCheck ? (
-                                        <HiCheck className="text-xl text-teal-500" />
-                                    ) : (
-                                        ""
-                                    )}
+                <>
+                    <div className="fixed h-screen w-[99%] top-0 left-0 bg-transparent z-13"></div>
+                    <div className="absolute top-[90%] flex flex-col bg-white border border-gray-300 rounded shadow">
+                        {listLanguages.map((item, index) => {
+                            const isCheck = selected === item.name;
+                            return (
+                                <div
+                                    key={index}
+                                    className={`flex items-center hover:bg-gray-200 px-2 py-1 min-w-[10rem] ${
+                                        isCheck ? "bg-gray-200" : ""
+                                    }`}
+                                    onClick={() => changeLang(item)}
+                                >
+                                    <div className="w-6">
+                                        {isCheck ? (
+                                            <HiCheck className="text-xl text-teal-500" />
+                                        ) : (
+                                            ""
+                                        )}
+                                    </div>
+                                    {item.name} ({item.lang})
                                 </div>
-                                {item.name} ({item.lang})
-                            </div>
-                        );
-                    })}
-                </div>
+                            );
+                        })}
+                    </div>
+                </>
             )}
         </div>
     );
