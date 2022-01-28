@@ -44,13 +44,6 @@ const NavBar: React.FC = () => {
         { name: trans.navbar.contact, href: "/contact" },
     ];
 
-    const handleDarkMode = () => {
-        setTheme(theme === "dark" ? "light" : "dark");
-        toast.success("This feature is in development", {
-            icon: "🚀",
-        });
-    };
-
     const handleHideNavbar = throttle(() => {
         setHide(!isHide);
     }, 200);
