@@ -15,7 +15,7 @@ import {
 } from "react-icons/bi";
 import { FiMenu } from "react-icons/fi";
 import { MdOutlineAccountCircle } from "react-icons/md";
-import { toast } from "react-toastify";
+
 import Languages from "./LanguageSwitcher";
 import styles from "./styles.module.css";
 
