@@ -18,7 +18,7 @@ import {
     IoMdMail,
 } from "react-icons/io";
 import { toast } from "react-toastify";
-import image from "../../public/contact.png";
+import image from "@public/contact.png";
 
 const Contact: React.FC = () => {
     return (

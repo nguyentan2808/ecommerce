@@ -16,7 +16,7 @@ import { BsFillMoonStarsFill } from "react-icons/bs";
 import { FiMenu } from "react-icons/fi";
 import { MdOutlineAccountCircle } from "react-icons/md";
 import { toast } from "react-toastify";
-import logo from "../../../../public/logo.png";
+import logo from "@public/logo.png";
 import Languages from "./LanguageSwitcher";
 import styles from "./styles.module.css";
 
