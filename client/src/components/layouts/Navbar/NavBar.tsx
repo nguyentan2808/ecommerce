@@ -2,7 +2,6 @@ import { Button, Input } from "@chakra-ui/react";
 import logo from "@public/logo.png";
 import useTrans from "hooks/useTrans";
 import { throttle } from "lodash";
-import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -15,7 +14,6 @@ import {
 } from "react-icons/bi";
 import { FiMenu } from "react-icons/fi";
 import { MdOutlineAccountCircle } from "react-icons/md";
-
 import Languages from "./LanguageSwitcher";
 import styles from "./styles.module.css";
 
@@ -33,7 +31,6 @@ const MobileNavBar = () => {
 
 const NavBar: React.FC = () => {
     const router = useRouter();
-    const { theme, setTheme } = useTheme();
     const [isHide, setHide] = React.useState(false);
     const trans = useTrans();
 
