@@ -35,7 +35,7 @@ export default function CallToActionWithAnnotation() {
             >
                 <Container
                     maxW={"3xl"}
-                    className="h-[calc(100vh-var(--navbar-height))] flex items-center"
+                    className="min-h-[calc(100vh-var(--navbar-height))] flex items-center"
                 >
                     <Stack
                         as={Box}

@@ -59,7 +59,7 @@ const SocialButton = ({
 
 const Footer: React.FC = () => {
     return (
-        <div className="bg-gray-50 shadow-2xl border-t border-t-gray-200">
+        <div className="bg-gray-50 border-t border-t-gray-200">
             <footer className="flex flex-1 pt-8 pb-4 justify-center items-center">
                 <div
                     className="flex justify-center items-center flex-grow"
@@ -138,7 +138,7 @@ const Footer: React.FC = () => {
             >
                 <Container
                     maxW="6xl"
-                    className="mb-12 sm:mb-0 py-4 flex justify-between items-center"
+                    className="mb-10 sm:mb-0 py-4 flex justify-between items-center"
                 >
                     <div className="mr-2">
                         © 2022{" "}

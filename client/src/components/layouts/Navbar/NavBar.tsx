@@ -6,25 +6,20 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
-import {
-    BiCart,
-    BiHomeSmile,
-    BiMenuAltLeft,
-    BiSearchAlt,
-} from "react-icons/bi";
-import { FiMenu } from "react-icons/fi";
-import { MdOutlineAccountCircle } from "react-icons/md";
+import { CgMenuLeft, CgSearch, CgShoppingBag } from "react-icons/cg";
+import { FiMenu, FiUser } from "react-icons/fi";
+import { RiHome2Line } from "react-icons/ri";
 import Languages from "./LanguageSwitcher";
 import styles from "./styles.module.css";
 
 const MobileNavBar = () => {
     return (
-        <div className="p-3 fixed bottom-0 w-full flex bg-white justify-between border-t border-gray-400 shadow-md z-10">
-            <BiMenuAltLeft className="text-3xl" />
-            <BiSearchAlt className="text-3xl" />
-            <BiHomeSmile className="text-3xl" />
-            <BiCart className="text-3xl" />
-            <MdOutlineAccountCircle className="text-3xl" />
+        <div className="p-3 fixed bottom-0 w-full bg-white flex sm:hidden justify-between items-center border-t border-gray-100 z-10 shadow-mui-3">
+            <CgMenuLeft className="text-xl" />
+            <CgSearch className="text-xl" />
+            <RiHome2Line className="text-xl" />
+            <CgShoppingBag className="text-xl" />
+            <FiUser className="text-xl" />
         </div>
     );
 };
@@ -120,9 +115,7 @@ const NavBar: React.FC = () => {
                 </div>
             </header>
 
-            <div className="block sm:hidden">
-                <MobileNavBar />
-            </div>
+            <MobileNavBar />
         </>
     );
 };
