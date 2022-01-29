@@ -14,7 +14,7 @@ const Forgot_Password = () => {
     const trans = useTrans();
 
     return (
-        <div className="flex items-center bg-gray-50 justify-center min-h-[calc(100vh-var(--navbar-height))]">
+        <div className="flex items-center bg-gray-50 justify-center min-h-[calc(100vh-var(--navbar-height))] pb-12">
             <Stack
                 maxW={"md"}
                 boxShadow={"md"}
@@ -23,7 +23,7 @@ const Forgot_Password = () => {
                 p={10}
                 spacing={8}
                 align={"center"}
-                className="-mt-20"
+                // className="-mt-20 md:mt-0"
             >
                 <Icon as={NotificationIcon} w={24} h={24} />
                 <Stack align={"center"} spacing={2}>
