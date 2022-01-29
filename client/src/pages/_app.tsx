@@ -8,10 +8,12 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "styles/globals.css";
 import theme from "theme";
+import NextNProgress from "nextjs-progressbar";
 
 function MyApp({ Component, pageProps }: AppProps) {
     return (
         <ThemeProvider attribute="class">
+            <NextNProgress color="#319795" options={{ showSpinner: false }} />
             <ChakraProvider theme={theme}>
                 <Navbar />
                 <Component {...pageProps} />

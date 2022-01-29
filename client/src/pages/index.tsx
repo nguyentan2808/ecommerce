@@ -41,7 +41,7 @@ export default function CallToActionWithAnnotation() {
                         as={Box}
                         textAlign={"center"}
                         spacing={{ base: 8, md: 14 }}
-                        py={{ base: 20, md: 28 }}
+                        // py={{ base: 20, md: 28 }}
                     >
                         <h1
                             // fontWeight={600}
