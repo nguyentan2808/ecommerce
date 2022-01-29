@@ -9,11 +9,13 @@ import {
     Text,
     useColorModeValue,
 } from "@chakra-ui/react";
+import useTrans from "hooks/useTrans";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
 export default function CallToActionWithAnnotation() {
     const router = useRouter();
+    const trans = useTrans();
 
     const handleGetStarted = () => {
         router.push("/login");
@@ -52,16 +54,11 @@ export default function CallToActionWithAnnotation() {
                             Pickbazar
                             <br />
                             <Text as={"span"} className="text-black">
-                                Shop your designer dresses
+                                {trans.landing.slogan}
                             </Text>
                         </h1>
                         <Text color={"gray.00"}>
-                            Lorem Ipsum is simply dummy text of the printing and
-                            typesetting industry. Lorem Ipsum has been the
-                            industry is standard dummy text ever since the
-                            1500s, when an unknown printer took a galley of type
-                            and scrambled it to make a type specimen book. It
-                            has survived not only five centuries
+                            {trans.landing.slogan_description}
                         </Text>
 
                         <Stack
@@ -76,7 +73,7 @@ export default function CallToActionWithAnnotation() {
                                 p={6}
                                 onClick={handleGetStarted}
                             >
-                                Get Started
+                                {trans.landing.slogan_btn}
                             </Button>
                             {/* <Input variant="outline" placeholder="Outline" /> */}
 
@@ -85,7 +82,7 @@ export default function CallToActionWithAnnotation() {
                                 colorScheme={"blue"}
                                 size={"sm"}
                             >
-                                Learn more
+                                {trans.landing.learn_more}
                             </Button>
                             <Box>
                                 <Icon
