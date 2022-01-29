@@ -19,6 +19,16 @@ const vi = {
         information_email: "Email",
         information_follow_us: "Theo dõi chúng tôi",
     },
+    login: {
+        login_header: "Đăng nhập vào tài khoản của bạn",
+        form_email: "Email",
+        form_password: "Mật khẩu",
+        form_remember_me: "Ghi nhớ tài khoản",
+        form_submit_btn: "Đăng nhập",
+        form_forgot_password: "Quên mật khẩu?",
+        form_facebook: "Đăng nhập bằng Facebook",
+        form_google: "Đăng nhập bằng Google",
+    },
     forgot_password: {
         form_header: "Quên mật khẩu",
         form_description:

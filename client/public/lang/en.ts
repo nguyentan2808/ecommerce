@@ -20,6 +20,16 @@ const en = {
         information_email: "Email",
         information_follow_us: "Follow us",
     },
+    login: {
+        login_header: "Sign in to your account",
+        form_email: "Email",
+        form_password: "Password",
+        form_remember_me: "Remember me",
+        form_submit_btn: "Sign in",
+        form_forgot_password: "Forgot password?",
+        form_facebook: "Sign in with Facebook",
+        form_google: "Sign in with Google",
+    },
     forgot_password: {
         form_header: "Forgot Password",
         form_description:
