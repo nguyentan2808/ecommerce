@@ -50,5 +50,25 @@ const vi = {
         answer_4:
             "Bạn có thể tạo tài khoản bằng cách đăng ký tại trang web của chúng tôi . Nếu bạn đã có tài khoản , bạn có thể đăng nhập vào trang web của chúng tôi . Nếu bạn chưa có tài khoản , bạn có thể đăng ký tại trang web của chúng tôi.",
     },
+    footer: {
+        company: "Công ty",
+        about_us: "Về chúng tôi",
+        blog: "Blog",
+        careers: "Nghề nghiệp",
+        contact_us: "Liên hệ",
+        support: "Hỗ trợ",
+        help_center: "Trung tâm trợ giúp",
+        safety_center: "Trung tâm bảo mật",
+        community_guidelines: "Quy định chung",
+        legal: "Pháp lý",
+        cookies_policy: "Chính sách cookie",
+        privacy_policy: "Chính sách bảo mật",
+        terms_of_service: "Điều khoản dịch vụ",
+        law_enforcement: "Pháp luật",
+        stay_email: "Nhận khuyến mãi",
+        stay_email_placeholder: "Địa chỉ email của bạn",
+        copyright_year: "Bản quyền © 2022",
+        copyright_all_rights: "Đã đăng kí bản quyền.",
+    },
 };
 export default vi;

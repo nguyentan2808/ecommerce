@@ -50,5 +50,25 @@ const en = {
         answer_4:
             "If you want to open an account for personal use you can do it over the phone or online. Opening an account online should only take a few minutes.",
     },
+    footer: {
+        company: "Company",
+        about_us: "About Us",
+        blog: "Blog",
+        careers: "Careers",
+        contact_us: "Contact us",
+        support: "Support",
+        help_center: "Help Center",
+        safety_center: "Safety Center",
+        community_guidelines: "Community Guidelines",
+        legal: "Legal",
+        cookies_policy: "Cookies Policy",
+        privacy_policy: "Privacy Policy",
+        terms_of_service: "Terms of Service",
+        law_enforcement: "Law Enforcement",
+        stay_email: "Stay up to date",
+        stay_email_placeholder: "Your email address",
+        copyright_year: "Copyright © 2022",
+        copyright_all_rights: "All rights reserved.",
+    },
 };
 export default en;

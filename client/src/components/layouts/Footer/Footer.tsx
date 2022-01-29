@@ -12,6 +12,7 @@ import {
     useColorModeValue,
     VisuallyHidden,
 } from "@chakra-ui/react";
+import useTrans from "hooks/useTrans";
 import Image from "next/image";
 import React, { ReactNode } from "react";
 import { FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
@@ -58,6 +59,8 @@ const SocialButton = ({
 };
 
 const Footer: React.FC = () => {
+    const trans = useTrans();
+
     return (
         <div className="bg-gray-50 border-t border-t-gray-200">
             <footer className="flex flex-1 pt-8 pb-4 justify-center items-center">
@@ -80,9 +83,9 @@ const Footer: React.FC = () => {
             <Container as={Stack} maxW={"6xl"} py={10}>
                 <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing={8}>
                     <Stack align={"flex-start"}>
-                        <ListHeader>Company</ListHeader>
+                        <ListHeader>{trans.footer.company}</ListHeader>
                         <div className="flex">
-                            <Link href={"#"}>About Us</Link>
+                            <Link href={"#"}>{trans.footer.about_us}</Link>
                             <Tag
                                 size="sm"
                                 variant="solid"
@@ -92,31 +95,35 @@ const Footer: React.FC = () => {
                                 New
                             </Tag>
                         </div>
-                        <Link href={"#"}>Blog</Link>
-                        <Link href={"#"}>Careers</Link>
-                        <Link href={"#"}>Contact Us</Link>
+                        <Link href={"#"}>{trans.footer.blog}</Link>
+                        <Link href={"#"}>{trans.footer.careers}</Link>
+                        <Link href={"#"}>{trans.footer.contact_us}</Link>
                     </Stack>
 
                     <Stack align={"flex-start"}>
-                        <ListHeader>Support</ListHeader>
-                        <Link href={"#"}>Help Center</Link>
-                        <Link href={"#"}>Safety Center</Link>
-                        <Link href={"#"}>Community Guidelines</Link>
+                        <ListHeader>{trans.footer.support}</ListHeader>
+                        <Link href={"#"}>{trans.footer.help_center}</Link>
+                        <Link href={"#"}>{trans.footer.safety_center}</Link>
+                        <Link href={"#"}>
+                            {trans.footer.community_guidelines}
+                        </Link>
                     </Stack>
 
                     <Stack align={"flex-start"}>
-                        <ListHeader>Legal</ListHeader>
-                        <Link href={"#"}>Cookies Policy</Link>
-                        <Link href={"#"}>Privacy Policy</Link>
-                        <Link href={"#"}>Terms of Service</Link>
-                        <Link href={"#"}>Law Enforcement</Link>
+                        <ListHeader>{trans.footer.legal}</ListHeader>
+                        <Link href={"#"}>{trans.footer.cookies_policy}</Link>
+                        <Link href={"#"}>{trans.footer.privacy_policy}</Link>
+                        <Link href={"#"}>{trans.footer.terms_of_service}</Link>
+                        <Link href={"#"}>{trans.footer.law_enforcement}</Link>
                     </Stack>
 
                     <Stack align={"flex-start"}>
-                        <ListHeader>Stay up to date</ListHeader>
+                        <ListHeader>{trans.footer.stay_email}</ListHeader>
                         <Stack direction={"row"}>
                             <Input
-                                placeholder={"Your email address"}
+                                placeholder={
+                                    trans.footer.stay_email_placeholder
+                                }
                                 bg={useColorModeValue(
                                     "blackAlpha.100",
                                     "whiteAlpha.100"
@@ -141,11 +148,11 @@ const Footer: React.FC = () => {
                     className="mb-10 sm:mb-0 py-4 flex justify-between items-center"
                 >
                     <div className="mr-2">
-                        © 2022{" "}
+                        {trans.footer.copyright_year}{" "}
                         <Link href="https://www.facebook.com/nguyentan2808/">
                             <a className="font-semibold">Nguyen Tan</a>
                         </Link>
-                        . All rights reserved.
+                        . {trans.footer.copyright_all_rights}
                     </div>
                     <Stack direction={"row"} spacing={6}>
                         <SocialButton label={"Twitter"} href={"#"}>
