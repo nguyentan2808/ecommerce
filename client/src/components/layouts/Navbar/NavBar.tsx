@@ -68,7 +68,7 @@ const MobileNavBar = ({ menu, setHideSearch }: IMobileNavbarProps) => {
                             {menu.map((item, index) => (
                                 <Link key={index} href={item.href}>
                                     <a
-                                        className="p-4 rounded-md hover:bg-teal-500 hover:text-white cursor-pointer"
+                                        className="flex items-center p-4 rounded-md hover:bg-teal-500 hover:text-white cursor-pointer"
                                         onClick={onClose}
                                     >
                                         {item.icon}
@@ -76,11 +76,10 @@ const MobileNavBar = ({ menu, setHideSearch }: IMobileNavbarProps) => {
                                     </a>
                                 </Link>
                             ))}
-                            <Link href="">
-                                <a className="p-4 rounded-md hover:bg-teal-500 hover:text-white cursor-pointer">
-                                    <LanguageSwitcher />
-                                </a>
-                            </Link>
+
+                            <div className="p-4 rounded-md hover:bg-teal-500 hover:text-white cursor-pointer">
+                                <LanguageSwitcher />
+                            </div>
                         </Box>
                     </DrawerBody>
 
@@ -109,13 +108,25 @@ const NavBar: React.FC = () => {
     const [isHideSearch, setHideSearch] = React.useState<boolean>(true);
 
     const menu: Array<IMenuItem> = [
-        { name: trans.navbar.shops, href: "/", icon: <AiOutlineShop /> },
-        { name: trans.navbar.offers, href: "/", icon: <MdOutlineLocalOffer /> },
-        { name: "FAQ", href: "/help", icon: <MdOutlineHelpOutline /> },
+        {
+            name: trans.navbar.shops,
+            href: "/",
+            icon: <AiOutlineShop className="text-xl mr-3" />,
+        },
+        {
+            name: trans.navbar.offers,
+            href: "/",
+            icon: <MdOutlineLocalOffer className="text-xl mr-3" />,
+        },
+        {
+            name: "FAQ",
+            href: "/help",
+            icon: <MdOutlineHelpOutline className="text-xl mr-3" />,
+        },
         {
             name: trans.navbar.contact,
             href: "/contact",
-            icon: <AiOutlineWifi />,
+            icon: <AiOutlineWifi className="text-xl mr-3" />,
         },
     ];
 
