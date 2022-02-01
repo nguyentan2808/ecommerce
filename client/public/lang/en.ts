@@ -76,6 +76,8 @@ const en = {
             "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry is standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries",
         slogan_btn: "Shop Now",
         learn_more: "Learn More",
+        // subtitle: "The best online store for your fashion needs",
+        subPrice: "Starting at $15/mo",
     },
 };
 export default en;

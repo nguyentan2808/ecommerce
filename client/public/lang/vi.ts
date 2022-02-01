@@ -73,9 +73,10 @@ const vi = {
     landing: {
         slogan: "Mua sắm thời trang dành cho riêng bạn",
         slogan_description:
-            "Vẫn là Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry is standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries",
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry is standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries",
         slogan_btn: "Mua ngay",
         learn_more: "Tìm hiểu thêm",
+        subPrice: "Chỉ với 15$/tháng",
     },
 };
 export default vi;

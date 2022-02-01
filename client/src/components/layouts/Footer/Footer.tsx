@@ -4,7 +4,6 @@ import {
     Container,
     IconButton,
     Input,
-    Link,
     SimpleGrid,
     Stack,
     Tag,
@@ -14,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import useTrans from "hooks/useTrans";
 import Image from "next/image";
+import Link from "next/link";
 import React, { ReactNode } from "react";
 import { FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 import { IoMdMail } from "react-icons/io";
@@ -95,26 +95,68 @@ const Footer: React.FC = () => {
                                 New
                             </Tag>
                         </div>
-                        <Link href={"#"}>{trans.footer.blog}</Link>
-                        <Link href={"#"}>{trans.footer.careers}</Link>
-                        <Link href={"#"}>{trans.footer.contact_us}</Link>
-                    </Stack>
-
-                    <Stack align={"flex-start"}>
-                        <ListHeader>{trans.footer.support}</ListHeader>
-                        <Link href={"#"}>{trans.footer.help_center}</Link>
-                        <Link href={"#"}>{trans.footer.safety_center}</Link>
                         <Link href={"#"}>
-                            {trans.footer.community_guidelines}
+                            <a className="hover:underline">
+                                {trans.footer.blog}
+                            </a>
+                        </Link>
+                        <Link href={"#"}>
+                            <a className="hover:underline">
+                                {trans.footer.careers}
+                            </a>
+                        </Link>
+                        <Link href={"#"}>
+                            <a className="hover:underline">
+                                {trans.footer.contact_us}
+                            </a>
                         </Link>
                     </Stack>
 
                     <Stack align={"flex-start"}>
-                        <ListHeader>{trans.footer.legal}</ListHeader>
-                        <Link href={"#"}>{trans.footer.cookies_policy}</Link>
-                        <Link href={"#"}>{trans.footer.privacy_policy}</Link>
-                        <Link href={"#"}>{trans.footer.terms_of_service}</Link>
-                        <Link href={"#"}>{trans.footer.law_enforcement}</Link>
+                        <ListHeader>
+                            <a>{trans.footer.support}</a>
+                        </ListHeader>
+                        <Link href={"#"}>
+                            <a className="hover:underline">
+                                {trans.footer.help_center}
+                            </a>
+                        </Link>
+                        <Link href={"#"}>
+                            <a className="hover:underline">
+                                {trans.footer.safety_center}
+                            </a>
+                        </Link>
+                        <Link href={"#"}>
+                            <a className="hover:underline">
+                                {trans.footer.community_guidelines}
+                            </a>
+                        </Link>
+                    </Stack>
+
+                    <Stack align={"flex-start"}>
+                        <ListHeader>
+                            <a>{trans.footer.legal}</a>
+                        </ListHeader>
+                        <Link href={"#"}>
+                            <a className="hover:underline">
+                                {trans.footer.cookies_policy}
+                            </a>
+                        </Link>
+                        <Link href={"#"}>
+                            <a className="hover:underline">
+                                {trans.footer.privacy_policy}
+                            </a>
+                        </Link>
+                        <Link href={"#"}>
+                            <a className="hover:underline">
+                                {trans.footer.terms_of_service}
+                            </a>
+                        </Link>
+                        <Link href={"#"}>
+                            <a className="hover:underline">
+                                {trans.footer.law_enforcement}
+                            </a>
+                        </Link>
                     </Stack>
 
                     <Stack align={"flex-start"}>

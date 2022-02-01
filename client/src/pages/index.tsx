@@ -43,23 +43,15 @@ export default function CallToActionWithAnnotation() {
                         as={Box}
                         textAlign={"center"}
                         spacing={{ base: 8, md: 14 }}
-                        // py={{ base: 20, md: 28 }}
                     >
-                        <h1
-                            // fontWeight={600}
-                            // fontSize={{ base: "2xl", sm: "4xl", md: "6xl" }}
-                            // lineHeight={"110%"}
-                            className="font-extrabold text-6xl text-teal-600"
-                        >
+                        <h1 className="font-extrabold text-6xl text-teal-600">
                             Pickbazar
                             <br />
                             <Text as={"span"} className="text-black">
                                 {trans.landing.slogan}
                             </Text>
                         </h1>
-                        <Text color={"gray.00"}>
-                            {trans.landing.slogan_description}
-                        </Text>
+                        <Text>{trans.landing.slogan_description}</Text>
 
                         <Stack
                             direction={"column"}
@@ -104,7 +96,7 @@ export default function CallToActionWithAnnotation() {
                                     top={"-15px"}
                                     transform={"rotate(10deg)"}
                                 >
-                                    Starting at $15/mo
+                                    {trans.landing.subPrice}
                                 </Text>
                             </Box>
                         </Stack>

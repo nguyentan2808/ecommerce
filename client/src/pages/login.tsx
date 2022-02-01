@@ -1,74 +1,86 @@
-import {
-    Button,
-    Checkbox,
-    Flex,
-    FormControl,
-    FormLabel,
-    Heading,
-    Input,
-    Stack,
-    Image,
-    Divider,
-    Text,
-} from "@chakra-ui/react";
-import { FcGoogle } from "react-icons/fc";
-import { FaFacebook } from "react-icons/fa";
-import Link from "next/link";
+import { Button, Checkbox, Divider, Image } from "@chakra-ui/react";
+import InputField from "components/common/InputField";
+import { Form, Formik } from "formik";
 import useTrans from "hooks/useTrans";
+import Link from "next/link";
+import { FaFacebook } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
+import * as Yup from "yup";
 
 const Login: React.FC = () => {
     const trans = useTrans();
 
+    const loginFormSchema = Yup.object().shape({
+        email: Yup.string().email("Invalid email").required("Required"),
+        password: Yup.string()
+            .required("No password provided.")
+            .min(6, "Password is too short - should be 8 chars minimum.")
+            .matches(/[a-zA-Z]/, "Password can only contain Latin letters."),
+    });
+
     return (
         <div className="flex flex-col md:flex-row">
             <div className="p-8 flex flex-1 justify-center items-center min-h-[calc(100vh-var(--navbar-height))]">
-                <Stack spacing={6} className="w-full max-w-md">
-                    <Heading fontSize={"2xl"}>
+                <div className="w-full max-w-md flex flex-col gap-4">
+                    <h1 className="text-3xl font-bold">
                         {trans.login.login_header}
-                    </Heading>
-                    <FormControl id="email">
-                        <FormLabel>{trans.login.form_email}</FormLabel>
-                        <Input type="email" />
-                    </FormControl>
-                    <FormControl id="password">
-                        <FormLabel>{trans.login.form_password}</FormLabel>
-                        <Input type="password" />
-                    </FormControl>
-                    <Stack spacing={6}>
-                        <Stack
-                            direction={{ base: "column", sm: "row" }}
-                            align={"start"}
-                            justify={"space-between"}
-                        >
-                            <Checkbox>{trans.login.form_remember_me}</Checkbox>
-                            <Link href="/forgot-password">
-                                <a className="text-blue-600">
-                                    {trans.login.form_forgot_password}
-                                </a>
-                            </Link>
-                        </Stack>
-                        <Button>{trans.login.form_submit_btn}</Button>
-                        <Divider />
+                    </h1>
+                    <Formik
+                        initialValues={{
+                            email: "",
+                            password: "",
+                        }}
+                        validationSchema={loginFormSchema}
+                        onSubmit={(values) => console.log(values)}
+                        validateOnBlur={false}
+                        validateOnChange={false}
+                    >
+                        {({ isSubmitting }) => (
+                            <Form className="flex flex-col gap-4">
+                                <InputField
+                                    name="email"
+                                    placeholder="Email"
+                                    label={trans.login.form_email}
+                                    type="text"
+                                />
 
-                        {/* Facebook */}
-                        <Button
-                            w={"full"}
-                            colorScheme={"facebook"}
-                            leftIcon={<FaFacebook />}
-                        >
-                            <Text>{trans.login.form_facebook}</Text>
-                        </Button>
+                                <InputField
+                                    name="password"
+                                    placeholder="Password"
+                                    label={trans.login.form_password}
+                                    type="password"
+                                />
 
-                        {/* Google */}
-                        <Button
-                            w={"full"}
-                            variant={"outline"}
-                            leftIcon={<FcGoogle />}
-                        >
-                            <Text>{trans.login.form_google}</Text>
-                        </Button>
-                    </Stack>
-                </Stack>
+                                <div className="flex flex-row justify-between">
+                                    <Checkbox>
+                                        {trans.login.form_remember_me}
+                                    </Checkbox>
+                                    <Link href="/forgot-password">
+                                        <a className="text-blue-600">
+                                            {trans.login.form_forgot_password}
+                                        </a>
+                                    </Link>
+                                </div>
+
+                                <Button type="submit" isLoading={isSubmitting}>
+                                    {trans.login.form_submit_btn}
+                                </Button>
+                            </Form>
+                        )}
+                    </Formik>
+
+                    <Divider />
+
+                    {/* Facebook */}
+                    <Button colorScheme={"facebook"} leftIcon={<FaFacebook />}>
+                        {trans.login.form_facebook}
+                    </Button>
+
+                    {/* Google */}
+                    <Button variant={"outline"} leftIcon={<FcGoogle />}>
+                        {trans.login.form_google}
+                    </Button>
+                </div>
             </div>
             <div className=" sm:flex flex-1">
                 <Image
