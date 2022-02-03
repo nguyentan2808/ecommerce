@@ -8,12 +8,13 @@ import {
     DrawerFooter,
     DrawerHeader,
     DrawerOverlay,
+    Icon,
     Input,
     useDisclosure,
 } from "@chakra-ui/react";
 import logo from "@public/logo.png";
 import useTrans from "hooks/useTrans";
-import { throttle } from "lodash";
+import { debounce, throttle } from "lodash";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -26,7 +27,13 @@ import { RiHome2Line } from "react-icons/ri";
 
 import styles from "./styles.module.css";
 import LanguageSwitcher from "./LanguageSwitcher";
+import { IconType } from "react-icons/lib";
 
+interface IMenuItem {
+    name: string;
+    href: string;
+    icon: IconType;
+}
 interface IMobileNavbarProps {
     menu: Array<IMenuItem>;
     setHideSearch: (value: React.SetStateAction<boolean>) => void;
@@ -71,13 +78,16 @@ const MobileNavBar = ({ menu, setHideSearch }: IMobileNavbarProps) => {
                                         className="flex items-center p-4 rounded-md hover:bg-teal-500 hover:text-white cursor-pointer"
                                         onClick={onClose}
                                     >
-                                        {item.icon}
+                                        <Icon
+                                            className="text-xl mr-3"
+                                            as={item.icon}
+                                        />
                                         {item.name}
                                     </a>
                                 </Link>
                             ))}
 
-                            <div className="p-4 rounded-md hover:bg-teal-500 hover:text-white cursor-pointer">
+                            <div className="rounded-md hover:bg-teal-500 hover:text-white cursor-pointer">
                                 <LanguageSwitcher />
                             </div>
                         </Box>
@@ -94,12 +104,6 @@ const MobileNavBar = ({ menu, setHideSearch }: IMobileNavbarProps) => {
     );
 };
 
-interface IMenuItem {
-    name: string;
-    href: string;
-    icon: any;
-}
-
 const NavBar: React.FC = () => {
     const router = useRouter();
     const trans = useTrans();
@@ -110,23 +114,23 @@ const NavBar: React.FC = () => {
     const menu: Array<IMenuItem> = [
         {
             name: trans.navbar.shops,
-            href: "/",
-            icon: <AiOutlineShop className="text-xl mr-3" />,
+            href: "/shops",
+            icon: AiOutlineShop,
         },
         {
             name: trans.navbar.offers,
             href: "/",
-            icon: <MdOutlineLocalOffer className="text-xl mr-3" />,
+            icon: MdOutlineLocalOffer,
         },
         {
             name: "FAQ",
             href: "/help",
-            icon: <MdOutlineHelpOutline className="text-xl mr-3" />,
+            icon: MdOutlineHelpOutline,
         },
         {
             name: trans.navbar.contact,
             href: "/contact",
-            icon: <AiOutlineWifi className="text-xl mr-3" />,
+            icon: AiOutlineWifi,
         },
     ];
 
@@ -156,15 +160,19 @@ const NavBar: React.FC = () => {
                     <Input />
                 )}
                 <div className="hidden sm:flex items-center gap-8">
+                    <Input
+                        placeholder={trans.navbar.search}
+                        bg={"white"}
+                        w={48}
+                    />{" "}
                     {menu.map((item, index) => (
                         <Link key={index} href={item.href}>
-                            <a className="text-lg opacity-70">{item.name}</a>
+                            <a className="text-lg text-gray-600 hover:text-teal-600">
+                                {item.name}
+                            </a>
                         </Link>
                     ))}
-
-                    {/* <Languages /> */}
                     <LanguageSwitcher />
-
                     <Link href="/login">
                         <a>
                             <Button

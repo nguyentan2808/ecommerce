@@ -30,10 +30,13 @@ const LanguageSwitcher: React.FC = () => {
             <Head>
                 <title>Pickbazar</title>
             </Head>
-            <Menu as="div" className="relative inline-block text-left w-full">
-                <Menu.Button className="flex items-center select-none cursor-pointer max-w-[74x] relative">
+            <Menu
+                as="div"
+                className="relative inline-block md:hover:text-teal-600 md:text-gray-600 w-full md:w-auto"
+            >
+                <Menu.Button className="flex items-center select-none cursor-pointer relative p-4 md:p-0 w-full">
                     <IoLanguageSharp className="text-xl mr-3 mt-1" />
-                    <p className={styles.text}>{selected}</p>
+                    <p className="md:text-lg">{selected}</p>
                 </Menu.Button>
 
                 <Transition

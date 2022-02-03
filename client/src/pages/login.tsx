@@ -7,16 +7,30 @@ import { FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import * as Yup from "yup";
 
+interface IValues {
+    email: string;
+    password: string;
+}
+
 const Login: React.FC = () => {
     const trans = useTrans();
 
     const loginFormSchema = Yup.object().shape({
-        email: Yup.string().email("Invalid email").required("Required"),
+        email: Yup.string()
+            .email("Invalid email")
+            .required("Email is required"),
         password: Yup.string()
-            .required("No password provided.")
-            .min(6, "Password is too short - should be 8 chars minimum.")
-            .matches(/[a-zA-Z]/, "Password can only contain Latin letters."),
+            .min(8, "Password should be 8 chars minimum.")
+            .matches(
+                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+                "Password should includes One Uppercase, One Lowercase and One Number!"
+            )
+            .required("Password is required."),
     });
+
+    const handleSubmit = (values: IValues) => {
+        console.log(values);
+    };
 
     return (
         <div className="flex flex-col md:flex-row">
@@ -31,9 +45,7 @@ const Login: React.FC = () => {
                             password: "",
                         }}
                         validationSchema={loginFormSchema}
-                        onSubmit={(values) => console.log(values)}
-                        validateOnBlur={false}
-                        validateOnChange={false}
+                        onSubmit={handleSubmit}
                     >
                         {({ isSubmitting }) => (
                             <Form className="flex flex-col gap-4">
