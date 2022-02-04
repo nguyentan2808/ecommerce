@@ -34,8 +34,6 @@ const Help: React.FC = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    console.log(trans);
-
     return (
         <>
             <Head>

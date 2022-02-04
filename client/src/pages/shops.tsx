@@ -31,7 +31,7 @@ const Shop: React.FC<IShop> = ({ name, avatar, address }) => {
     );
 };
 
-const shops: React.FC = () => {
+const Shops = () => {
     const shops: Array<IShop> = [
         {
             name: "Shop 1",
@@ -61,8 +61,8 @@ const shops: React.FC = () => {
     ];
 
     return (
-        <div className="w-full h-full px-3 md:px-40 md:py-16 bg-gray-50">
-            <h3 className="text-2xl font-semibold mb-8 mt-4">All shops</h3>
+        <div className="w-full h-full px-3 md:px-40 md:py-10 bg-gray-50">
+            <h3 className="text-2xl font-semibold pb-8 pt-4">All shops</h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {shops.map((shop) => (
@@ -73,4 +73,4 @@ const shops: React.FC = () => {
     );
 };
 
-export default shops;
+export default Shops;

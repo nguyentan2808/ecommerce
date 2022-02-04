@@ -32,7 +32,7 @@ const LanguageSwitcher: React.FC = () => {
             </Head>
             <Menu
                 as="div"
-                className="relative inline-block md:hover:text-teal-600 md:text-gray-600 w-full md:w-auto"
+                className="relative inline-block md:hover:text-teal-600 md:text-gray-600 w-full sm:w-auto"
             >
                 <Menu.Button className="flex items-center select-none cursor-pointer relative p-4 md:p-0 w-full">
                     <IoLanguageSharp className="text-xl mr-3 mt-1" />
