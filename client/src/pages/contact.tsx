@@ -6,7 +6,7 @@ import {
     Input,
     Textarea,
 } from "@chakra-ui/react";
-import useTrans from "hooks/useTrans";
+import useI18n from "hooks/useI18n";
 import Head from "next/head";
 import Link from "next/link";
 import React from "react";
@@ -20,7 +20,7 @@ import {
 import { toast } from "react-toastify";
 
 const Contact: React.FC = () => {
-    const trans = useTrans();
+    const i18n = useI18n();
 
     return (
         <>
@@ -33,7 +33,7 @@ const Contact: React.FC = () => {
                         {logo}
                         <div className="flex flex-col mb-6">
                             <span className="font-semibold text-heading mb-2">
-                                {trans.contact.information_address}
+                                {i18n.contact.information_address}
                             </span>
                             <span className="text-sm text-body">
                                 Nha Be, Ho Chi Minh City
@@ -41,7 +41,7 @@ const Contact: React.FC = () => {
                         </div>
                         <div className="flex flex-col mb-6">
                             <span className="font-semibold text-heading mb-2">
-                                {trans.contact.information_phone}
+                                {i18n.contact.information_phone}
                             </span>
                             <span className="text-sm text-body">
                                 +84 333 571 180
@@ -50,7 +50,7 @@ const Contact: React.FC = () => {
                         <div></div>
                         <div className="flex flex-col mb-6">
                             <span className="font-semibold text-heading mb-2">
-                                {trans.contact.information_email}
+                                {i18n.contact.information_email}
                             </span>
                             <span className="text-sm text-body">
                                 Tanpro01635147801@gmail.com
@@ -59,7 +59,7 @@ const Contact: React.FC = () => {
 
                         <div className="flex flex-col mb-3">
                             <span className="font-semibold text-heading mb-2">
-                                {trans.contact.information_follow_us}
+                                {i18n.contact.information_follow_us}
                             </span>
                             <div className="w-2/3 flex justify-between py-1">
                                 <Link
@@ -107,18 +107,18 @@ const Contact: React.FC = () => {
                     </div>
                     <div className="w-full p-8 bg-white rounded-md md:ml-16 mt-6 md:mt-0 shadow-md">
                         <h3 className="mb-7 text-xl md:text-2xl font-body font-bold text-heading">
-                            {trans.contact.form_header}
+                            {i18n.contact.form_header}
                         </h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
                             <FormControl>
                                 <FormLabel htmlFor="email">
-                                    {trans.contact.form_name}
+                                    {i18n.contact.form_name}
                                 </FormLabel>
                                 <Input id="name" type="text" />
                             </FormControl>
                             <FormControl>
                                 <FormLabel htmlFor="email">
-                                    {trans.contact.form_email}
+                                    {i18n.contact.form_email}
                                 </FormLabel>
                                 <Input id="email" type="email" />
                             </FormControl>
@@ -126,7 +126,7 @@ const Contact: React.FC = () => {
                         <div className="grid grid-cols-1 mb-6">
                             <FormControl>
                                 <FormLabel htmlFor="email">
-                                    {trans.contact.form_subject}
+                                    {i18n.contact.form_subject}
                                 </FormLabel>
                                 <Input id="name" type="text" />
                             </FormControl>
@@ -134,7 +134,7 @@ const Contact: React.FC = () => {
                         <div className="grid grid-cols-1 mb-6">
                             <FormControl>
                                 <FormLabel htmlFor="email">
-                                    {trans.contact.form_description}
+                                    {i18n.contact.form_description}
                                 </FormLabel>
                                 <Textarea size="md" resize="vertical" />
                             </FormControl>
@@ -145,14 +145,14 @@ const Contact: React.FC = () => {
                                 colorScheme="teal"
                                 focusBorderColor="teal"
                             >
-                                {trans.contact.form_accept_notify}
+                                {i18n.contact.form_accept_notify}
                             </Checkbox>
                         </div>
                         <Button
                             className="bg-red-500"
                             onClick={() => toast("oke")}
                         >
-                            {trans.contact.form_submit_btn}
+                            {i18n.contact.form_submit_btn}
                         </Button>
                     </div>
                 </div>

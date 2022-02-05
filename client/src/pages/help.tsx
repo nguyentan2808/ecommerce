@@ -6,7 +6,7 @@ import {
     AccordionPanel,
     Box,
 } from "@chakra-ui/react";
-import useTrans from "hooks/useTrans";
+import useI18n from "hooks/useI18n";
 import Head from "next/head";
 import React from "react";
 import { get } from "lodash";
@@ -17,11 +17,12 @@ interface IHelps {
 }
 
 const Help: React.FC = () => {
-    const trans = useTrans();
+    const i18n = useI18n();
+
     const [list, setList] = React.useState<IHelps[]>([]);
 
     React.useEffect(() => {
-        const transList = Object.keys(trans.help); // object => array
+        const transList = Object.keys(i18n.help); // object => array
 
         let result = [];
 
@@ -51,13 +52,13 @@ const Help: React.FC = () => {
                             <h2>
                                 <AccordionButton>
                                     <Box className="flex-1 text-left font-semibold py-2 ">
-                                        {get(trans.help, item.question)}
+                                        {get(i18n.help, item.question)}
                                     </Box>
                                     <AccordionIcon />
                                 </AccordionButton>
                             </h2>
                             <AccordionPanel pb={4}>
-                                {get(trans.help, item.answer)}
+                                {get(i18n.help, item.answer)}
                             </AccordionPanel>
                         </AccordionItem>
                     </Accordion>

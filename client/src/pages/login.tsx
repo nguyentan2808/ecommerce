@@ -1,7 +1,7 @@
 import { Button, Checkbox, Divider, Image } from "@chakra-ui/react";
 import InputField from "components/common/InputField";
 import { Form, Formik } from "formik";
-import useTrans from "hooks/useTrans";
+import useI18n from "hooks/useI18n";
 import Link from "next/link";
 import { FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
@@ -13,7 +13,7 @@ interface IValues {
 }
 
 const Login: React.FC = () => {
-    const trans = useTrans();
+    const i18n = useI18n();
 
     const loginFormSchema = Yup.object().shape({
         email: Yup.string()
@@ -37,7 +37,7 @@ const Login: React.FC = () => {
             <div className="p-8 flex flex-1 justify-center items-center min-h-[calc(100vh-var(--navbar-height))]">
                 <div className="w-full max-w-md flex flex-col gap-4">
                     <h1 className="text-3xl font-bold">
-                        {trans.login.login_header}
+                        {i18n.login.login_header}
                     </h1>
                     <Formik
                         initialValues={{
@@ -52,30 +52,30 @@ const Login: React.FC = () => {
                                 <InputField
                                     name="email"
                                     placeholder="Email"
-                                    label={trans.login.form_email}
+                                    label={i18n.login.form_email}
                                     type="text"
                                 />
 
                                 <InputField
                                     name="password"
                                     placeholder="Password"
-                                    label={trans.login.form_password}
+                                    label={i18n.login.form_password}
                                     type="password"
                                 />
 
                                 <div className="flex flex-row justify-between">
                                     <Checkbox>
-                                        {trans.login.form_remember_me}
+                                        {i18n.login.form_remember_me}
                                     </Checkbox>
                                     <Link href="/forgot-password">
                                         <a className="text-blue-600">
-                                            {trans.login.form_forgot_password}
+                                            {i18n.login.form_forgot_password}
                                         </a>
                                     </Link>
                                 </div>
 
                                 <Button type="submit" isLoading={isSubmitting}>
-                                    {trans.login.form_submit_btn}
+                                    {i18n.login.form_submit_btn}
                                 </Button>
                             </Form>
                         )}
@@ -85,12 +85,12 @@ const Login: React.FC = () => {
 
                     {/* Facebook */}
                     <Button colorScheme={"facebook"} leftIcon={<FaFacebook />}>
-                        {trans.login.form_facebook}
+                        {i18n.login.form_facebook}
                     </Button>
 
                     {/* Google */}
                     <Button variant={"outline"} leftIcon={<FcGoogle />}>
-                        {trans.login.form_google}
+                        {i18n.login.form_google}
                     </Button>
                 </div>
             </div>

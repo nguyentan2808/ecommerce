@@ -9,13 +9,13 @@ import {
     Text,
     useColorModeValue,
 } from "@chakra-ui/react";
-import useTrans from "hooks/useTrans";
+import useI18n from "hooks/useI18n";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
 export default function CallToActionWithAnnotation() {
     const router = useRouter();
-    const trans = useTrans();
+    const i18n = useI18n();
 
     const handleGetStarted = () => {
         router.push("/login");
@@ -48,10 +48,10 @@ export default function CallToActionWithAnnotation() {
                             Pickbazar
                             <br />
                             <Text as={"span"} className="text-black">
-                                {trans.landing.slogan}
+                                {i18n.landing.slogan}
                             </Text>
                         </h1>
-                        <Text>{trans.landing.slogan_description}</Text>
+                        <Text>{i18n.landing.slogan_description}</Text>
 
                         <Stack
                             direction={"column"}
@@ -65,7 +65,7 @@ export default function CallToActionWithAnnotation() {
                                 p={6}
                                 onClick={handleGetStarted}
                             >
-                                {trans.landing.slogan_btn}
+                                {i18n.landing.slogan_btn}
                             </Button>
                             {/* <Input variant="outline" placeholder="Outline" /> */}
 
@@ -74,7 +74,7 @@ export default function CallToActionWithAnnotation() {
                                 colorScheme={"blue"}
                                 size={"sm"}
                             >
-                                {trans.landing.learn_more}
+                                {i18n.landing.learn_more}
                             </Button>
                             <Box>
                                 <Icon
@@ -96,7 +96,7 @@ export default function CallToActionWithAnnotation() {
                                     top={"-15px"}
                                     transform={"rotate(10deg)"}
                                 >
-                                    {trans.landing.subPrice}
+                                    {i18n.landing.subPrice}
                                 </Text>
                             </Box>
                         </Stack>

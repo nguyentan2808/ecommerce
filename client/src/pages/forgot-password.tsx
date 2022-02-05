@@ -8,10 +8,10 @@ import {
     Text,
     useColorModeValue,
 } from "@chakra-ui/react";
-import useTrans from "hooks/useTrans";
+import useI18n from "hooks/useI18n";
 
 const Forgot_Password = () => {
-    const trans = useTrans();
+    const i18n = useI18n();
 
     return (
         <div className="flex items-center bg-gray-50 justify-center min-h-[calc(100vh-var(--navbar-height))] pb-12">
@@ -32,14 +32,14 @@ const Forgot_Password = () => {
                         fontSize={"2xl"}
                         color={useColorModeValue("gray.800", "gray.200")}
                     >
-                        {trans.forgot_password.form_header}
+                        {i18n.forgot_password.form_header}
                     </Heading>
                     <Text
                         fontSize={"md"}
                         color={"gray.500"}
                         textAlign={"center"}
                     >
-                        {trans.forgot_password.form_description}
+                        {i18n.forgot_password.form_description}
                     </Text>
                 </Stack>
                 <Stack
@@ -67,7 +67,7 @@ const Forgot_Password = () => {
                         _hover={{ bg: "blue.500" }}
                         _focus={{ bg: "blue.500" }}
                     >
-                        {trans.forgot_password.form_submit_btn}
+                        {i18n.forgot_password.form_submit_btn}
                     </Button>
                 </Stack>
             </Stack>

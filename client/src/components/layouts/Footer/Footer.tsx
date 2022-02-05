@@ -11,7 +11,7 @@ import {
     useColorModeValue,
     VisuallyHidden,
 } from "@chakra-ui/react";
-import useTrans from "hooks/useTrans";
+import useI18n from "hooks/useI18n";
 import Image from "next/image";
 import Link from "next/link";
 import React, { ReactNode } from "react";
@@ -59,7 +59,7 @@ const SocialButton = ({
 };
 
 const Footer: React.FC = () => {
-    const trans = useTrans();
+    const i18n = useI18n();
 
     return (
         <div className="bg-gray-50 border-t border-t-gray-200">
@@ -83,9 +83,9 @@ const Footer: React.FC = () => {
             <Container as={Stack} maxW={"6xl"} py={10}>
                 <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing={8}>
                     <Stack align={"flex-start"}>
-                        <ListHeader>{trans.footer.company}</ListHeader>
+                        <ListHeader>{i18n.footer.company}</ListHeader>
                         <div className="flex">
-                            <Link href={"#"}>{trans.footer.about_us}</Link>
+                            <Link href={"#"}>{i18n.footer.about_us}</Link>
                             <Tag
                                 size="sm"
                                 variant="solid"
@@ -97,75 +97,73 @@ const Footer: React.FC = () => {
                         </div>
                         <Link href={"#"}>
                             <a className="hover:underline">
-                                {trans.footer.blog}
+                                {i18n.footer.blog}
                             </a>
                         </Link>
                         <Link href={"#"}>
                             <a className="hover:underline">
-                                {trans.footer.careers}
+                                {i18n.footer.careers}
                             </a>
                         </Link>
                         <Link href={"#"}>
                             <a className="hover:underline">
-                                {trans.footer.contact_us}
+                                {i18n.footer.contact_us}
                             </a>
                         </Link>
                     </Stack>
 
                     <Stack align={"flex-start"}>
                         <ListHeader>
-                            <a>{trans.footer.support}</a>
+                            <a>{i18n.footer.support}</a>
                         </ListHeader>
                         <Link href={"#"}>
                             <a className="hover:underline">
-                                {trans.footer.help_center}
+                                {i18n.footer.help_center}
                             </a>
                         </Link>
                         <Link href={"#"}>
                             <a className="hover:underline">
-                                {trans.footer.safety_center}
+                                {i18n.footer.safety_center}
                             </a>
                         </Link>
                         <Link href={"#"}>
                             <a className="hover:underline">
-                                {trans.footer.community_guidelines}
+                                {i18n.footer.community_guidelines}
                             </a>
                         </Link>
                     </Stack>
 
                     <Stack align={"flex-start"}>
                         <ListHeader>
-                            <a>{trans.footer.legal}</a>
+                            <a>{i18n.footer.legal}</a>
                         </ListHeader>
                         <Link href={"#"}>
                             <a className="hover:underline">
-                                {trans.footer.cookies_policy}
+                                {i18n.footer.cookies_policy}
                             </a>
                         </Link>
                         <Link href={"#"}>
                             <a className="hover:underline">
-                                {trans.footer.privacy_policy}
+                                {i18n.footer.privacy_policy}
                             </a>
                         </Link>
                         <Link href={"#"}>
                             <a className="hover:underline">
-                                {trans.footer.terms_of_service}
+                                {i18n.footer.terms_of_service}
                             </a>
                         </Link>
                         <Link href={"#"}>
                             <a className="hover:underline">
-                                {trans.footer.law_enforcement}
+                                {i18n.footer.law_enforcement}
                             </a>
                         </Link>
                     </Stack>
 
                     <Stack align={"flex-start"}>
-                        <ListHeader>{trans.footer.stay_email}</ListHeader>
+                        <ListHeader>{i18n.footer.stay_email}</ListHeader>
                         <Stack direction={"row"}>
                             <Input
-                                placeholder={
-                                    trans.footer.stay_email_placeholder
-                                }
+                                placeholder={i18n.footer.stay_email_placeholder}
                                 bg={useColorModeValue(
                                     "blackAlpha.100",
                                     "whiteAlpha.100"
@@ -190,11 +188,11 @@ const Footer: React.FC = () => {
                     className="mb-10 sm:mb-0 py-4 flex justify-between items-center"
                 >
                     <div className="mr-2">
-                        {trans.footer.copyright_year}{" "}
+                        {i18n.footer.copyright_year}{" "}
                         <Link href="https://www.facebook.com/nguyentan2808/">
                             <a className="font-semibold">Nguyen Tan</a>
                         </Link>
-                        . {trans.footer.copyright_all_rights}
+                        . {i18n.footer.copyright_all_rights}
                     </div>
                     <Stack direction={"row"} spacing={6}>
                         <SocialButton label={"Twitter"} href={"#"}>

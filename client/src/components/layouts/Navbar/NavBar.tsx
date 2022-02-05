@@ -13,8 +13,8 @@ import {
     useDisclosure,
 } from "@chakra-ui/react";
 import logo from "@public/logo.png";
-import useTrans from "hooks/useTrans";
-import { debounce, throttle } from "lodash";
+import useI18n from "hooks/useI18n";
+import { throttle } from "lodash";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -22,12 +22,11 @@ import React from "react";
 import { AiOutlineShop, AiOutlineWifi } from "react-icons/ai";
 import { CgMenuLeft, CgSearch, CgShoppingBag } from "react-icons/cg";
 import { FiUser } from "react-icons/fi";
+import { IconType } from "react-icons/lib";
 import { MdOutlineHelpOutline, MdOutlineLocalOffer } from "react-icons/md";
 import { RiHome2Line } from "react-icons/ri";
-
-import styles from "./styles.module.css";
 import LanguageSwitcher from "./LanguageSwitcher";
-import { IconType } from "react-icons/lib";
+import styles from "./styles.module.css";
 
 interface IMenuItem {
     name: string;
@@ -106,19 +105,19 @@ const MobileNavBar = ({ menu, setHideSearch }: IMobileNavbarProps) => {
 
 const NavBar: React.FC = () => {
     const router = useRouter();
-    const trans = useTrans();
+    const i18n = useI18n();
 
     const [isHide, setHide] = React.useState(false);
     const [isHideSearch, setHideSearch] = React.useState<boolean>(true);
 
     const menu: Array<IMenuItem> = [
         {
-            name: trans.navbar.shops,
+            name: i18n.navbar.shops,
             href: "/shops",
             icon: AiOutlineShop,
         },
         {
-            name: trans.navbar.offers,
+            name: i18n.navbar.offers,
             href: "/",
             icon: MdOutlineLocalOffer,
         },
@@ -128,7 +127,7 @@ const NavBar: React.FC = () => {
             icon: MdOutlineHelpOutline,
         },
         {
-            name: trans.navbar.contact,
+            name: i18n.navbar.contact,
             href: "/contact",
             icon: AiOutlineWifi,
         },
@@ -161,7 +160,7 @@ const NavBar: React.FC = () => {
                 )}
                 <div className="hidden sm:flex items-center gap-8">
                     <Input
-                        placeholder={trans.navbar.search}
+                        placeholder={i18n.navbar.search}
                         bg={"white"}
                         w={48}
                     />
@@ -179,7 +178,7 @@ const NavBar: React.FC = () => {
                                 colorScheme="teal"
                                 onClick={() => router.push("/login")}
                             >
-                                {trans.navbar.loginBtn}
+                                {i18n.navbar.loginBtn}
                             </Button>
                         </a>
                     </Link>
