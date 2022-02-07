@@ -55,8 +55,8 @@ const useLocation = (): IReturnType => {
             } catch (error) {
                 console.log(error);
             }
-            fetchProvinces();
         };
+        fetchProvinces();
     }, []);
 
     React.useEffect(() => {
