@@ -12,12 +12,16 @@ interface InputFieldProps {
     label: string;
     placeholder: string;
     type: string;
+    isRequired: boolean;
 }
 
-const InputField = ({ ...props }: InputFieldProps) => {
+const InputField = (props: InputFieldProps) => {
     const [field, { error, touched }] = useField(props);
     return (
-        <FormControl isInvalid={!!error}>
+        <FormControl
+            isInvalid={!!error && !!touched}
+            isRequired={props.isRequired}
+        >
             <FormLabel htmlFor={field.name}>{props.label}</FormLabel>
             <Input {...field} id={field.name} {...props} />
             {error && touched ? (
