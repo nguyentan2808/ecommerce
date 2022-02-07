@@ -3,6 +3,7 @@ import InputField from "components/common/InputField";
 import { Form, Formik } from "formik";
 import useI18n from "hooks/useI18n";
 import Link from "next/link";
+import React from "react";
 import { FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import * as Yup from "yup";
@@ -50,6 +51,7 @@ const Login: React.FC = () => {
                         {({ isSubmitting }) => (
                             <Form className="flex flex-col gap-4">
                                 <InputField
+                                    isRequired={true}
                                     name="email"
                                     placeholder="Email"
                                     label={i18n.login.form_email}
@@ -57,6 +59,7 @@ const Login: React.FC = () => {
                                 />
 
                                 <InputField
+                                    isRequired={true}
                                     name="password"
                                     placeholder="Password"
                                     label={i18n.login.form_password}
@@ -82,6 +85,15 @@ const Login: React.FC = () => {
                     </Formik>
 
                     <Divider />
+
+                    <div className="text-center">
+                        Don&apos;t have account?{" "}
+                        <Link href="/signup">
+                            <a className="text-blue-600 hover:underline">
+                                Sign-up
+                            </a>
+                        </Link>
+                    </div>
 
                     {/* Facebook */}
                     <Button colorScheme={"facebook"} leftIcon={<FaFacebook />}>
