@@ -30,8 +30,8 @@ const SignUp: React.FC = () => {
         listProvince,
         listDistrict,
         listWard,
-        currentLocation,
-        setCurrentLocation,
+        handleSelectProvince,
+        handleSelectDistrict,
     } = useLocation();
 
     const signUpFormSchema = Yup.object().shape({
@@ -95,9 +95,6 @@ const SignUp: React.FC = () => {
                         }}
                         validationSchema={signUpFormSchema}
                         onSubmit={handleSubmit}
-                        // validateOnMount={false}
-                        // validateOnBlur={false}
-                        // validateOnChange={false}
                     >
                         {({ isSubmitting }) => (
                             <Form>
@@ -137,12 +134,7 @@ const SignUp: React.FC = () => {
 
                                     <Select
                                         placeholder="Select Province"
-                                        onChange={(event) => {
-                                            setCurrentLocation({
-                                                ...currentLocation,
-                                                idProvince: event.target.value,
-                                            });
-                                        }}
+                                        onChange={handleSelectProvince}
                                     >
                                         {listProvince.map((province) => (
                                             <option
@@ -156,12 +148,7 @@ const SignUp: React.FC = () => {
 
                                     <Select
                                         placeholder="Select District"
-                                        onChange={(event) => {
-                                            setCurrentLocation({
-                                                ...currentLocation,
-                                                idDistrict: event.target.value,
-                                            });
-                                        }}
+                                        onChange={handleSelectDistrict}
                                     >
                                         {listDistrict.map((district) => (
                                             <option

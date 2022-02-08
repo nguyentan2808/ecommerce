@@ -29,8 +29,8 @@ interface IReturnType {
     listProvince: IProvince[];
     listDistrict: IDistrict[];
     listWard: IWard[];
-    currentLocation: ICurrentLocation;
-    setCurrentLocation: Dispatch<SetStateAction<ICurrentLocation>>;
+    handleSelectProvince: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+    handleSelectDistrict: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 const LocationAPI = axios.create({
@@ -41,11 +41,6 @@ const useLocation = (): IReturnType => {
     const [listProvince, setListProvince] = React.useState<IProvince[]>([]);
     const [listDistrict, setListDistrict] = React.useState<IDistrict[]>([]);
     const [listWard, setListWard] = React.useState<IWard[]>([]);
-    const [currentLocation, setCurrentLocation] =
-        React.useState<ICurrentLocation>({
-            idProvince: "",
-            idDistrict: "",
-        });
 
     React.useEffect(() => {
         const fetchProvinces = async () => {
@@ -59,47 +54,39 @@ const useLocation = (): IReturnType => {
         fetchProvinces();
     }, []);
 
-    React.useEffect(() => {
-        const fetchDistricts = async () => {
-            try {
-                const { data } = await LocationAPI.get(
-                    `/district?idProvince=${currentLocation.idProvince}`
-                );
-                setListDistrict(data);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-
-        if (currentLocation.idProvince) {
-            fetchDistricts();
+    const handleSelectProvince = async (
+        event: React.ChangeEvent<HTMLSelectElement>
+    ) => {
+        try {
+            const { data } = await LocationAPI.get(
+                `/district?idProvince=${event.target.value}`
+            );
+            setListDistrict(data);
+        } catch (error) {
+            console.log(error);
         }
-    }, [currentLocation.idProvince]);
+    };
 
-    React.useEffect(() => {
-        const fetchWards = async () => {
-            try {
-                const { data } = await LocationAPI.get(
-                    `/commune?idDistrict=${currentLocation.idDistrict}`
-                );
+    const handleSelectDistrict = async (
+        event: React.ChangeEvent<HTMLSelectElement>
+    ) => {
+        try {
+            const { data } = await LocationAPI.get(
+                `/commune?idDistrict=${event.target.value}`
+            );
 
-                setListWard(data);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-
-        if (currentLocation.idDistrict) {
-            fetchWards();
+            setListWard(data);
+        } catch (error) {
+            console.log(error);
         }
-    }, [currentLocation.idDistrict]);
+    };
 
     return {
         listProvince,
         listDistrict,
         listWard,
-        currentLocation,
-        setCurrentLocation,
+        handleSelectProvince,
+        handleSelectDistrict,
     };
 };
 
