@@ -2,7 +2,7 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
-  Input,
+  Select,
 } from "@chakra-ui/react";
 import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
@@ -11,8 +11,10 @@ interface InputFieldProps {
   name: string;
   label: string;
   placeholder: string;
-  type: string;
   isRequired?: boolean;
+  list: any[];
+  children: (province: any) => React.ReactNode;
+  handleSelect: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 const InputField = ({ isRequired = false, ...props }: InputFieldProps) => {
@@ -26,10 +28,19 @@ const InputField = ({ isRequired = false, ...props }: InputFieldProps) => {
       control={control}
       name={props.name}
       render={({ field }) => (
-        <FormControl isInvalid={errors[props.name]} isRequired={isRequired}>
+        <FormControl isInvalid={errors[props.name]}>
           <FormLabel htmlFor={field.name}>{props.label}</FormLabel>
-          <Input {...field} id={field.name} type={props.type} />
 
+          <Select
+            placeholder={props.placeholder}
+            {...field}
+            onChange={(event: any) => {
+              field.onChange(event);
+              props.handleSelect(event);
+            }}
+          >
+            {props.list.map((item) => props.children(item))}
+          </Select>
           <FormErrorMessage>{errors[props.name]?.message}</FormErrorMessage>
         </FormControl>
       )}
