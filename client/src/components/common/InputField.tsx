@@ -28,7 +28,12 @@ const InputField = ({ isRequired = false, ...props }: InputFieldProps) => {
       render={({ field }) => (
         <FormControl isInvalid={errors[props.name]} isRequired={isRequired}>
           <FormLabel htmlFor={field.name}>{props.label}</FormLabel>
-          <Input {...field} id={field.name} type={props.type} />
+          <Input
+            {...field}
+            id={field.name}
+            type={props.type}
+            placeholder={props.placeholder}
+          />
 
           <FormErrorMessage>{errors[props.name]?.message}</FormErrorMessage>
         </FormControl>

@@ -81,14 +81,14 @@ const SignUp: React.FC<ISignUpProps> = ({ isOpen, onClose }) => {
     <Modal isOpen={isOpen} onClose={onClose} size="xl">
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader className="flex justify-center m-2">
+        <ModalHeader className="flex justify-center m-2 mt-4">
           <Image src={logo} height="28px" width="174px" alt="logo" />
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <FormProvider {...methods}>
             <form onSubmit={methods.handleSubmit(onSubmit)}>
-              <div className="px-1 w-full mx-auto">
+              <div className="px-1 w-full mx-auto mb-8">
                 <div className="flex justify-center mb-8">
                   <div className="text-md">
                     By signing up, you agree to{" "}
@@ -206,12 +206,6 @@ const SignUp: React.FC<ISignUpProps> = ({ isOpen, onClose }) => {
             </form>
           </FormProvider>
         </ModalBody>
-
-        <ModalFooter>
-          <Button variant="outline" onClick={onClose}>
-            Close
-          </Button>
-        </ModalFooter>
       </ModalContent>
     </Modal>
   );

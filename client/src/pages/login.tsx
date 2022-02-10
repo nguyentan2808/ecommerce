@@ -10,6 +10,7 @@ import { FcGoogle } from "react-icons/fc";
 import * as Yup from "yup";
 import { useDisclosure } from "@chakra-ui/hooks";
 import SignUpModal from "components/modules/SignUp";
+import InputFieldPassword from "components/common/InputFieldPassword";
 
 interface IValues {
   email: string;
@@ -56,18 +57,12 @@ const Login: React.FC = () => {
                 <InputField
                   isRequired={true}
                   name="email"
-                  placeholder="Email"
+                  placeholder="admin@pickbazar.com"
                   label={i18n.login.form_email}
                   type="text"
                 />
 
-                <InputField
-                  isRequired={true}
-                  name="password"
-                  placeholder="Password"
-                  label={i18n.login.form_password}
-                  type="password"
-                />
+                <InputFieldPassword />
 
                 <div className="flex flex-row justify-between">
                   <Checkbox>{i18n.login.form_remember_me}</Checkbox>
