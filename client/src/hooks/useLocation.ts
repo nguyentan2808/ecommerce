@@ -20,11 +20,6 @@ interface IWard {
     name: string;
 }
 
-interface ICurrentLocation {
-    idProvince: string;
-    idDistrict: string;
-}
-
 interface IReturnType {
     listProvince: IProvince[];
     listDistrict: IDistrict[];
@@ -59,7 +54,9 @@ const useLocation = (): IReturnType => {
     ) => {
         try {
             const { data } = await LocationAPI.get(
-                `/district?idProvince=${event.target.value}`
+                `/district?idProvince=${event.target.selectedOptions[0].getAttribute(
+                    "data-id"
+                )}`
             );
             setListDistrict(data);
         } catch (error) {
@@ -72,7 +69,9 @@ const useLocation = (): IReturnType => {
     ) => {
         try {
             const { data } = await LocationAPI.get(
-                `/commune?idDistrict=${event.target.value}`
+                `/commune?idDistrict=${event.target.selectedOptions[0].getAttribute(
+                    "data-id"
+                )}`
             );
 
             setListWard(data);
