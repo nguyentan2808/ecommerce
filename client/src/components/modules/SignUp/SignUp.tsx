@@ -1,22 +1,28 @@
 import {
+  Alert,
+  AlertIcon,
   Button,
   Checkbox,
+  Divider,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import logo from "@public/logo.png";
+import axios from "axios";
 import InputField from "components/common/InputField";
+import InputFieldPassword from "components/common/InputFieldPassword";
 import SelectField from "components/common/SelectField";
 import useLocation from "hooks/useLocation";
 import Image from "next/image";
 import Link from "next/link";
+import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import * as Yup from "yup";
 
 interface ISignUpProps {
@@ -59,23 +65,36 @@ const SignUp: React.FC<ISignUpProps> = ({ isOpen, onClose }) => {
     handleSelectDistrict,
   } = useLocation();
 
+  const [error, setError] = React.useState<string>("");
+
   const methods = useForm({
     defaultValues: {
-      name: "",
       email: "",
-      phone: undefined,
+      name: "",
+      username: "",
+      phone: 1,
       password: "",
-      address: "",
+      province: "",
+      district: "",
+      ward: "",
     },
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: any) => {
-    const { ward, district, province, ...rest } = data;
-    console.log({ ...rest, address: [ward, district, province].join(", ") });
-  };
+  const onSubmit = async (values: any) => {
+    const { ward, district, province, ...rest } = values;
+    const body = { ...rest, address: [ward, district, province].join(", ") };
+    try {
+      const { data } = await axios.post("http://localhost:5000/users", {
+        ...body,
+      });
 
-  console.log("re render");
+      toast.success("Sign up successfully!");
+    } catch (error: any) {
+      const message = error.response.data.message;
+      setError(message);
+    }
+  };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="xl">
@@ -93,7 +112,7 @@ const SignUp: React.FC<ISignUpProps> = ({ isOpen, onClose }) => {
                   <div className="text-md">
                     By signing up, you agree to{" "}
                     <Link href="#">
-                      <a className="text-teal-600 underline">ourterms</a>
+                      <a className="text-teal-600 underline">our terms</a>
                     </Link>{" "}
                     &{" "}
                     <Link href="#">
@@ -105,35 +124,28 @@ const SignUp: React.FC<ISignUpProps> = ({ isOpen, onClose }) => {
 
                 <div className="flex flex-col gap-4">
                   <InputField
-                    isRequired={true}
                     label="Name"
                     name="name"
                     placeholder="Name"
                     type="text"
                   />
+
                   <InputField
-                    isRequired={true}
                     label="Username"
                     name="username"
-                    placeholder="Address"
+                    placeholder="Username"
                     type="text"
                   />
+
+                  <InputFieldPassword />
+
                   <InputField
-                    isRequired={true}
-                    label="Password"
-                    name="password"
-                    placeholder="Password"
-                    type="text"
-                  />
-                  <InputField
-                    isRequired={true}
                     label="Phone"
                     name="phone"
                     placeholder="Phone"
                     type="number"
                   />
                   <InputField
-                    isRequired={true}
                     label="Email"
                     name="email"
                     placeholder="Email"
@@ -141,7 +153,6 @@ const SignUp: React.FC<ISignUpProps> = ({ isOpen, onClose }) => {
                   />
 
                   <SelectField
-                    isRequired={true}
                     name="province"
                     label="Province"
                     placeholder="Select Province"
@@ -160,7 +171,6 @@ const SignUp: React.FC<ISignUpProps> = ({ isOpen, onClose }) => {
                   </SelectField>
 
                   <SelectField
-                    isRequired={true}
                     name="district"
                     label="District"
                     placeholder="Select District"
@@ -179,7 +189,6 @@ const SignUp: React.FC<ISignUpProps> = ({ isOpen, onClose }) => {
                   </SelectField>
 
                   <SelectField
-                    isRequired={true}
                     name="ward"
                     label="Ward"
                     placeholder="Select Ward"
@@ -192,6 +201,15 @@ const SignUp: React.FC<ISignUpProps> = ({ isOpen, onClose }) => {
                       </option>
                     )}
                   </SelectField>
+
+                  <Divider />
+
+                  {error && (
+                    <Alert status="error" variant="left-accent">
+                      <AlertIcon />
+                      {error}
+                    </Alert>
+                  )}
 
                   <div className="flex justify-between my-2">
                     <Checkbox defaultChecked>Remember me</Checkbox>

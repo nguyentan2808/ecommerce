@@ -24,7 +24,7 @@ const InputFieldPassword = () => {
       control={control}
       name="password"
       render={({ field }) => (
-        <FormControl isInvalid={errors.password} isRequired={true}>
+        <FormControl isInvalid={errors.password}>
           <FormLabel>Password</FormLabel>
           <InputGroup>
             <Input
@@ -48,7 +48,7 @@ const InputFieldPassword = () => {
               </IconButton>
             </InputRightElement>
           </InputGroup>
-          <FormErrorMessage>{errors.password}</FormErrorMessage>
+          <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
         </FormControl>
       )}
     />
