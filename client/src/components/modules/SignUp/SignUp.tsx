@@ -91,7 +91,7 @@ const SignUp: React.FC<ISignUpProps> = ({ isOpen, onClose }) => {
 
       toast.success("Sign up successfully!");
     } catch (error: any) {
-      const message = error.response.data.message;
+      const message = error?.response?.data?.message;
       setError(message);
     }
   };

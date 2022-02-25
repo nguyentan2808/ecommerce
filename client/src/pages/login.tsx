@@ -1,35 +1,41 @@
-import { Button, Checkbox, Divider, Image } from "@chakra-ui/react";
+import { useDisclosure } from "@chakra-ui/hooks";
+import {
+  Alert,
+  AlertIcon,
+  Button,
+  Checkbox,
+  Divider,
+  Image,
+} from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
+import * as API from "api";
 import InputField from "components/common/InputField";
+import InputFieldPassword from "components/common/InputFieldPassword";
+import CustomerLayout from "components/layouts/Customer";
+import SignUpModal from "components/modules/SignUp";
 import useI18n from "hooks/useI18n";
+import jwtDecode from "jwt-decode";
 import Link from "next/link";
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import * as Yup from "yup";
-import { useDisclosure } from "@chakra-ui/hooks";
-import SignUpModal from "components/modules/SignUp";
-import InputFieldPassword from "components/common/InputFieldPassword";
 
 interface IValues {
   email: string;
   password: string;
 }
 
-const Login: React.FC = () => {
+const Login: React.FC & { layout: typeof CustomerLayout } = () => {
   const i18n = useI18n();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const [error, setError] = React.useState<string>("");
+
   const schema = Yup.object({
-    email: Yup.string().email("Invalid email").required("Email is required"),
-    password: Yup.string()
-      .min(8, "Password should be 8 chars minimum.")
-      .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
-        "Password should includes One Uppercase, One Lowercase and One Number!"
-      )
-      .required("Password is required."),
+    email: Yup.string().required("Email is required"),
+    password: Yup.string().required("Password is required."),
   }).required();
 
   const methods = useForm({
@@ -40,7 +46,24 @@ const Login: React.FC = () => {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: IValues) => alert(JSON.stringify(data, null, 2));
+  const onSubmit = async (data: IValues) => {
+    const { email, password } = data;
+
+    try {
+      const {
+        data: { access_token },
+      } = await API.login({
+        username: email,
+        password: password,
+      });
+      const decode = jwtDecode(access_token);
+
+      localStorage.setItem("access_token", access_token);
+    } catch (error: any) {
+      const message = error?.response?.data?.message;
+      setError(message);
+    }
+  };
 
   return (
     <>
@@ -72,6 +95,13 @@ const Login: React.FC = () => {
                     </a>
                   </Link>
                 </div>
+
+                {error && (
+                  <Alert status="error" variant="left-accent">
+                    <AlertIcon />
+                    {error}
+                  </Alert>
+                )}
 
                 <Button type="submit">{i18n.login.form_submit_btn}</Button>
               </form>
@@ -114,5 +144,7 @@ const Login: React.FC = () => {
     </>
   );
 };
+
+Login.layout = CustomerLayout;
 
 export default Login;

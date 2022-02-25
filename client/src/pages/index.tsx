@@ -9,6 +9,7 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
+import CustomerLayout from "components/layouts/Customer";
 import useI18n from "hooks/useI18n";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -91,6 +92,8 @@ export default function CallToActionWithAnnotation() {
     </>
   );
 }
+
+CallToActionWithAnnotation.layout = CustomerLayout;
 
 const Arrow = createIcon({
   displayName: "Arrow",
