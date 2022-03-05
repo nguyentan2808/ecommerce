@@ -1,4 +1,4 @@
-import { IconButton, Input } from "@chakra-ui/react";
+import { IconButton, Input, Select } from "@chakra-ui/react";
 import React from "react";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 
@@ -24,12 +24,29 @@ const TableFooter: React.FC<ITableFooterProps> = ({
       setCurrentPage(value);
     }
   };
+
   return (
     <div className="flex gap-2 justify-end items-center">
-      <span>
+      <div className="flex items-center gap-2">
+        Rows per page:{" "}
+        <Select
+          w={16}
+          size="sm"
+          onChange={(e) => setLimit(Number(e.target.value))}
+        >
+          {[5, 10, 15, 20].map((option, index) => (
+            <option key={index} value={option}>
+              {option}
+            </option>
+          ))}
+        </Select>
+      </div>
+
+      <div>
         From <b>{(currentPage - 1) * limit + 1}</b> to{" "}
         <b>{currentPage * limit}</b> of page{" "}
-      </span>
+      </div>
+
       <Input
         type="number"
         w={12}
@@ -40,16 +57,18 @@ const TableFooter: React.FC<ITableFooterProps> = ({
       />
 
       <IconButton
-        aria-label="Search database"
+        aria-label="Previous page"
         variant="ghost"
+        colorScheme="gray"
         icon={<BsChevronLeft className="text-md text-black" />}
         disabled={currentPage === 1}
         onClick={() => setCurrentPage(currentPage - 1)}
       />
 
       <IconButton
-        aria-label="Search database"
+        aria-label="Next page"
         variant="ghost"
+        colorScheme="gray"
         icon={<BsChevronRight className="text-md text-black" />}
         disabled={currentPage * limit >= count}
         onClick={() => setCurrentPage(currentPage + 1)}

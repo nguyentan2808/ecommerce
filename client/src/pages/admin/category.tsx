@@ -105,7 +105,7 @@ const Category = () => {
         <table className="w-full mt-6 shadow-md">
           <thead>
             <tr>
-              <th className="text-left w-10">ID</th>
+              <th className="text-left w-10">STT</th>
               <th className="text-left">Name</th>
               <th className="text-left w-1/3">Description</th>
               <th className="w-1/5 text-right">Create At</th>
@@ -115,7 +115,7 @@ const Category = () => {
           <tbody>
             {categoriesData?.list.map((category, index) => (
               <tr key={index} className="bg-white hover:bg-gray-100 h-12">
-                <td className="text-center">{category.id}</td>
+                <td className="text-center">{index + 1}</td>
                 <td>{category.name}</td>
                 <td>{category.description}</td>
                 <td className="text-right">
