@@ -156,7 +156,7 @@ const NavBar: React.FC = () => {
           <Input placeholder={i18n.navbar.search} bg={"white"} w={48} />
           {menu.map((item, index) => (
             <Link key={index} href={item.href}>
-              <a className="text-lg text-gray-600 hover:text-teal-600">
+              <a className="text-md text-gray-600 hover:text-teal-600">
                 {item.name}
               </a>
             </Link>

@@ -22,7 +22,7 @@ interface MobileProps {
 
 const AdminNavbar = ({ onOpen }: MobileProps) => {
   return (
-    <div className="sticky top-0 w-full flex justify-between items-center h-[var(--navbar-height)] px-4 bg-white border-b border-b-gray-200 ">
+    <div className="sticky z-40 top-0 w-full flex justify-between items-center h-[var(--navbar-height)] px-4 bg-white border-b border-b-gray-200 ">
       <IconButton
         onClick={onOpen}
         variant="outline"

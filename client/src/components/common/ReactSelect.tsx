@@ -32,6 +32,7 @@ const CustomSelect: React.FC<ICustomSelectProps> = ({
 
   return (
     <Select
+      instanceId={"react-select-id"}
       styles={style}
       options={options}
       placeholder={<div className="text-sm opacity-70">{placeholder}</div>}

@@ -6,9 +6,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "export": "next export"
+    "export": "next export",
+    "codegen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
+    "@apollo/client": "^3.5.9",
     "@chakra-ui/react": "^1.7.4",
     "@emotion/react": "11",
     "@emotion/styled": "11",
@@ -16,7 +18,9 @@
     "@hookform/resolvers": "^2.8.8",
     "@tailwindcss/line-clamp": "^0.3.1",
     "axios": "^0.25.0",
+    "date-fns": "^2.28.0",
     "framer-motion": "5",
+    "graphql": "^16.3.0",
     "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
     "next": "12.0.7",
@@ -28,11 +32,16 @@
     "react-hook-form": "^7.26.0",
     "react-icons": "^4.3.1",
     "react-select": "^5.2.2",
+    "react-spinners": "^0.11.0",
     "react-toastify": "^8.1.0",
     "yup": "^0.32.11",
     "zustand": "^3.7.0"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "2.6.2",
+    "@graphql-codegen/typescript": "2.4.5",
+    "@graphql-codegen/typescript-operations": "2.3.2",
+    "@graphql-codegen/typescript-react-apollo": "3.2.8",
     "@types/node": "17.0.8",
     "@types/react": "17.0.38",
     "autoprefixer": "^10.4.2",

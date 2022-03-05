@@ -28,6 +28,7 @@ export default function CallToActionWithAnnotation() {
           href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap"
           rel="stylesheet"
         />
+        <title>Pickbazar - Modern e-commerce</title>
       </Head>
       <div
         style={{

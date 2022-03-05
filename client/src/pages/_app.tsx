@@ -1,3 +1,4 @@
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { ChakraProvider } from "@chakra-ui/react";
 import PageWithLayoutType from "components/layouts/PageWithLayouts";
 import { ThemeProvider } from "next-themes";
@@ -23,25 +24,33 @@ function MyApp({ Component, pageProps }: AppLayoutProps) {
       </div>
     ));
 
+  const client = new ApolloClient({
+    uri: "http://localhost:5000/graphql",
+    cache: new InMemoryCache(),
+    connectToDevTools: true,
+  });
+
   return (
-    <ThemeProvider attribute="class">
-      {/* <NextNProgress
+    <ApolloProvider client={client}>
+      <ThemeProvider attribute="class">
+        {/* <NextNProgress
         color="#319795" // teal.500
         options={{ showSpinner: false }}
       /> */}
-      <ChakraProvider theme={theme}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </ChakraProvider>
-      <ToastContainer
-        autoClose={3000}
-        closeOnClick={true}
-        draggable={true}
-        pauseOnHover={false}
-        pauseOnFocusLoss={false}
-      />
-    </ThemeProvider>
+        <ChakraProvider theme={theme}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </ChakraProvider>
+        <ToastContainer
+          autoClose={3000}
+          closeOnClick={true}
+          draggable={true}
+          pauseOnHover={false}
+          pauseOnFocusLoss={false}
+        />
+      </ThemeProvider>
+    </ApolloProvider>
   );
 }
 
