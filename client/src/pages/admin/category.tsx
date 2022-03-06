@@ -161,7 +161,10 @@ const Category = () => {
               </tr>
             ))}
             {[...Array(emptyRows)].map((item, index) => (
-              <tr key={index} className="bg-white hover:bg-gray-100 h-12">
+              <tr
+                key={index + item}
+                className="bg-white hover:bg-gray-100 h-12"
+              >
                 <td colSpan={5} />
               </tr>
             ))}
