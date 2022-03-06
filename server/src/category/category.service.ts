@@ -1,9 +1,9 @@
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Category } from './entities/category.entity';
-import { Injectable, ConflictException } from '@nestjs/common';
+import { Repository } from 'typeorm';
 import { CreateCategoryInput } from './dto/create-category.input';
 import { UpdateCategoryInput } from './dto/update-category.input';
-import { Repository } from 'typeorm';
+import { Category } from './entities/category.entity';
 
 @Injectable()
 export class CategoryService {
@@ -30,7 +30,6 @@ export class CategoryService {
     });
 
     const _total = this.categoryRepository.count();
-
     const [list, total] = await Promise.all([_list, _total]);
 
     return {
@@ -48,7 +47,11 @@ export class CategoryService {
   }
 
   async remove(id: number) {
-    await this.categoryRepository.delete(id);
-    return 'Oke';
+    const category = await this.categoryRepository.findOne({ where: { id } });
+    if (!category) {
+      throw new NotFoundException();
+    }
+    await this.categoryRepository.remove(category);
+    return true;
   }
 }

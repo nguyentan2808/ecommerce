@@ -28,7 +28,7 @@ type Query {
 type Mutation {
   createCategory(createCategoryInput: CreateCategoryInput!): Category!
   updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
-  removeCategory(id: Int!): String!
+  removeCategory(id: Int!): Boolean!
 }
 
 input CreateCategoryInput {
