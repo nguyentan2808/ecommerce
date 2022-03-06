@@ -14,6 +14,7 @@ import AdminLayout from "components/layouts/Admin";
 import CreateModal, {
   IFormValues,
 } from "components/modules/category/CreateModal";
+import DeleteModal from "components/modules/category/DeleteModal";
 import { format } from "date-fns";
 import { useGetCategoriesQuery } from "generated/graphql";
 import { usePreviousNonNullish } from "hooks/usePreviousNonNullish ";
@@ -24,6 +25,11 @@ import { AiOutlineDelete, AiOutlinePlus } from "react-icons/ai";
 import { BsSearch } from "react-icons/bs";
 import { FiEdit } from "react-icons/fi";
 import * as Yup from "yup";
+
+export interface IFormDelete {
+  id: number;
+  name: string;
+}
 
 const schema = Yup.object({
   name: Yup.string().required("Name is required"),
@@ -38,8 +44,21 @@ export const formDefaultValues = {
 const Category = () => {
   const [currentPage, setCurrentPage] = React.useState(1);
   const [limit, setLimit] = React.useState(10);
+  const [formDelete, setFormDelete] = React.useState<IFormDelete>({
+    id: -1,
+    name: "",
+  });
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isOpenCreate,
+    onOpen: setOpenCreate,
+    onClose: setCloseCreate,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenDelete,
+    onOpen: setOpenDelete,
+    onClose: setCloseDelete,
+  } = useDisclosure();
   const { loading, data, error } = useGetCategoriesQuery({
     variables: {
       page: currentPage,
@@ -56,8 +75,18 @@ const Category = () => {
 
   const handleEdit = (category: IFormValues) => {
     const { name, description } = category;
-    onOpen();
+    setOpenCreate();
     form.reset({ name, description });
+  };
+
+  const handleDelete = (category: {
+    id: number;
+    name: string;
+    createdAt: any;
+    description: string;
+  }) => {
+    setFormDelete({ id: category.id, name: category.name });
+    setOpenDelete();
   };
 
   const emptyRows =
@@ -87,25 +116,23 @@ const Category = () => {
             py={4}
             w={{ base: "full", md: "auto" }}
             leftIcon={<AiOutlinePlus className="text-sm" />}
-            onClick={onOpen}
+            onClick={setOpenCreate}
           >
             <p className="text-sm">Add category</p>
           </Button>
         </div>
       </div>
-
       {error && (
         <Alert status="error" variant="left-accent" className="rounded-md my-4">
           <AlertIcon />
           {error?.message}
         </Alert>
       )}
-
       <span className="w-full overflow-x-auto overflow-y-hidden">
         <table className="w-full mt-6 shadow-md">
           <thead>
             <tr>
-              <th className="text-left w-10">STT</th>
+              <th className="text-left w-10">ID</th>
               <th className="text-left">Name</th>
               <th className="text-left w-1/3">Description</th>
               <th className="w-1/5 text-right">Create At</th>
@@ -115,14 +142,17 @@ const Category = () => {
           <tbody>
             {categoriesData?.list.map((category, index) => (
               <tr key={index} className="bg-white hover:bg-gray-100 h-12">
-                <td className="text-center">{index + 1}</td>
+                <td className="text-center">{category.id}</td>
                 <td>{category.name}</td>
                 <td>{category.description}</td>
                 <td className="text-right">
                   {format(new Date(category.createdAt), "MM/dd/yyyy")}
                 </td>
                 <td className="flex justify-end gap-2">
-                  <AiOutlineDelete className="text-red-500 text-lg cursor-pointer" />
+                  <AiOutlineDelete
+                    className="text-red-500 text-lg cursor-pointer"
+                    onClick={() => handleDelete(category)}
+                  />
                   <FiEdit
                     className="text-lg cursor-pointer opacity-70"
                     onClick={() => handleEdit(category)}
@@ -130,8 +160,8 @@ const Category = () => {
                 </td>
               </tr>
             ))}
-            {[...Array(emptyRows)].map((item) => (
-              <tr key={item} className="bg-white hover:bg-gray-100 h-12">
+            {[...Array(emptyRows)].map((item, index) => (
+              <tr key={index} className="bg-white hover:bg-gray-100 h-12">
                 <td colSpan={5} />
               </tr>
             ))}
@@ -151,8 +181,12 @@ const Category = () => {
           </tfoot>
         </table>
       </span>
-
-      <CreateModal onClose={onClose} isOpen={isOpen} form={form} />
+      <CreateModal onClose={setCloseCreate} isOpen={isOpenCreate} form={form} />
+      <DeleteModal
+        isOpen={isOpenDelete}
+        onClose={setCloseDelete}
+        formDelete={formDelete}
+      />
     </>
   );
 };

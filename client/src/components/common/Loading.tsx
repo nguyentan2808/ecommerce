@@ -7,7 +7,7 @@ interface ILoadingProps {
 
 const Loading: React.FC<ILoadingProps> = ({ isLoading }) => {
   return (
-    <div className="fixed top-1/2 left-1/2">
+    <div className="fixed top-1/2 left-1/2 z-[1500]">
       <BeatLoader loading={isLoading} color="var(--chakra-colors-teal-500)" />
     </div>
   );

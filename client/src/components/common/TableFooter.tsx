@@ -43,18 +43,10 @@ const TableFooter: React.FC<ITableFooterProps> = ({
       </div>
 
       <div>
-        From <b>{(currentPage - 1) * limit + 1}</b> to{" "}
-        <b>{currentPage * limit}</b> of page{" "}
+        From <b>{(currentPage - 1) * limit + 1}</b> -{" "}
+        <b>{count > currentPage * limit ? currentPage * limit : count}</b> of{" "}
+        {count} total
       </div>
-
-      <Input
-        type="number"
-        w={12}
-        size="sm"
-        p={1}
-        value={currentPage}
-        onChange={handleChangePage}
-      />
 
       <IconButton
         aria-label="Previous page"

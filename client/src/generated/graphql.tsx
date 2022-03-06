@@ -40,7 +40,7 @@ export type GetCategoriesResponse = {
 export type Mutation = {
   __typename?: 'Mutation';
   createCategory: Category;
-  removeCategory: Scalars['String'];
+  removeCategory: Scalars['Boolean'];
   updateCategory: Category;
 };
 
@@ -82,6 +82,13 @@ export type UpdateCategoryInput = {
   name?: InputMaybe<Scalars['String']>;
 };
 
+export type CreateCategoryMutationVariables = Exact<{
+  createCategoryInput: CreateCategoryInput;
+}>;
+
+
+export type CreateCategoryMutation = { __typename?: 'Mutation', createCategory: { __typename?: 'Category', name: string, id: number } };
+
 export type GetCategoriesQueryVariables = Exact<{
   limit: Scalars['Float'];
   page: Scalars['Float'];
@@ -90,14 +97,48 @@ export type GetCategoriesQueryVariables = Exact<{
 
 export type GetCategoriesQuery = { __typename?: 'Query', categories: { __typename?: 'GetCategoriesResponse', total: number, list: Array<{ __typename?: 'Category', id: number, name: string, createdAt: any, description: string }> } };
 
-export type CreateCategoryMutationVariables = Exact<{
-  createCategoryInput: CreateCategoryInput;
+export type RemoveCategoryMutationVariables = Exact<{
+  id: Scalars['Int'];
 }>;
 
 
-export type CreateCategoryMutation = { __typename?: 'Mutation', createCategory: { __typename?: 'Category', name: string, id: number } };
+export type RemoveCategoryMutation = { __typename?: 'Mutation', removeCategory: boolean };
 
 
+export const CreateCategoryDocument = gql`
+    mutation CreateCategory($createCategoryInput: CreateCategoryInput!) {
+  createCategory(createCategoryInput: $createCategoryInput) {
+    name
+    id
+  }
+}
+    `;
+export type CreateCategoryMutationFn = Apollo.MutationFunction<CreateCategoryMutation, CreateCategoryMutationVariables>;
+
+/**
+ * __useCreateCategoryMutation__
+ *
+ * To run a mutation, you first call `useCreateCategoryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateCategoryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createCategoryMutation, { data, loading, error }] = useCreateCategoryMutation({
+ *   variables: {
+ *      createCategoryInput: // value for 'createCategoryInput'
+ *   },
+ * });
+ */
+export function useCreateCategoryMutation(baseOptions?: Apollo.MutationHookOptions<CreateCategoryMutation, CreateCategoryMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateCategoryMutation, CreateCategoryMutationVariables>(CreateCategoryDocument, options);
+      }
+export type CreateCategoryMutationHookResult = ReturnType<typeof useCreateCategoryMutation>;
+export type CreateCategoryMutationResult = Apollo.MutationResult<CreateCategoryMutation>;
+export type CreateCategoryMutationOptions = Apollo.BaseMutationOptions<CreateCategoryMutation, CreateCategoryMutationVariables>;
 export const GetCategoriesDocument = gql`
     query getCategories($limit: Float!, $page: Float!) {
   categories(limit: $limit, page: $page) {
@@ -140,37 +181,34 @@ export function useGetCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type GetCategoriesQueryHookResult = ReturnType<typeof useGetCategoriesQuery>;
 export type GetCategoriesLazyQueryHookResult = ReturnType<typeof useGetCategoriesLazyQuery>;
 export type GetCategoriesQueryResult = Apollo.QueryResult<GetCategoriesQuery, GetCategoriesQueryVariables>;
-export const CreateCategoryDocument = gql`
-    mutation CreateCategory($createCategoryInput: CreateCategoryInput!) {
-  createCategory(createCategoryInput: $createCategoryInput) {
-    name
-    id
-  }
+export const RemoveCategoryDocument = gql`
+    mutation RemoveCategory($id: Int!) {
+  removeCategory(id: $id)
 }
     `;
-export type CreateCategoryMutationFn = Apollo.MutationFunction<CreateCategoryMutation, CreateCategoryMutationVariables>;
+export type RemoveCategoryMutationFn = Apollo.MutationFunction<RemoveCategoryMutation, RemoveCategoryMutationVariables>;
 
 /**
- * __useCreateCategoryMutation__
+ * __useRemoveCategoryMutation__
  *
- * To run a mutation, you first call `useCreateCategoryMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateCategoryMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useRemoveCategoryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveCategoryMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [createCategoryMutation, { data, loading, error }] = useCreateCategoryMutation({
+ * const [removeCategoryMutation, { data, loading, error }] = useRemoveCategoryMutation({
  *   variables: {
- *      createCategoryInput: // value for 'createCategoryInput'
+ *      id: // value for 'id'
  *   },
  * });
  */
-export function useCreateCategoryMutation(baseOptions?: Apollo.MutationHookOptions<CreateCategoryMutation, CreateCategoryMutationVariables>) {
+export function useRemoveCategoryMutation(baseOptions?: Apollo.MutationHookOptions<RemoveCategoryMutation, RemoveCategoryMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateCategoryMutation, CreateCategoryMutationVariables>(CreateCategoryDocument, options);
+        return Apollo.useMutation<RemoveCategoryMutation, RemoveCategoryMutationVariables>(RemoveCategoryDocument, options);
       }
-export type CreateCategoryMutationHookResult = ReturnType<typeof useCreateCategoryMutation>;
-export type CreateCategoryMutationResult = Apollo.MutationResult<CreateCategoryMutation>;
-export type CreateCategoryMutationOptions = Apollo.BaseMutationOptions<CreateCategoryMutation, CreateCategoryMutationVariables>;
+export type RemoveCategoryMutationHookResult = ReturnType<typeof useRemoveCategoryMutation>;
+export type RemoveCategoryMutationResult = Apollo.MutationResult<RemoveCategoryMutation>;
+export type RemoveCategoryMutationOptions = Apollo.BaseMutationOptions<RemoveCategoryMutation, RemoveCategoryMutationVariables>;
