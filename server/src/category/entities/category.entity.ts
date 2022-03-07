@@ -1,11 +1,12 @@
-import { CategoryService } from './../category.service';
-import { ObjectType, Field, Int, ResolveField } from '@nestjs/graphql';
+import { Product } from './../../product/entities/product.entity';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 import {
-  PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
-  UpdateDateColumn,
   Entity,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 @ObjectType()
@@ -26,6 +27,10 @@ export class Category {
   @Field()
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
   createdAt: Date;
+
+  @Field(() => [Product])
+  @ManyToMany(() => Product, (product) => product.categories)
+  products: Product[];
 
   @Field()
   @UpdateDateColumn({

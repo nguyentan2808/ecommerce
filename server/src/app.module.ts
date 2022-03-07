@@ -9,6 +9,7 @@ import { CategoryModule } from './category/category.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path/posix';
 import { ApolloDriver } from '@nestjs/apollo';
+import { ProductModule } from './product/product.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -21,6 +22,7 @@ import { ApolloDriver } from '@nestjs/apollo';
     UsersModule,
     AuthModule,
     CategoryModule,
+    ProductModule,
   ],
   controllers: [AppController],
   providers: [AppService],

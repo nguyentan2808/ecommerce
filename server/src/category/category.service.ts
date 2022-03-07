@@ -38,6 +38,17 @@ export class CategoryService {
     };
   }
 
+  async getProducts(id: number) {
+    const category = await this.categoryRepository.findOne({
+      where: { id },
+      relations: ['products'],
+    });
+    if (!category) {
+      throw new NotFoundException();
+    }
+    return category.products;
+  }
+
   findOne(name: string) {
     return this.categoryRepository.findOne({ where: [{ name: name }] });
   }

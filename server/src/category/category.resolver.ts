@@ -1,4 +1,15 @@
-import { Args, Field, Int, Mutation, ObjectType, Query, Resolver } from '@nestjs/graphql';
+import { Product } from './../product/entities/product.entity';
+import {
+  Args,
+  Field,
+  Int,
+  Mutation,
+  ObjectType,
+  Query,
+  ResolveField,
+  Resolver,
+  Parent,
+} from '@nestjs/graphql';
 import { CategoryService } from './category.service';
 import { CreateCategoryInput } from './dto/create-category.input';
 import { UpdateCategoryInput } from './dto/update-category.input';
@@ -40,5 +51,10 @@ export class CategoryResolver {
   @Mutation(() => Boolean)
   removeCategory(@Args('id', { type: () => Int }) id: number) {
     return this.categoryService.remove(id);
+  }
+
+  @ResolveField(() => [Product])
+  products(@Parent() category: Category) {
+    return this.categoryService.getProducts(category.id);
   }
 }
