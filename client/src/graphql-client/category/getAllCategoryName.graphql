@@ -1,0 +1,9 @@
+query getAllCategoryName {
+  categories(limit: 0, page: 0) {
+    total
+    list {
+      id
+      name
+    }
+  }
+}

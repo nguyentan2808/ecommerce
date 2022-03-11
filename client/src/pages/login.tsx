@@ -15,6 +15,7 @@ import CustomerLayout from "components/layouts/Customer";
 import SignUpModal from "components/modules/SignUp";
 import useI18n from "hooks/useI18n";
 import jwtDecode from "jwt-decode";
+import Head from "next/head";
 import Link from "next/link";
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -67,6 +68,9 @@ const Login: React.FC & { layout: typeof CustomerLayout } = () => {
 
   return (
     <>
+      <Head>
+        <title>Login - Pickbazar</title>
+      </Head>
       <div className="flex flex-col md:flex-row">
         <div className="p-8 flex flex-1 justify-center items-center min-h-[calc(100vh-var(--navbar-height))]">
           <div className="w-full max-w-md flex flex-col gap-4">

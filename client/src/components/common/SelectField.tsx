@@ -9,7 +9,7 @@ import { Controller, useFormContext } from "react-hook-form";
 
 interface InputFieldProps {
   name: string;
-  label: string;
+  label: string | React.ReactNode;
   placeholder: string;
   isRequired?: boolean;
   list: any[];

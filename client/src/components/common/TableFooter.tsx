@@ -1,4 +1,4 @@
-import { IconButton, Input, Select } from "@chakra-ui/react";
+import { IconButton, Select } from "@chakra-ui/react";
 import React from "react";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 
@@ -17,14 +17,6 @@ const TableFooter: React.FC<ITableFooterProps> = ({
   limit,
   setLimit,
 }) => {
-  const handleChangePage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Number(event.target.value);
-    console.log(value);
-    if (value > 0 && value <= count / limit) {
-      setCurrentPage(value);
-    }
-  };
-
   return (
     <div className="flex gap-2 justify-end items-center">
       <div className="flex items-center gap-2">

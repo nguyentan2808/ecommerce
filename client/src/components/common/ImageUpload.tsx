@@ -1,16 +1,72 @@
+/* eslint-disable @next/next/no-img-element */
+import axios from "axios";
 import React from "react";
 import { useDropzone } from "react-dropzone";
+import { useFormContext, useWatch } from "react-hook-form";
+import { IoClose } from "react-icons/io5";
+import Loading from "./Loading";
 
-const ImageUpload = () => {
-  const onDrop = React.useCallback((files) => {
-    const blobUrl = URL.createObjectURL(files[0]);
+interface IImageUploadProps {
+  isMultiple?: boolean;
+}
+
+const thumbnailUrl = (id: string) => {
+  return `https://res.cloudinary.com/nguyentan2808/image/upload/c_thumb,w_200,g_face/${id}`;
+};
+
+export const fullSizeUrl = (id: string) => {
+  return `https://res.cloudinary.com/nguyentan2808/image/upload/${id}`;
+};
+
+const ImageUpload: React.FC<IImageUploadProps> = ({ isMultiple = false }) => {
+  const { setValue, getValues } = useFormContext();
+  const [previews, setPreviews] = React.useState([]);
+  const [isLoading, setLoading] = React.useState(false);
+
+  const onDrop = React.useCallback(async (files) => {
+    const url = "https://api.cloudinary.com/v1_1/nguyentan2808/image/upload";
+
+    setLoading(true);
+    const result = await axios.all(
+      files.map((file: File) => {
+        const form = new FormData();
+        form.append("file", file);
+        form.append("upload_preset", "pickbazar");
+        return axios.post(url, form);
+      })
+    );
+    const data = result.map((item: any) => item.data.public_id);
+    setValue("images", data);
+    setLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    multiple: false,
+    multiple: isMultiple,
   });
+
+  const handleDelete = (url: string) => {
+    const images = getValues("images");
+    const newImages = images.filter((image: string) => image !== url);
+    setValue("images", newImages);
+  };
+
+  const { control } = useFormContext();
+  const watchImages = useWatch({ control, name: "images" });
+
+  React.useEffect(() => {
+    if (watchImages) {
+      setPreviews(watchImages);
+    }
+  }, [watchImages]);
+
+  console.log(previews);
+
   return (
     <>
+      {isLoading && <Loading isLoading={isLoading} />}
+
       <div {...getRootProps()}>
         <input {...getInputProps()} />
         <div className="w-full h-full py-8 flex flex-col gap-3 justify-center items-center border-dashed border-2 rounded-md">
@@ -26,6 +82,30 @@ const ImageUpload = () => {
             </p>
             <p>PNG, JPG</p>
           </div>
+        </div>
+
+        <div className="flex mt-4">
+          {previews.map((preview, index) => (
+            <div
+              key={index}
+              className="relative w-1/4 p-2"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div
+                className="absolute -right-2 -top-2 p-1 rounded-full bg-gray-100 shadow-mui-3 flex justify-center items-center"
+                onClick={() => handleDelete(preview)}
+              >
+                <IoClose className="text-xl" />
+              </div>
+              <a href={fullSizeUrl(preview)} target="_blank" rel="noreferrer">
+                <img
+                  className="rounded-lg"
+                  src={thumbnailUrl(preview)}
+                  alt="Oke"
+                />
+              </a>
+            </div>
+          ))}
         </div>
       </div>
     </>

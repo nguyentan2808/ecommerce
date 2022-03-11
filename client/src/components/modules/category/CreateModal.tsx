@@ -11,15 +11,13 @@ import {
   ModalOverlay,
 } from "@chakra-ui/react";
 import CreateField from "components/common/CreateField";
-import ImageUpload from "components/common/ImageUpload";
 import InputField from "components/common/InputField";
+import Loading from "components/common/Loading";
 import { useCreateCategoryMutation } from "generated/graphql";
+import { formDefaultValues } from "pages/admin/category";
 import React from "react";
 import { FormProvider, UseFormReturn } from "react-hook-form";
-import BeatLoader from "react-spinners/BeatLoader";
 import { toast } from "react-toastify";
-import { formDefaultValues } from "pages/admin/category";
-import Loading from "components/common/Loading";
 
 export interface IFormValues {
   name: string;
@@ -48,6 +46,7 @@ const CreateModal: React.FC<ICreateModal> = ({ onClose, isOpen, form }) => {
       onCompleted: () => {
         toast.success("Category created successfully");
         form.reset(formDefaultValues);
+        onClose();
       },
       onError: () => {},
     });
@@ -66,13 +65,6 @@ const CreateModal: React.FC<ICreateModal> = ({ onClose, isOpen, form }) => {
               <ModalCloseButton onClick={handleCloseModal} />
               <ModalBody>
                 <div className="bg-gray-100 w-full p-10 rounded-md flex flex-col">
-                  <CreateField
-                    title="Image"
-                    description="Upload your category image heres"
-                  >
-                    <ImageUpload />
-                  </CreateField>
-
                   <CreateField
                     title="Description"
                     description="Add your category details and necessary information from here"

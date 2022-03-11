@@ -37,14 +37,13 @@ interface NavItemProps {
 
 const LinkItems: Array<LinkItemProps> = [
   { name: "Home", icon: FiHome },
-  { name: "Trending", icon: FiTrendingUp },
+  { name: "Product", icon: FiTrendingUp },
   { name: "Category", icon: BiCategoryAlt },
   { name: "Explore", icon: FiCompass },
   { name: "Favourites", icon: FiStar },
   { name: "Settings", icon: FiSettings },
   { name: "Home1", icon: FiHome },
   { name: "Trending1", icon: FiTrendingUp },
-  { name: "Product", icon: FiCompass },
   { name: "Favourites1", icon: FiStar },
   { name: "Settings1", icon: FiSettings },
 ];
@@ -98,8 +97,8 @@ const NavItem = ({ icon, children, selected, href }: NavItemProps) => {
   return (
     <Link href={{ pathname: `/admin/${href}` }}>
       <a
-        className={`transition-all duration-200 flex items-center text-sm p-3 mx-2 rounded-md cursor-pointer text-gray-600 hover:bg-teal-500 hover:text-white ${
-          selected === href ? "bg-teal-500 text-white" : ""
+        className={`transition-all duration-200 flex items-center text-sm p-3 mx-2 rounded-md cursor-pointer hover:bg-teal-500 hover:text-white ${
+          selected === href ? "bg-teal-500 text-white" : "text-gray-600"
         }`}
       >
         {icon && <Icon as={icon} className="mr-4 text-md hover:text" />}
