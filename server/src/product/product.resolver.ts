@@ -1,10 +1,29 @@
-import { Args, Int, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  Int,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+  ObjectType,
+  Field,
+} from '@nestjs/graphql';
 import { Category } from './../category/entities/category.entity';
 import { CreateProductInput } from './dto/create-product.input';
 import { UpdateProductInput } from './dto/update-product.input';
 import { ProductImage } from './entities/product-image.entity';
 import { Product } from './entities/product.entity';
 import { ProductService } from './product.service';
+
+@ObjectType()
+export default class GetProductsResponse {
+  @Field(() => [Product])
+  list: Product[];
+
+  @Field(() => Int)
+  total: number;
+}
 
 @Resolver(() => Product)
 export class ProductResolver {
@@ -20,9 +39,9 @@ export class ProductResolver {
   //   return this.productService.test();
   // }
 
-  @Query(() => [Product], { name: 'products' })
-  findAll() {
-    return this.productService.findAll();
+  @Query(() => GetProductsResponse, { name: 'products' })
+  findAll(@Args('limit') limit: number, @Args('page') page: number) {
+    return this.productService.findAll({ limit, page });
   }
 
   @Query(() => Product, { name: 'product' })

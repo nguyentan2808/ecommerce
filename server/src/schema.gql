@@ -19,7 +19,7 @@ scalar DateTime
 type ProductImage {
   id: Float!
   url: String!
-  productId: Float!
+  productId: Product!
 }
 
 type Product {
@@ -29,10 +29,11 @@ type Product {
   price: Float!
   quantity: Float!
   status: String!
-  images: [ProductImage!]!
+  type: String!
   categories: [Category!]!
   createdAt: DateTime!
   updatedAt: DateTime!
+  images: [ProductImage!]!
 }
 
 type GetCategoriesResponse {
@@ -40,10 +41,15 @@ type GetCategoriesResponse {
   total: Int!
 }
 
+type GetProductsResponse {
+  list: [Product!]!
+  total: Int!
+}
+
 type Query {
   categories(limit: Float!, page: Float!): GetCategoriesResponse!
   category(name: String!): Category!
-  products: [Product!]!
+  products(limit: Float!, page: Float!): GetProductsResponse!
   product(id: Int!): Product!
 }
 
@@ -68,12 +74,24 @@ input UpdateCategoryInput {
 }
 
 input CreateProductInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  name: String!
+  description: String!
+  price: Int!
+  quantity: Int!
+  status: String!
+  type: String!
+  images: [String!]!
+  categories: [String!]!
 }
 
 input UpdateProductInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  name: String
+  description: String
+  price: Int
+  quantity: Int
+  status: String
+  type: String
+  images: [String!]
+  categories: [String!]
   id: Int!
 }

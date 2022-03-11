@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { getConnection, Repository } from 'typeorm';
-import { CategoryService } from './../category/category.service';
 import { CreateProductInput } from './dto/create-product.input';
 import { UpdateProductInput } from './dto/update-product.input';
 import { ProductImage } from './entities/product-image.entity';
@@ -14,12 +13,42 @@ export class ProductService {
     @InjectRepository(ProductImage) private productImageRepository: Repository<ProductImage>
   ) {}
 
-  create(createProductInput: CreateProductInput) {
-    return 'This action adds a new product';
+  async create(createProductInput: CreateProductInput) {
+    // const product = this.productRepository.create(createProductInput);
+    const { images } = createProductInput;
+
+    const result = await Promise.all(
+      [...images].map((item) => {
+        const productImage = new ProductImage();
+        productImage.url = item;
+        return this.productImageRepository.save(productImage);
+      })
+    );
+
+    const product = new Product();
+
+    Object.assign(product, createProductInput);
+    product.images = result;
+
+    console.log(product);
+    await this.productRepository.save(product);
+    return product;
   }
 
-  findAll() {
-    return this.productRepository.find();
+  async findAll({ limit, page }) {
+    const _list = this.productRepository.find({
+      relations: ['categories', 'images'],
+      skip: limit * (page - 1),
+      take: limit,
+    });
+
+    const _total = this.productRepository.count();
+    const [list, total] = await Promise.all([_list, _total]);
+
+    return {
+      list,
+      total,
+    };
   }
 
   findOne(id: number) {
@@ -35,6 +64,7 @@ export class ProductService {
   }
 
   getImages(id: number) {
+    console.log(id);
     return this.productImageRepository.find({ where: { productId: id } });
   }
 

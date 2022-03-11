@@ -1,5 +1,5 @@
-import { Category } from './../../category/entities/category.entity';
-import { Field, ObjectType, ResolveField } from '@nestjs/graphql';
+import { Field, Float, Int, ObjectType } from '@nestjs/graphql';
+import { IsInt } from 'class-validator';
 import {
   Column,
   CreateDateColumn,
@@ -10,9 +10,15 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Category } from './../../category/entities/category.entity';
 import { ProductImage } from './product-image.entity';
 
 enum ProductStatus {
+  PUBLISH = 'PUBLISH',
+  PRIVATE = 'PRIVATE',
+}
+
+enum ProductType {
   AVAILABLE = 'AVAILABLE',
   UNAVAILABLE = 'UNAVAILABLE',
 }
@@ -32,20 +38,24 @@ export class Product {
   @Column({ nullable: true })
   description: string;
 
-  @Field()
+  @Field(() => Float)
   @Column({ nullable: true })
   price: number;
 
-  @Field()
+  @Field(() => Float)
   @Column({ nullable: true })
   quantity: number;
 
   @Field()
-  @Column({ type: 'enum', enum: ProductStatus, default: ProductStatus.AVAILABLE })
+  @Column({ type: 'enum', enum: ProductStatus, default: ProductStatus.PUBLISH })
   status: string;
 
+  @Field()
+  @Column({ type: 'enum', enum: ProductType, default: ProductType.AVAILABLE })
+  type: string;
+
+  // @Field(() => [ProductImage])
   @OneToMany(() => ProductImage, (productImage) => productImage.product)
-  @Field(() => [ProductImage])
   images: ProductImage[];
 
   @Field(() => [Category])

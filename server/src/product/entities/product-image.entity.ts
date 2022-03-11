@@ -1,20 +1,20 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, Float, ObjectType } from '@nestjs/graphql';
 import { PrimaryGeneratedColumn, Column, Entity, ManyToOne } from 'typeorm';
 import { Product } from './product.entity';
 
 @Entity()
 @ObjectType()
 export class ProductImage {
-  @Field()
+  @Field(() => Float)
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Field()
+  @Field(() => String)
   @Column()
   url: string;
 
-  @Field()
-  @Column()
+  @Field(() => Product)
+  @Column({ nullable: true })
   productId: number;
 
   // @Field()
