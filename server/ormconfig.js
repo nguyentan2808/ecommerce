@@ -1,13 +1,11 @@
 module.exports = {
   type: 'postgres',
-  url: process.env.DATABASE_URL,
+  host: 'localhost',
+  port: 5432,
+  username: 'postgres',
+  password: process.env.DB_PASSWORD,
+  database: 'pickbazar',
   synchronize: true,
   logging: false,
   entities: ['dist/**/*.entity{.ts,.js}'],
-  ssl: true,
-  extra: {
-    ssl: {
-      rejectUnauthorized: false,
-    },
-  },
 };

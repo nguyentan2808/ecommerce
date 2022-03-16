@@ -4,6 +4,6 @@ import { ConfigModule } from '@nestjs/config';
 @Injectable()
 export class AppService {
   getHello(): string {
-    return process.env.DATABASE_URL;
+    return 'Hello world';
   }
 }

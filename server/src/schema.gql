@@ -50,7 +50,7 @@ type Query {
   categories(limit: Float!, page: Float!): GetCategoriesResponse!
   category(name: String!): Category!
   products(limit: Float!, page: Float!): GetProductsResponse!
-  product(id: Int!): Product!
+  product(id: Int!): Product
 }
 
 type Mutation {

@@ -34,17 +34,12 @@ export class ProductResolver {
     return this.productService.create(createProductInput);
   }
 
-  // @Query(() => Boolean)
-  // test() {
-  //   return this.productService.test();
-  // }
-
   @Query(() => GetProductsResponse, { name: 'products' })
   findAll(@Args('limit') limit: number, @Args('page') page: number) {
     return this.productService.findAll({ limit, page });
   }
 
-  @Query(() => Product, { name: 'product' })
+  @Query(() => Product, { name: 'product', nullable: true })
   findOne(@Args('id', { type: () => Int }) id: number) {
     return this.productService.findOne(id);
   }

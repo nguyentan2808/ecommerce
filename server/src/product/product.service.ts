@@ -52,7 +52,10 @@ export class ProductService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} product`;
+    return this.productRepository.findOne({
+      where: { id },
+      relations: ['categories', 'images'],
+    });
   }
 
   update(id: number, updateProductInput: UpdateProductInput) {
