@@ -5,7 +5,7 @@ import Landing from "components/modules/Customer/Landing";
 import Head from "next/head";
 import React from "react";
 
-const Index: React.FC & { layout: LayoutProps } = () => {
+const _Index: React.FC & { layout: LayoutProps } = () => {
   return (
     <>
       <Head>
@@ -20,6 +20,6 @@ const Index: React.FC & { layout: LayoutProps } = () => {
   );
 };
 
-Index.layout = CustomerLayout;
+_Index.layout = CustomerLayout;
 
-export default Index;
+export default _Index;

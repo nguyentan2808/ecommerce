@@ -1,9 +1,8 @@
-import React from "react";
-import Category from "components/modules/Admin/category";
 import AdminLayout from "components/layouts/Admin";
-import { LayoutProps } from "components/layouts/PageWithLayouts";
+import Category from "components/modules/Admin/category";
+import React from "react";
 
-const _Category: React.FC & { layout: LayoutProps } = () => {
+const _Category: React.FC & { layout: typeof AdminLayout } = () => {
   return <Category />;
 };
 
