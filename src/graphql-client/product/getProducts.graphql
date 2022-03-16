@@ -1,0 +1,22 @@
+query getProducts($limit: Float!, $page: Float!) {
+  products(limit: $limit, page: $page) {
+    total
+    list {
+      id
+      name
+      description
+      price
+      quantity
+      status
+      type
+      categories {
+        name
+      }
+      images {
+        url
+        id
+      }
+      createdAt
+    }
+  }
+}

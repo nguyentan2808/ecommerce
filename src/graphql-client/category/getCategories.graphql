@@ -1,0 +1,11 @@
+query getCategories($limit: Float!, $page: Float!) {
+  categories(limit: $limit, page: $page) {
+    total
+    list {
+      id
+      name
+      createdAt
+      description
+    }
+  }
+}
