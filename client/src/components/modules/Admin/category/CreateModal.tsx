@@ -14,10 +14,11 @@ import CreateField from "components/common/CreateField";
 import InputField from "components/common/InputField";
 import Loading from "components/common/Loading";
 import { useCreateCategoryMutation } from "generated/graphql";
-import { formDefaultValues } from "pages/admin/category";
 import React from "react";
 import { FormProvider, UseFormReturn } from "react-hook-form";
+import { useQueryClient } from "react-query";
 import { toast } from "react-toastify";
+import { FormDefaultValues } from "./Category";
 
 export interface IFormValues {
   name: string;
@@ -31,38 +32,43 @@ interface ICreateModal {
 }
 
 const CreateModal: React.FC<ICreateModal> = ({ onClose, isOpen, form }) => {
-  const [createCategory, createMutation] = useCreateCategoryMutation();
+  const {
+    mutate: create,
+    isLoading,
+    error,
+  } = useCreateCategoryMutation<Error>();
+
+  const queryClient = useQueryClient();
 
   const handleCloseModal = () => {
     onClose();
-    createMutation.reset();
-    form.reset(formDefaultValues);
+    form.reset(FormDefaultValues);
   };
 
   const onSubmit = async (value: IFormValues) => {
-    await createCategory({
-      variables: { createCategoryInput: value },
-      refetchQueries: ["getCategories"],
-      onCompleted: () => {
-        toast.success("Category created successfully");
-        form.reset(formDefaultValues);
-        onClose();
-      },
-      onError: () => {},
-    });
+    create(
+      { createCategoryInput: value },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries("getCategories");
+          handleCloseModal();
+          toast.success("Category created successfully");
+        },
+      }
+    );
   };
 
   return (
     <>
-      <Loading isLoading={createMutation.loading} />
+      <Loading isLoading={isLoading} />
 
-      <Modal isOpen={isOpen} onClose={onClose} size="6xl">
+      <Modal isOpen={isOpen} onClose={handleCloseModal} size="6xl">
         <ModalOverlay />
         <FormProvider {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <ModalContent>
               <ModalHeader>Create New Category</ModalHeader>
-              <ModalCloseButton onClick={handleCloseModal} />
+              <ModalCloseButton />
               <ModalBody>
                 <div className="bg-gray-100 w-full p-10 rounded-md flex flex-col">
                   <CreateField
@@ -84,14 +90,14 @@ const CreateModal: React.FC<ICreateModal> = ({ onClose, isOpen, form }) => {
                         name="description"
                         isRequired
                       />
-                      {createMutation?.error && (
+                      {error && (
                         <Alert
                           status="error"
                           variant="left-accent"
                           className="rounded-md"
                         >
                           <AlertIcon />
-                          {createMutation?.error.message}
+                          {error.message}
                         </Alert>
                       )}
                     </div>
@@ -100,11 +106,7 @@ const CreateModal: React.FC<ICreateModal> = ({ onClose, isOpen, form }) => {
               </ModalBody>
 
               <ModalFooter>
-                <Button
-                  type="submit"
-                  className="mr-2"
-                  disabled={createMutation.loading}
-                >
+                <Button type="submit" className="mr-2" isLoading={isLoading}>
                   Create
                 </Button>
                 <Button mr={3} variant="ghost" onClick={handleCloseModal}>

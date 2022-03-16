@@ -17,15 +17,16 @@ const TableFooter: React.FC<ITableFooterProps> = ({
   limit,
   setLimit,
 }) => {
+  const handleChangeLimit = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setLimit(Number(e.target.value));
+    setCurrentPage(1);
+  };
+
   return (
     <div className="flex gap-2 justify-end items-center">
       <div className="flex items-center gap-2">
         Rows per page:{" "}
-        <Select
-          w={16}
-          size="sm"
-          onChange={(e) => setLimit(Number(e.target.value))}
-        >
+        <Select value={limit} w={16} size="sm" onChange={handleChangeLimit}>
           {[5, 10, 15, 20].map((option, index) => (
             <option key={index} value={option}>
               {option}

@@ -9,10 +9,10 @@ import {
 } from "@chakra-ui/react";
 import Loading from "components/common/Loading";
 import { useRemoveCategoryMutation } from "generated/graphql";
-import { IFormDelete } from "pages/admin/category";
+import { IFormDelete } from "./Category";
 import React from "react";
 import { AiOutlineDelete } from "react-icons/ai";
-import { toast } from "react-toastify";
+import { useQueryClient } from "react-query";
 
 interface IDeleteModalProps {
   isOpen: boolean;
@@ -25,23 +25,24 @@ const DeleteModal: React.FC<IDeleteModalProps> = ({
   onClose,
   formDelete,
 }) => {
-  const [remove, { loading }] = useRemoveCategoryMutation();
+  const { mutate: remove, isLoading } = useRemoveCategoryMutation();
+  const queryClient = useQueryClient();
 
-  const handleDelete = () => {
-    remove({
-      variables: { id: formDelete.id },
-      onCompleted: () => {
-        toast.success("Category deleted successfully");
-        onClose();
-      },
-      onError: () => {},
-      refetchQueries: ["getCategories"],
-    });
+  const handleDelete = async () => {
+    remove(
+      { id: formDelete.id },
+      {
+        onSuccess: () => {
+          onClose();
+          queryClient.invalidateQueries("getCategories");
+        },
+      }
+    );
   };
 
   return (
     <>
-      <Loading isLoading={loading} />
+      <Loading isLoading={isLoading} />
 
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />

@@ -1,4 +1,4 @@
-import CartSideBar from "components/modules/CartSideBar";
+import CartSideBar from "components/modules/Customer/CartSideBar";
 import type { LayoutProps } from "../PageWithLayouts";
 import Footer from "./CustomerFooter";
 import NavBar from "./CustomerNavbar";

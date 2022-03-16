@@ -1,18 +1,11 @@
 import { useDisclosure } from "@chakra-ui/hooks";
-import {
-  Alert,
-  AlertIcon,
-  Button,
-  Checkbox,
-  Divider,
-  Image,
-} from "@chakra-ui/react";
+import { Alert, AlertIcon, Button, Checkbox, Divider } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as API from "api";
 import InputField from "components/common/InputField";
 import InputFieldPassword from "components/common/InputFieldPassword";
 import CustomerLayout from "components/layouts/Customer";
-import SignUpModal from "components/modules/SignUp";
+import SignUpModal from "components/modules/Customer/SignUp";
 import useI18n from "hooks/useI18n";
 import jwtDecode from "jwt-decode";
 import Head from "next/head";
@@ -94,7 +87,7 @@ const Login: React.FC & { layout: typeof CustomerLayout } = () => {
                 <div className="flex flex-row justify-between">
                   <Checkbox>{i18n.login.form_remember_me}</Checkbox>
                   <Link href="/forgot-password">
-                    <a className="text-blue-600">
+                    <a className="text-teal-500 font-semibold hover:underline">
                       {i18n.login.form_forgot_password}
                     </a>
                   </Link>
@@ -115,12 +108,12 @@ const Login: React.FC & { layout: typeof CustomerLayout } = () => {
 
             <div className="text-center">
               Don&apos;t have account?{" "}
-              <a
-                className="text-blue-600 hover:underline cursor-pointer"
+              <button
+                className="text-teal-500 font-semibold hover:underline"
                 onClick={onOpen}
               >
                 Sign-up
-              </a>
+              </button>
             </div>
 
             {/* Facebook */}

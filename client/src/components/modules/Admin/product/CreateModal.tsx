@@ -68,14 +68,13 @@ const customLabel = (label: string) => (
   <span className="text-sm opacity-80">{label}</span>
 );
 const CreateModal: React.FC<ICreateModal> = ({ onClose, isOpen, form }) => {
-  const [createProduct, createMutation] = useCreateProductMutation();
+  const { mutateAsync: create, isLoading, error } = useCreateProductMutation();
   const { data } = useGetAllCategoryNameQuery();
 
   const [categories, setCategories] = React.useState<string[]>([]);
 
   const handleCloseModal = () => {
     onClose();
-    createMutation.reset();
     form.reset(formDefaultValues);
     // TODO: reset previews images
   };
@@ -97,15 +96,15 @@ const CreateModal: React.FC<ICreateModal> = ({ onClose, isOpen, form }) => {
 
   return (
     <>
-      <Loading isLoading={createMutation.loading} />
+      <Loading isLoading={isLoading} />
 
-      <Modal isOpen={isOpen} onClose={onClose} size="6xl">
+      <Modal isOpen={isOpen} onClose={handleCloseModal} size="6xl">
         <ModalOverlay />
         <FormProvider {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <ModalContent>
               <ModalHeader>Create New Product</ModalHeader>
-              <ModalCloseButton onClick={handleCloseModal} />
+              <ModalCloseButton />
               <ModalBody>
                 <div className="bg-gray-100 w-full p-10 rounded-md flex flex-col">
                   <CreateField
@@ -218,14 +217,14 @@ const CreateModal: React.FC<ICreateModal> = ({ onClose, isOpen, form }) => {
                         )}
                       </FormControl>
 
-                      {createMutation?.error && (
+                      {error && (
                         <Alert
                           status="error"
                           variant="left-accent"
                           className="rounded-md"
                         >
                           <AlertIcon />
-                          {createMutation?.error.message}
+                          {error}
                         </Alert>
                       )}
                     </div>
@@ -234,11 +233,7 @@ const CreateModal: React.FC<ICreateModal> = ({ onClose, isOpen, form }) => {
               </ModalBody>
 
               <ModalFooter>
-                <Button
-                  type="submit"
-                  className="mr-2"
-                  disabled={createMutation.loading}
-                >
+                <Button type="submit" className="mr-2" isLoading={isLoading}>
                   Create
                 </Button>
                 <Button mr={3} variant="ghost" onClick={handleCloseModal}>

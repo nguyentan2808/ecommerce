@@ -1,9 +1,11 @@
-import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { ChakraProvider } from "@chakra-ui/react";
 import PageWithLayoutType from "components/layouts/PageWithLayouts";
 import { ThemeProvider } from "next-themes";
 import type { AppProps } from "next/app";
+import NextNProgress from "nextjs-progressbar";
 import React from "react";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "styles/globals.css";
@@ -24,19 +26,21 @@ function MyApp({ Component, pageProps }: AppLayoutProps) {
       </div>
     ));
 
-  const client = new ApolloClient({
-    uri: "http://localhost:5000/graphql",
-    cache: new InMemoryCache(),
-    connectToDevTools: true,
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+      },
+    },
   });
 
   return (
-    <ApolloProvider client={client}>
+    <QueryClientProvider client={queryClient}>
       <ThemeProvider attribute="class">
-        {/* <NextNProgress
-        color="#319795" // teal.500
-        options={{ showSpinner: false }}
-      /> */}
+        <NextNProgress
+          color="#009f7f" // teal.500
+          options={{ showSpinner: false }}
+        />
         <ChakraProvider theme={theme}>
           <Layout>
             <Component {...pageProps} />
@@ -50,7 +54,8 @@ function MyApp({ Component, pageProps }: AppLayoutProps) {
           pauseOnFocusLoss={false}
         />
       </ThemeProvider>
-    </ApolloProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 }
 

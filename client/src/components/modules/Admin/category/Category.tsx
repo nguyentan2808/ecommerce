@@ -10,14 +10,12 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import Loading from "components/common/Loading";
 import TableFooter from "components/common/TableFooter";
-import AdminLayout from "components/layouts/Admin";
-import DeleteModal from "components/modules/Admin/category/DeleteModal";
 import CreateModal, {
-  formDefaultValues,
-} from "components/modules/Admin/product/CreateModal";
+  IFormValues,
+} from "components/modules/Admin/category/CreateModal";
+import DeleteModal from "components/modules/Admin/category/DeleteModal";
 import { format } from "date-fns";
-import { Product, useGetProductsQuery } from "generated/graphql";
-import { usePreviousNonNullish } from "hooks/usePreviousNonNullish ";
+import { useGetCategoriesQuery } from "generated/graphql";
 import Head from "next/head";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -31,57 +29,68 @@ export interface IFormDelete {
   name: string;
 }
 
-const schema = Yup.object({
+const FormSchema = Yup.object({
   name: Yup.string().required("Name is required"),
   description: Yup.string().required("Detail is required."),
-  price: Yup.number().required("Price is required"),
-  quantity: Yup.number().required("Quantity is required"),
-  status: Yup.string().required("Status is required"),
-  type: Yup.string().required("Type is required"),
-  categories: Yup.array().required("Category is required"),
 }).required();
 
-const AdminProduct = () => {
+export const FormDefaultValues = {
+  name: "",
+  description: "",
+};
+
+const Category: React.FC = () => {
   const [currentPage, setCurrentPage] = React.useState(1);
   const [limit, setLimit] = React.useState(10);
   const [formDelete, setFormDelete] = React.useState<IFormDelete>({
-    id: NaN,
+    id: -1,
     name: "",
   });
 
-  const modalCreate = useDisclosure();
-  const modalDelete = useDisclosure();
+  const {
+    isOpen: isOpenCreate,
+    onOpen: setOpenCreate,
+    onClose: setCloseCreate,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenDelete,
+    onOpen: setOpenDelete,
+    onClose: setCloseDelete,
+  } = useDisclosure();
+
+  const { isLoading, data, error } = useGetCategoriesQuery(
+    {
+      page: currentPage,
+      limit,
+    },
+    { keepPreviousData: true }
+  );
+  const categoriesData = data?.categories;
 
   const form = useForm({
-    defaultValues: formDefaultValues,
-    resolver: yupResolver(schema),
+    defaultValues: FormDefaultValues,
+    resolver: yupResolver(FormSchema),
   });
 
-  const { isLoading, data, error } = useGetProductsQuery({
-    page: currentPage,
-    limit,
-  });
-  const prevData = usePreviousNonNullish(data);
-  const productsData = data?.products ?? prevData?.products;
-
-  const handleEdit = (product: Product) => {
-    const { images, categories, ...rest } = product;
-
-    const _categories = product.categories.map((category) => category.name);
-    const _images = images.map((image) => image.url);
-    form.reset({ ...rest, images: _images, categories: _categories });
-
-    modalCreate.onOpen();
+  const handleEdit = (category: IFormValues) => {
+    const { name, description } = category;
+    setOpenCreate();
+    form.reset({ name, description });
   };
 
-  const handleDelete = (product: { id: number; name: string }) => {
-    setFormDelete({ id: product.id, name: product.name });
-    modalDelete.onOpen();
+  const handleDelete = (category: {
+    id: number;
+    name: string;
+    createdAt: any;
+    description: string;
+  }) => {
+    setFormDelete({ id: category.id, name: category.name });
+    setOpenDelete();
   };
 
   const emptyRows =
-    productsData?.list.length && productsData.list.length % limit !== 0
-      ? limit - (productsData.list.length % limit)
+    categoriesData?.list.length && categoriesData.list.length % limit !== 0
+      ? limit - (categoriesData.list.length % limit)
       : 0;
 
   return (
@@ -106,7 +115,7 @@ const AdminProduct = () => {
             py={4}
             w={{ base: "full", md: "auto" }}
             leftIcon={<AiOutlinePlus className="text-sm" />}
-            onClick={modalCreate.onOpen}
+            onClick={setOpenCreate}
           >
             <p className="text-sm">Add category</p>
           </Button>
@@ -122,47 +131,33 @@ const AdminProduct = () => {
         <table className="w-full mt-6 shadow-md">
           <thead>
             <tr>
-              <th className="text-left w-10">ID</th>
+              <th className="text-left w-10">STT</th>
               <th className="text-left">Name</th>
-              <th className="text-left w-1/4">Description</th>
-              <th className="text-left">Price</th>
-              <th className="text-left">Quantity</th>
-              <th className="text-center">Status</th>
-              <th className="text-center">Type</th>
-              <th className="text-right">Create At</th>
+              <th className="text-left w-1/3">Description</th>
+              <th className="w-1/5 text-right">Create At</th>
               <th className="w-10">Action</th>
             </tr>
           </thead>
           <tbody>
-            {productsData?.list.map((product, index) => (
+            {categoriesData?.list.map((category, index) => (
               <tr key={index} className="bg-white hover:bg-gray-100 h-12">
-                <td className="text-center">{product.id}</td>
-                <td>{product.name}</td>
-                <td>{product.description}</td>
-                <td>{product.price}</td>
-                <td>{product.quantity}</td>
-                <td className="text-center">
-                  <div className="bg-teal-500 inline-flex text-xs text-white font-semibold rounded-md items-center justify-center py-0.5 px-2">
-                    {product.status}
-                  </div>
+                <td className="text-center fon-bold">
+                  {(currentPage - 1) * limit + index + 1}
                 </td>
-                <td className="text-center">
-                  <div className="bg-teal-500 inline-flex text-xs text-white font-semibold rounded-md items-center justify-center py-0.5 px-2">
-                    {product.type}
-                  </div>
-                </td>
+                <td>{category.name}</td>
+                <td>{category.description}</td>
                 <td className="text-right">
-                  {format(new Date(product.createdAt), "MM/dd/yyyy")}
+                  {format(new Date(category.createdAt), "MM/dd/yyyy")}
                 </td>
                 <td>
                   <div className="flex justify-end gap-2">
                     <AiOutlineDelete
                       className="text-red-500 text-lg cursor-pointer"
-                      onClick={() => handleDelete(product)}
+                      onClick={() => handleDelete(category)}
                     />
                     <FiEdit
                       className="text-lg cursor-pointer opacity-70"
-                      onClick={() => handleEdit(product as Product)}
+                      onClick={() => handleEdit(category)}
                     />
                   </div>
                 </td>
@@ -170,15 +165,15 @@ const AdminProduct = () => {
             ))}
             {[...Array(emptyRows)].map((_item, index) => (
               <tr key={index} className="bg-white hover:bg-gray-100 h-12">
-                <td colSpan={9} />
+                <td colSpan={5} />
               </tr>
             ))}
           </tbody>
           <tfoot>
             <tr>
-              <td className="text-right p-1" colSpan={9}>
+              <td className="text-right p-1" colSpan={5}>
                 <TableFooter
-                  count={productsData?.total || 10}
+                  count={categoriesData?.total || 10}
                   currentPage={currentPage}
                   setCurrentPage={setCurrentPage}
                   limit={limit}
@@ -189,20 +184,14 @@ const AdminProduct = () => {
           </tfoot>
         </table>
       </span>
-      <CreateModal
-        onClose={modalCreate.onClose}
-        isOpen={modalCreate.isOpen}
-        form={form}
-      />
+      <CreateModal onClose={setCloseCreate} isOpen={isOpenCreate} form={form} />
       <DeleteModal
-        isOpen={modalDelete.isOpen}
-        onClose={modalDelete.onClose}
+        isOpen={isOpenDelete}
+        onClose={setCloseDelete}
         formDelete={formDelete}
       />
     </>
   );
 };
 
-AdminProduct.layout = AdminLayout;
-
-export default AdminProduct;
+export default Category;
