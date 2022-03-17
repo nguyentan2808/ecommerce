@@ -1,5 +1,4 @@
-import { Field, Float, Int, ObjectType } from '@nestjs/graphql';
-import { IsInt } from 'class-validator';
+import { Field, Float, ObjectType } from '@nestjs/graphql';
 import {
   Column,
   CreateDateColumn,
@@ -39,11 +38,11 @@ export class Product {
   description: string;
 
   @Field(() => Float)
-  @Column({ nullable: true })
+  @Column({ type: 'float', nullable: true })
   price: number;
 
   @Field(() => Float)
-  @Column({ nullable: true })
+  @Column({ type: 'float', nullable: true })
   quantity: number;
 
   @Field()
@@ -58,8 +57,8 @@ export class Product {
   @OneToMany(() => ProductImage, (productImage) => productImage.product)
   images: ProductImage[];
 
-  @Field(() => [Category])
-  @ManyToMany(() => Category, (category) => category.products)
+  // @Field(() => [Category])
+  @ManyToMany(() => Category, (category) => category.products, { onDelete: 'SET NULL' })
   @JoinTable({ name: 'product_categories' })
   categories: Category[];
 

@@ -1,8 +1,8 @@
-import React from "react";
-import ForgotPassword from "components/modules/Customer/ForgotPassword";
 import CustomerLayout from "components/layouts/Customer";
+import ForgotPassword from "components/modules/Customer/ForgotPassword";
+import React from "react";
 
-const _ForgotPassword = () => {
+const _ForgotPassword: React.FC & { layout: typeof CustomerLayout } = () => {
   return <ForgotPassword />;
 };
 

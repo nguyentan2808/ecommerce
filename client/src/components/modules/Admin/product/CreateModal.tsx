@@ -23,8 +23,10 @@ import {
   useGetAllCategoryNameQuery,
 } from "generated/graphql";
 import React from "react";
-import { FormProvider, UseFormReturn } from "react-hook-form";
+import { FormProvider, UseFormReturn, useWatch } from "react-hook-form";
 import { IoClose } from "react-icons/io5";
+import { useQueryClient } from "react-query";
+import { toast } from "react-toastify";
 
 export interface IFormValues {
   name: string;
@@ -52,6 +54,8 @@ interface ICreateModal {
   onClose: () => void;
   isOpen: boolean;
   form: UseFormReturn<IFormValues, object>;
+  formUpdate: number | null;
+  setFormUpdate: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 const typeOptions = [
@@ -67,19 +71,28 @@ const statusOptions = [
 const customLabel = (label: string) => (
   <span className="text-sm opacity-80">{label}</span>
 );
-const CreateModal: React.FC<ICreateModal> = ({ onClose, isOpen, form }) => {
-  const { mutateAsync: create, isLoading, error } = useCreateProductMutation();
+const CreateModal: React.FC<ICreateModal> = ({
+  onClose,
+  isOpen,
+  form,
+  formUpdate,
+  setFormUpdate,
+}) => {
+  const { mutate: create, isLoading, error } = useCreateProductMutation();
   const { data } = useGetAllCategoryNameQuery();
+  const queryClient = useQueryClient();
 
   const [categories, setCategories] = React.useState<string[]>([]);
 
   const handleCloseModal = () => {
     onClose();
+    setFormUpdate(null);
     form.reset(formDefaultValues);
-    // TODO: reset previews images
   };
 
   const onSubmit = async (value: IFormValues) => {
+    // form.setValue("categories", categories);
+
     // await createProduct({
     //   variables: { createProductInput: value },
     //   refetchQueries: ["getProducts"],
@@ -91,8 +104,46 @@ const CreateModal: React.FC<ICreateModal> = ({ onClose, isOpen, form }) => {
     //     console.log(err);
     //   },
     // });
+
+    if (!formUpdate) {
+      create(
+        { createProductInput: value },
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries("getProducts");
+            toast.success("Product created successfully");
+            handleCloseModal();
+          },
+        }
+      );
+    } else {
+    }
+
     console.log(value);
   };
+
+  const handleChangeCategories = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const index = categories.findIndex(
+      (category) => category === e.target.value
+    );
+
+    if (index < 0) form.setValue("categories", [...categories, e.target.value]);
+  };
+
+  const handleRemoveCategory = (category: string) => {
+    const newArray = categories.filter((item) => item !== category);
+
+    form.setValue("categories", newArray);
+  };
+
+  const watchCategories = useWatch({
+    control: form.control,
+    name: "categories",
+  });
+
+  React.useEffect(() => {
+    setCategories(watchCategories);
+  }, [watchCategories]);
 
   return (
     <>
@@ -147,7 +198,7 @@ const CreateModal: React.FC<ICreateModal> = ({ onClose, isOpen, form }) => {
                         label={customLabel("Status")}
                         list={statusOptions}
                         name="status"
-                        placeholder=""
+                        placeholder="Select Status"
                       >
                         {(item) => (
                           <option key={item.value} value={item.value}>
@@ -161,7 +212,7 @@ const CreateModal: React.FC<ICreateModal> = ({ onClose, isOpen, form }) => {
                         label={customLabel("Type")}
                         list={typeOptions}
                         name="type"
-                        placeholder=""
+                        placeholder="Select type"
                       >
                         {(item) => (
                           <option key={item.value} value={item.value}>
@@ -171,21 +222,8 @@ const CreateModal: React.FC<ICreateModal> = ({ onClose, isOpen, form }) => {
                       </SelectField>
 
                       <FormControl>
-                        <FormLabel htmlFor="email">
-                          {customLabel("Category")}
-                        </FormLabel>
-                        <Select
-                          onChange={(e) => {
-                            const index = categories.findIndex(
-                              (category) => category === e.target.value
-                            );
-                            if (index < 0)
-                              setCategories((prev) => [
-                                ...prev,
-                                e.target.value,
-                              ]);
-                          }}
-                        >
+                        <FormLabel>{customLabel("Categories")}</FormLabel>
+                        <Select onChange={handleChangeCategories}>
                           {data?.categories?.list.map((item) => (
                             <option key={item.id} value={item.name}>
                               {item.name}
@@ -202,12 +240,8 @@ const CreateModal: React.FC<ICreateModal> = ({ onClose, isOpen, form }) => {
                               >
                                 <p>{category}</p>
                                 <div
-                                  onClick={() =>
-                                    setCategories((prev) =>
-                                      prev.filter((item) => item !== category)
-                                    )
-                                  }
-                                  className="px-1 flex items-center justify-center hover:bg-teal-500 hover:text-white"
+                                  onClick={() => handleRemoveCategory(category)}
+                                  className="px-1 flex items-center justify-center hover:bg-teal-500 hover:text-white cursor-pointer"
                                 >
                                   <IoClose />
                                 </div>
@@ -224,7 +258,7 @@ const CreateModal: React.FC<ICreateModal> = ({ onClose, isOpen, form }) => {
                           className="rounded-md"
                         >
                           <AlertIcon />
-                          {error}
+                          {JSON.stringify(error)}
                         </Alert>
                       )}
                     </div>

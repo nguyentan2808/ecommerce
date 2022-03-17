@@ -29,7 +29,7 @@ export class Category {
   createdAt: Date;
 
   @Field(() => [Product])
-  @ManyToMany(() => Product, (product) => product.categories)
+  @ManyToMany(() => Product, (product) => product.categories, { onDelete: 'SET NULL' })
   products: Product[];
 
   @Field()

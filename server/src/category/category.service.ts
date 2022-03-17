@@ -38,6 +38,10 @@ export class CategoryService {
     };
   }
 
+  async findByName(name: string) {
+    return this.categoryRepository.findOne({ where: { name } });
+  }
+
   async getProducts(id: number) {
     const category = await this.categoryRepository.findOne({
       where: { id },

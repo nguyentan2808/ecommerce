@@ -10,7 +10,7 @@ interface IProduct {
   _id: string;
 }
 
-const oke: React.FC<IProducts> = ({ products }) => {
+const Oke: React.FC<IProducts> = ({ products }) => {
   return (
     <div>
       {products.map((product: IProduct) => (
@@ -35,4 +35,4 @@ export async function getStaticProps() {
   };
 }
 
-export default oke;
+export default Oke;

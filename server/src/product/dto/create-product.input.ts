@@ -1,8 +1,5 @@
-import { Category } from './../../category/entities/category.entity';
-import { ProductImage } from './../entities/product-image.entity';
-import { Field, InputType, Int } from '@nestjs/graphql';
+import { Field, Float, InputType } from '@nestjs/graphql';
 import { IsInt, IsNotEmpty } from 'class-validator';
-import { FileUpload } from 'graphql-upload';
 
 @InputType()
 export class CreateProductInput {
@@ -15,12 +12,11 @@ export class CreateProductInput {
   description: string;
 
   @IsNotEmpty()
-  @Field(() => Int)
-  @IsInt()
+  @Field(() => Float)
   price: number;
 
   @IsNotEmpty()
-  @Field(() => Int)
+  @Field(() => Float)
   quantity: number;
 
   @IsNotEmpty()

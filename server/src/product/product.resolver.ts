@@ -44,9 +44,11 @@ export class ProductResolver {
     return this.productService.findOne(id);
   }
 
-  @Mutation(() => Product)
+  @Mutation(() => Boolean)
   updateProduct(@Args('updateProductInput') updateProductInput: UpdateProductInput) {
-    return this.productService.update(updateProductInput.id, updateProductInput);
+    console.log(updateProductInput);
+    // return this.productService.update(updateProductInput.id, updateProductInput);
+    return true;
   }
 
   @Mutation(() => Product)

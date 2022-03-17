@@ -30,10 +30,10 @@ type Product {
   quantity: Float!
   status: String!
   type: String!
-  categories: [Category!]!
   createdAt: DateTime!
   updatedAt: DateTime!
   images: [ProductImage!]!
+  categories: [Category!]!
 }
 
 type GetCategoriesResponse {
@@ -58,7 +58,7 @@ type Mutation {
   updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
   removeCategory(id: Int!): Boolean!
   createProduct(createProductInput: CreateProductInput!): Product!
-  updateProduct(updateProductInput: UpdateProductInput!): Product!
+  updateProduct(updateProductInput: UpdateProductInput!): Boolean!
   removeProduct(id: Int!): Product!
 }
 
@@ -76,8 +76,8 @@ input UpdateCategoryInput {
 input CreateProductInput {
   name: String!
   description: String!
-  price: Int!
-  quantity: Int!
+  price: Float!
+  quantity: Float!
   status: String!
   type: String!
   images: [String!]!
@@ -85,13 +85,13 @@ input CreateProductInput {
 }
 
 input UpdateProductInput {
-  name: String
-  description: String
-  price: Int
-  quantity: Int
-  status: String
-  type: String
-  images: [String!]
-  categories: [String!]
-  id: Int!
+  name: String!
+  description: String!
+  price: Float!
+  quantity: Float!
+  status: String!
+  type: String!
+  images: [String!]!
+  categories: [String!]!
+  id: Float!
 }
