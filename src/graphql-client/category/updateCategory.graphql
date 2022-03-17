@@ -1,0 +1,5 @@
+mutation updateCategory($updateCategoryInput: UpdateCategoryInput!) {
+  updateCategory(updateCategoryInput: $updateCategoryInput) {
+    name
+  }
+}

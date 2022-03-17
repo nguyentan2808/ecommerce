@@ -10,7 +10,7 @@ interface IImageUploadProps {
   isMultiple?: boolean;
 }
 
-const thumbnailUrl = (id: string) => {
+export const thumbnailUrl = (id: string) => {
   return `https://res.cloudinary.com/nguyentan2808/image/upload/c_thumb,w_200,g_face/${id}`;
 };
 
@@ -19,9 +19,10 @@ export const fullSizeUrl = (id: string) => {
 };
 
 const ImageUpload: React.FC<IImageUploadProps> = ({ isMultiple = false }) => {
-  const { setValue, getValues } = useFormContext();
   const [previews, setPreviews] = React.useState([]);
   const [isLoading, setLoading] = React.useState(false);
+
+  const { setValue, getValues } = useFormContext();
 
   const onDrop = React.useCallback(async (files) => {
     const url = "https://api.cloudinary.com/v1_1/nguyentan2808/image/upload";
@@ -60,8 +61,6 @@ const ImageUpload: React.FC<IImageUploadProps> = ({ isMultiple = false }) => {
       setPreviews(watchImages);
     }
   }, [watchImages]);
-
-  console.log(previews);
 
   return (
     <>

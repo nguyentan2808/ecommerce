@@ -18,13 +18,17 @@ import ImageUpload from "components/common/ImageUpload";
 import InputField from "components/common/InputField";
 import Loading from "components/common/Loading";
 import SelectField from "components/common/SelectField";
+import TextAreaField from "components/common/TextAreaField";
 import {
   useCreateProductMutation,
   useGetAllCategoryNameQuery,
+  useUpdateProductMutation,
 } from "generated/graphql";
 import React from "react";
-import { FormProvider, UseFormReturn } from "react-hook-form";
+import { FormProvider, UseFormReturn, useWatch } from "react-hook-form";
 import { IoClose } from "react-icons/io5";
+import { useQueryClient } from "react-query";
+import { toast } from "react-toastify";
 
 export interface IFormValues {
   name: string;
@@ -52,6 +56,8 @@ interface ICreateModal {
   onClose: () => void;
   isOpen: boolean;
   form: UseFormReturn<IFormValues, object>;
+  formUpdate: number | null;
+  setFormUpdate: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 const typeOptions = [
@@ -67,36 +73,82 @@ const statusOptions = [
 const customLabel = (label: string) => (
   <span className="text-sm opacity-80">{label}</span>
 );
-const CreateModal: React.FC<ICreateModal> = ({ onClose, isOpen, form }) => {
-  const { mutateAsync: create, isLoading, error } = useCreateProductMutation();
-  const { data } = useGetAllCategoryNameQuery();
+const CreateModal: React.FC<ICreateModal> = ({
+  onClose,
+  isOpen,
+  form,
+  formUpdate,
+  setFormUpdate,
+}) => {
+  const createMutation = useCreateProductMutation<Error>();
+  const updateMutation = useUpdateProductMutation<Error>();
+  const categoryQuery = useGetAllCategoryNameQuery();
+  const queryClient = useQueryClient();
 
   const [categories, setCategories] = React.useState<string[]>([]);
 
   const handleCloseModal = () => {
     onClose();
+    setFormUpdate(null);
     form.reset(formDefaultValues);
-    // TODO: reset previews images
   };
 
   const onSubmit = async (value: IFormValues) => {
-    // await createProduct({
-    //   variables: { createProductInput: value },
-    //   refetchQueries: ["getProducts"],
-    //   onCompleted: () => {
-    //     toast.success("Category created successfully");
-    //     handleCloseModal();
-    //   },
-    //   onError: (err) => {
-    //     console.log(err);
-    //   },
-    // });
+    if (!formUpdate) {
+      createMutation.mutate(
+        { createProductInput: value },
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries("getProducts");
+            toast.success("Product created successfully");
+            handleCloseModal();
+          },
+        }
+      );
+    } else {
+      updateMutation.mutate(
+        { updateProductInput: { ...value, id: formUpdate } },
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries("getProducts");
+            toast.success("Product updated successfully");
+            handleCloseModal();
+          },
+        }
+      );
+    }
+
     console.log(value);
   };
 
+  const handleChangeCategories = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const index = categories.findIndex(
+      (category) => category === e.target.value
+    );
+
+    if (index < 0) form.setValue("categories", [...categories, e.target.value]);
+  };
+
+  const handleRemoveCategory = (category: string) => {
+    const newArray = categories.filter((item) => item !== category);
+
+    form.setValue("categories", newArray);
+  };
+
+  const watchCategories = useWatch({
+    control: form.control,
+    name: "categories",
+  });
+
+  React.useEffect(() => {
+    setCategories(watchCategories);
+  }, [watchCategories]);
+
   return (
     <>
-      <Loading isLoading={isLoading} />
+      <Loading
+        isLoading={createMutation.isLoading || updateMutation.isLoading}
+      />
 
       <Modal isOpen={isOpen} onClose={handleCloseModal} size="6xl">
         <ModalOverlay />
@@ -124,11 +176,12 @@ const CreateModal: React.FC<ICreateModal> = ({ onClose, isOpen, form }) => {
                         name="name"
                         isRequired
                       />
-                      <InputField
+                      <TextAreaField
                         label={customLabel("Description")}
                         name="description"
                         isRequired
                       />
+
                       <InputField
                         label={customLabel("Price")}
                         name="price"
@@ -147,7 +200,7 @@ const CreateModal: React.FC<ICreateModal> = ({ onClose, isOpen, form }) => {
                         label={customLabel("Status")}
                         list={statusOptions}
                         name="status"
-                        placeholder=""
+                        placeholder="Select Status"
                       >
                         {(item) => (
                           <option key={item.value} value={item.value}>
@@ -161,7 +214,7 @@ const CreateModal: React.FC<ICreateModal> = ({ onClose, isOpen, form }) => {
                         label={customLabel("Type")}
                         list={typeOptions}
                         name="type"
-                        placeholder=""
+                        placeholder="Select type"
                       >
                         {(item) => (
                           <option key={item.value} value={item.value}>
@@ -171,22 +224,12 @@ const CreateModal: React.FC<ICreateModal> = ({ onClose, isOpen, form }) => {
                       </SelectField>
 
                       <FormControl>
-                        <FormLabel htmlFor="email">
-                          {customLabel("Category")}
-                        </FormLabel>
+                        <FormLabel>{customLabel("Categories")}</FormLabel>
                         <Select
-                          onChange={(e) => {
-                            const index = categories.findIndex(
-                              (category) => category === e.target.value
-                            );
-                            if (index < 0)
-                              setCategories((prev) => [
-                                ...prev,
-                                e.target.value,
-                              ]);
-                          }}
+                          placeholder="Select Categories"
+                          onChange={handleChangeCategories}
                         >
-                          {data?.categories?.list.map((item) => (
+                          {categoryQuery.data?.categories.list.map((item) => (
                             <option key={item.id} value={item.name}>
                               {item.name}
                             </option>
@@ -202,12 +245,8 @@ const CreateModal: React.FC<ICreateModal> = ({ onClose, isOpen, form }) => {
                               >
                                 <p>{category}</p>
                                 <div
-                                  onClick={() =>
-                                    setCategories((prev) =>
-                                      prev.filter((item) => item !== category)
-                                    )
-                                  }
-                                  className="px-1 flex items-center justify-center hover:bg-teal-500 hover:text-white"
+                                  onClick={() => handleRemoveCategory(category)}
+                                  className="px-1 flex items-center justify-center hover:bg-teal-500 hover:text-white cursor-pointer"
                                 >
                                   <IoClose />
                                 </div>
@@ -217,14 +256,15 @@ const CreateModal: React.FC<ICreateModal> = ({ onClose, isOpen, form }) => {
                         )}
                       </FormControl>
 
-                      {error && (
+                      {(createMutation.error || updateMutation.error) && (
                         <Alert
                           status="error"
                           variant="left-accent"
                           className="rounded-md"
                         >
                           <AlertIcon />
-                          {error}
+                          {createMutation.error?.message ||
+                            updateMutation.error?.message}
                         </Alert>
                       )}
                     </div>
@@ -233,8 +273,14 @@ const CreateModal: React.FC<ICreateModal> = ({ onClose, isOpen, form }) => {
               </ModalBody>
 
               <ModalFooter>
-                <Button type="submit" className="mr-2" isLoading={isLoading}>
-                  Create
+                <Button
+                  type="submit"
+                  className="mr-2"
+                  isLoading={
+                    createMutation.isLoading || updateMutation.isLoading
+                  }
+                >
+                  {formUpdate ? "Update" : "Create"}
                 </Button>
                 <Button mr={3} variant="ghost" onClick={handleCloseModal}>
                   Close

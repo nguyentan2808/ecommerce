@@ -13,7 +13,11 @@ import {
 import CreateField from "components/common/CreateField";
 import InputField from "components/common/InputField";
 import Loading from "components/common/Loading";
-import { useCreateCategoryMutation } from "generated/graphql";
+import TextAreaField from "components/common/TextAreaField";
+import {
+  useCreateCategoryMutation,
+  useUpdateCategoryMutation,
+} from "generated/graphql";
 import React from "react";
 import { FormProvider, UseFormReturn } from "react-hook-form";
 import { useQueryClient } from "react-query";
@@ -29,38 +33,59 @@ interface ICreateModal {
   onClose: () => void;
   isOpen: boolean;
   form: UseFormReturn<{ name: string; description: string }, object>;
+  formUpdate: number | null;
+  setFormUpdate: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
-const CreateModal: React.FC<ICreateModal> = ({ onClose, isOpen, form }) => {
-  const {
-    mutate: create,
-    isLoading,
-    error,
-  } = useCreateCategoryMutation<Error>();
+const CreateModal: React.FC<ICreateModal> = ({
+  onClose,
+  isOpen,
+  form,
+  formUpdate,
+  setFormUpdate,
+}) => {
+  const createMutation = useCreateCategoryMutation<Error>();
+  const updateMutation = useUpdateCategoryMutation<Error>();
 
   const queryClient = useQueryClient();
 
   const handleCloseModal = () => {
     onClose();
+    setFormUpdate(null);
     form.reset(FormDefaultValues);
   };
 
   const onSubmit = async (value: IFormValues) => {
-    create(
-      { createCategoryInput: value },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries("getCategories");
-          handleCloseModal();
-          toast.success("Category created successfully");
-        },
-      }
-    );
+    if (!formUpdate) {
+      createMutation.mutate(
+        { createCategoryInput: value },
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries("getCategories");
+            handleCloseModal();
+            toast.success("Category created successfully");
+          },
+        }
+      );
+    } else {
+      updateMutation.mutate(
+        { updateCategoryInput: { ...value, id: formUpdate } },
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries("getCategories");
+            handleCloseModal();
+            toast.success("Category update successfully");
+          },
+        }
+      );
+    }
   };
 
   return (
     <>
-      <Loading isLoading={isLoading} />
+      <Loading
+        isLoading={createMutation.isLoading || updateMutation.isLoading}
+      />
 
       <Modal isOpen={isOpen} onClose={handleCloseModal} size="6xl">
         <ModalOverlay />
@@ -81,7 +106,7 @@ const CreateModal: React.FC<ICreateModal> = ({ onClose, isOpen, form }) => {
                         name="name"
                         isRequired
                       />
-                      <InputField
+                      <TextAreaField
                         label={
                           <span className="text-sm opacity-80">
                             Description
@@ -90,14 +115,15 @@ const CreateModal: React.FC<ICreateModal> = ({ onClose, isOpen, form }) => {
                         name="description"
                         isRequired
                       />
-                      {error && (
+                      {(createMutation.error || updateMutation.error) && (
                         <Alert
                           status="error"
                           variant="left-accent"
                           className="rounded-md"
                         >
                           <AlertIcon />
-                          {error.message}
+                          {createMutation.error?.message ||
+                            updateMutation.error?.message}
                         </Alert>
                       )}
                     </div>
@@ -106,8 +132,14 @@ const CreateModal: React.FC<ICreateModal> = ({ onClose, isOpen, form }) => {
               </ModalBody>
 
               <ModalFooter>
-                <Button type="submit" className="mr-2" isLoading={isLoading}>
-                  Create
+                <Button
+                  type="submit"
+                  className="mr-2"
+                  isLoading={
+                    createMutation.isLoading || updateMutation.isLoading
+                  }
+                >
+                  {formUpdate ? "Update" : "Create"}
                 </Button>
                 <Button mr={3} variant="ghost" onClick={handleCloseModal}>
                   Close

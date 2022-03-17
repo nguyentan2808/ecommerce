@@ -8,15 +8,20 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
+import DeleteModal from "components/common/DeleteModal";
+import { thumbnailUrl } from "components/common/ImageUpload";
 import Loading from "components/common/Loading";
 import TableFooter from "components/common/TableFooter";
-import DeleteModal from "components/modules/Admin/category/DeleteModal";
 import CreateModal, {
   formDefaultValues,
 } from "components/modules/Admin/product/CreateModal";
 import { format } from "date-fns";
-import { Product, useGetProductsQuery } from "generated/graphql";
-import { usePreviousNonNullish } from "hooks/usePreviousNonNullish ";
+import {
+  Product,
+  useGetProductsQuery,
+  useRemoveProductMutation,
+} from "generated/graphql";
+import Image from "next/image";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { AiOutlineDelete, AiOutlinePlus } from "react-icons/ai";
@@ -46,6 +51,7 @@ const AdminProduct = () => {
     id: NaN,
     name: "",
   });
+  const [formUpdate, setFormUpdate] = React.useState<number | null>(null);
 
   const modalCreate = useDisclosure();
   const modalDelete = useDisclosure();
@@ -55,20 +61,42 @@ const AdminProduct = () => {
     resolver: yupResolver(schema),
   });
 
-  const { isLoading, data, error } = useGetProductsQuery({
-    page: currentPage,
-    limit,
-  });
-  const prevData = usePreviousNonNullish(data);
-  const productsData = data?.products ?? prevData?.products;
+  const { isLoading, data, error } = useGetProductsQuery(
+    {
+      page: currentPage,
+      limit,
+    },
+    { keepPreviousData: true }
+  );
+  const removeMutation = useRemoveProductMutation();
 
   const handleEdit = (product: Product) => {
-    const { images, categories, ...rest } = product;
+    const {
+      images,
+      categories,
+      name,
+      price,
+      status,
+      type,
+      description,
+      quantity,
+    } = product;
 
-    const _categories = product.categories.map((category) => category.name);
+    const _categories = categories.map((category) => category.name);
     const _images = images.map((image) => image.url);
-    form.reset({ ...rest, images: _images, categories: _categories });
 
+    form.reset({
+      name,
+      price,
+      status,
+      type,
+      description,
+      quantity,
+      images: _images,
+      categories: _categories,
+    });
+
+    setFormUpdate(product.id);
     modalCreate.onOpen();
   };
 
@@ -78,8 +106,8 @@ const AdminProduct = () => {
   };
 
   const emptyRows =
-    productsData?.list.length && productsData.list.length % limit !== 0
-      ? limit - (productsData.list.length % limit)
+    data?.products.list.length && data?.products.list.length % limit !== 0
+      ? limit - (data?.products.list.length % limit)
       : 0;
 
   return (
@@ -110,15 +138,16 @@ const AdminProduct = () => {
       {error && (
         <Alert status="error" variant="left-accent" className="rounded-md my-4">
           <AlertIcon />
-          {error}
+          {JSON.stringify(error)}
         </Alert>
       )}
       <span className="w-full overflow-x-auto overflow-y-hidden">
         <table className="w-full mt-6 shadow-md">
           <thead>
             <tr>
-              <th className="text-left w-10">ID</th>
+              <th className="text-left w-10">STT</th>
               <th className="text-left">Name</th>
+              <th className="text-left">Image</th>
               <th className="text-left w-1/4">Description</th>
               <th className="text-left">Price</th>
               <th className="text-left">Quantity</th>
@@ -129,12 +158,34 @@ const AdminProduct = () => {
             </tr>
           </thead>
           <tbody>
-            {productsData?.list.map((product, index) => (
+            {data?.products.list.map((product, index) => (
               <tr key={index} className="bg-white hover:bg-gray-100 h-12">
-                <td className="text-center">{product.id}</td>
+                <td className="text-center">
+                  {(currentPage - 1) * limit + index + 1}
+                </td>
+
+                <td>
+                  <Image
+                    className="h-10 w-10 object-cover rounded-sm"
+                    width={40}
+                    height={40}
+                    objectFit="cover"
+                    src={thumbnailUrl(product.images[0]?.url)}
+                    alt=""
+                  />
+                </td>
                 <td>{product.name}</td>
-                <td>{product.description}</td>
-                <td>{product.price}</td>
+                <td>
+                  <div className="max-h-12 line-clamp-2">
+                    {product.description}
+                  </div>
+                </td>
+                <td>
+                  {product.price.toLocaleString("it-IT", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                </td>
                 <td>{product.quantity}</td>
                 <td className="text-center">
                   <div className="bg-teal-500 inline-flex text-xs text-white font-semibold rounded-md items-center justify-center py-0.5 px-2">
@@ -165,15 +216,15 @@ const AdminProduct = () => {
             ))}
             {[...Array(emptyRows)].map((_item, index) => (
               <tr key={index} className="bg-white hover:bg-gray-100 h-12">
-                <td colSpan={9} />
+                <td colSpan={10} />
               </tr>
             ))}
           </tbody>
           <tfoot>
             <tr>
-              <td className="text-right p-1" colSpan={9}>
+              <td className="text-right p-1" colSpan={10}>
                 <TableFooter
-                  count={productsData?.total || 10}
+                  count={data?.products.total || 10}
                   currentPage={currentPage}
                   setCurrentPage={setCurrentPage}
                   limit={limit}
@@ -188,11 +239,15 @@ const AdminProduct = () => {
         onClose={modalCreate.onClose}
         isOpen={modalCreate.isOpen}
         form={form}
+        formUpdate={formUpdate}
+        setFormUpdate={setFormUpdate}
       />
       <DeleteModal
         isOpen={modalDelete.isOpen}
         onClose={modalDelete.onClose}
         formDelete={formDelete}
+        cacheKey="getProducts"
+        mutation={removeMutation}
       />
     </>
   );

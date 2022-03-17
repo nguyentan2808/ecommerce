@@ -8,14 +8,16 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
+import DeleteModal from "components/common/DeleteModal";
 import Loading from "components/common/Loading";
 import TableFooter from "components/common/TableFooter";
-import CreateModal, {
-  IFormValues,
-} from "components/modules/Admin/category/CreateModal";
-import DeleteModal from "components/modules/Admin/category/DeleteModal";
+import CreateModal from "components/modules/Admin/category/CreateModal";
 import { format } from "date-fns";
-import { useGetCategoriesQuery } from "generated/graphql";
+import {
+  Category,
+  useGetCategoriesQuery,
+  useRemoveCategoryMutation,
+} from "generated/graphql";
 import Head from "next/head";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -46,17 +48,10 @@ const Category: React.FC = () => {
     id: -1,
     name: "",
   });
+  const [formUpdate, setFormUpdate] = React.useState<number | null>(null);
 
-  const {
-    isOpen: isOpenCreate,
-    onOpen: setOpenCreate,
-    onClose: setCloseCreate,
-  } = useDisclosure();
-  const {
-    isOpen: isOpenDelete,
-    onOpen: setOpenDelete,
-    onClose: setCloseDelete,
-  } = useDisclosure();
+  const modalCreate = useDisclosure();
+  const modalDelete = useDisclosure();
 
   const { isLoading, data, error } = useGetCategoriesQuery(
     {
@@ -65,17 +60,19 @@ const Category: React.FC = () => {
     },
     { keepPreviousData: true }
   );
-  const categoriesData = data?.categories;
+
+  const removeMutation = useRemoveCategoryMutation();
 
   const form = useForm({
     defaultValues: FormDefaultValues,
     resolver: yupResolver(FormSchema),
   });
 
-  const handleEdit = (category: IFormValues) => {
+  const handleEdit = (category: Category) => {
     const { name, description } = category;
-    setOpenCreate();
+    modalCreate.onOpen();
     form.reset({ name, description });
+    setFormUpdate(category.id);
   };
 
   const handleDelete = (category: {
@@ -85,12 +82,12 @@ const Category: React.FC = () => {
     description: string;
   }) => {
     setFormDelete({ id: category.id, name: category.name });
-    setOpenDelete();
+    modalDelete.onOpen();
   };
 
   const emptyRows =
-    categoriesData?.list.length && categoriesData.list.length % limit !== 0
-      ? limit - (categoriesData.list.length % limit)
+    data?.categories.list.length && data?.categories.list.length % limit !== 0
+      ? limit - (data?.categories.list.length % limit)
       : 0;
 
   return (
@@ -115,7 +112,7 @@ const Category: React.FC = () => {
             py={4}
             w={{ base: "full", md: "auto" }}
             leftIcon={<AiOutlinePlus className="text-sm" />}
-            onClick={setOpenCreate}
+            onClick={modalCreate.onOpen}
           >
             <p className="text-sm">Add category</p>
           </Button>
@@ -139,13 +136,17 @@ const Category: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {categoriesData?.list.map((category, index) => (
+            {data?.categories?.list.map((category, index) => (
               <tr key={index} className="bg-white hover:bg-gray-100 h-12">
                 <td className="text-center fon-bold">
                   {(currentPage - 1) * limit + index + 1}
                 </td>
                 <td>{category.name}</td>
-                <td>{category.description}</td>
+                <td>
+                  <div className="max-h-12 line-clamp-2">
+                    {category.description}
+                  </div>
+                </td>
                 <td className="text-right">
                   {format(new Date(category.createdAt), "MM/dd/yyyy")}
                 </td>
@@ -157,7 +158,7 @@ const Category: React.FC = () => {
                     />
                     <FiEdit
                       className="text-lg cursor-pointer opacity-70"
-                      onClick={() => handleEdit(category)}
+                      onClick={() => handleEdit(category as Category)}
                     />
                   </div>
                 </td>
@@ -173,7 +174,7 @@ const Category: React.FC = () => {
             <tr>
               <td className="text-right p-1" colSpan={5}>
                 <TableFooter
-                  count={categoriesData?.total || 10}
+                  count={data?.categories.total || 10}
                   currentPage={currentPage}
                   setCurrentPage={setCurrentPage}
                   limit={limit}
@@ -184,11 +185,19 @@ const Category: React.FC = () => {
           </tfoot>
         </table>
       </span>
-      <CreateModal onClose={setCloseCreate} isOpen={isOpenCreate} form={form} />
+      <CreateModal
+        onClose={modalCreate.onClose}
+        isOpen={modalCreate.isOpen}
+        form={form}
+        formUpdate={formUpdate}
+        setFormUpdate={setFormUpdate}
+      />
       <DeleteModal
-        isOpen={isOpenDelete}
-        onClose={setCloseDelete}
+        isOpen={modalDelete.isOpen}
+        onClose={modalDelete.onClose}
         formDelete={formDelete}
+        cacheKey="getCategories"
+        mutation={removeMutation}
       />
     </>
   );

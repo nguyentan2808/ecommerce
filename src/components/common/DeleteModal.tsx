@@ -8,41 +8,46 @@ import {
   ModalOverlay,
 } from "@chakra-ui/react";
 import Loading from "components/common/Loading";
-import { useRemoveCategoryMutation } from "generated/graphql";
-import { IFormDelete } from "./Category";
 import React from "react";
 import { AiOutlineDelete } from "react-icons/ai";
-import { useQueryClient } from "react-query";
+import { UseMutationResult, useQueryClient } from "react-query";
+import { toast } from "react-toastify";
 
 interface IDeleteModalProps {
   isOpen: boolean;
   onClose: () => void;
-  formDelete: IFormDelete;
+  formDelete: { id: number; name: string };
+  mutation: UseMutationResult<any, any, any, any>;
+  cacheKey: string;
 }
 
 const DeleteModal: React.FC<IDeleteModalProps> = ({
   isOpen,
   onClose,
   formDelete,
+  mutation,
+  cacheKey,
 }) => {
-  const { mutate: remove, isLoading } = useRemoveCategoryMutation();
   const queryClient = useQueryClient();
 
   const handleDelete = async () => {
-    remove(
+    mutation.mutate(
       { id: formDelete.id },
       {
         onSuccess: () => {
           onClose();
-          queryClient.invalidateQueries("getCategories");
+          queryClient.invalidateQueries(cacheKey);
+          toast.success(`${formDelete.name} has been deleted`);
         },
       }
     );
   };
 
+  console.log("Delete modal render");
+
   return (
     <>
-      <Loading isLoading={isLoading} />
+      <Loading isLoading={mutation.isLoading} />
 
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
