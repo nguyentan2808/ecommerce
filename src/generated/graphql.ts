@@ -224,11 +224,6 @@ export type CreateProductMutationVariables = Exact<{
 
 export type CreateProductMutation = { __typename?: 'Mutation', createProduct: { __typename?: 'Product', name: string, id: number } };
 
-export type GetPathsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetPathsQuery = { __typename?: 'Query', products: { __typename?: 'GetProductsResponse', list: Array<{ __typename?: 'Product', id: number, name: string }> } };
-
 export type GetProductByIdQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
@@ -243,6 +238,11 @@ export type GetProductsQueryVariables = Exact<{
 
 
 export type GetProductsQuery = { __typename?: 'Query', products: { __typename?: 'GetProductsResponse', total: number, list: Array<{ __typename?: 'Product', id: number, name: string, description: string, price: number, quantity: number, status: string, type: string, createdAt: any, categories: Array<{ __typename?: 'Category', name: string }>, images: Array<{ __typename?: 'ProductImage', url: string, id: number }> }> } };
+
+export type GetPathsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetPathsQuery = { __typename?: 'Query', products: { __typename?: 'GetProductsResponse', list: Array<{ __typename?: 'Product', id: number, name: string }> } };
 
 export type RemoveProductMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -371,28 +371,6 @@ export const useCreateProductMutation = <
       (variables?: CreateProductMutationVariables) => fetcher<CreateProductMutation, CreateProductMutationVariables>(CreateProductDocument, variables)(),
       options
     );
-export const GetPathsDocument = `
-    query getPaths {
-  products(limit: 0, page: 0) {
-    list {
-      id
-      name
-    }
-  }
-}
-    `;
-export const useGetPathsQuery = <
-      TData = GetPathsQuery,
-      TError = unknown
-    >(
-      variables?: GetPathsQueryVariables,
-      options?: UseQueryOptions<GetPathsQuery, TError, TData>
-    ) =>
-    useQuery<GetPathsQuery, TError, TData>(
-      variables === undefined ? ['getPaths'] : ['getPaths', variables],
-      fetcher<GetPathsQuery, GetPathsQueryVariables>(GetPathsDocument, variables),
-      options
-    );
 export const GetProductByIdDocument = `
     query getProductById($id: Int!) {
   product(id: $id) {
@@ -447,6 +425,28 @@ export const useGetProductsQuery = <
     useQuery<GetProductsQuery, TError, TData>(
       ['getProducts', variables],
       fetcher<GetProductsQuery, GetProductsQueryVariables>(GetProductsDocument, variables),
+      options
+    );
+export const GetPathsDocument = `
+    query getPaths {
+  products(limit: 0, page: 0) {
+    list {
+      id
+      name
+    }
+  }
+}
+    `;
+export const useGetPathsQuery = <
+      TData = GetPathsQuery,
+      TError = unknown
+    >(
+      variables?: GetPathsQueryVariables,
+      options?: UseQueryOptions<GetPathsQuery, TError, TData>
+    ) =>
+    useQuery<GetPathsQuery, TError, TData>(
+      variables === undefined ? ['getPaths'] : ['getPaths', variables],
+      fetcher<GetPathsQuery, GetPathsQueryVariables>(GetPathsDocument, variables),
       options
     );
 export const RemoveProductDocument = `
