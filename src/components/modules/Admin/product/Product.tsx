@@ -149,8 +149,8 @@ const AdminProduct = () => {
               <th className="text-left">Name</th>
               <th className="text-left">Image</th>
               <th className="text-left w-1/4">Description</th>
-              <th className="text-left">Price</th>
-              <th className="text-left">Quantity</th>
+              <th className="text-center">Price</th>
+              <th className="text-center">Quantity</th>
               <th className="text-center">Status</th>
               <th className="text-center">Type</th>
               <th className="text-right">Create At</th>
@@ -180,13 +180,13 @@ const AdminProduct = () => {
                     {product.description}
                   </div>
                 </td>
-                <td>
+                <td className="text-center">
                   {product.price.toLocaleString("it-IT", {
                     style: "currency",
                     currency: "VND",
                   })}
                 </td>
-                <td>{product.quantity}</td>
+                <td className="text-center">{product.quantity}</td>
                 <td className="text-center">
                   <div className="bg-teal-500 inline-flex text-xs text-white font-semibold rounded-md items-center justify-center py-0.5 px-2">
                     {product.status}

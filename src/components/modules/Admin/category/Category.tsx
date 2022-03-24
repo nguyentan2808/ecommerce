@@ -139,7 +139,9 @@ const Category: React.FC = () => {
             {data?.categories?.list.map((category, index) => (
               <tr key={index} className="bg-white hover:bg-gray-100 h-12">
                 <td className="text-center fon-bold">
-                  {(currentPage - 1) * limit + index + 1}
+                  {/* {(currentPage - 1) * limit + index + 1}
+                   */}
+                  {category.id}
                 </td>
                 <td>{category.name}</td>
                 <td>

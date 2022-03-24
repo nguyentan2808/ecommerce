@@ -57,6 +57,7 @@ const CreateModal: React.FC<ICreateModal> = ({
 
   const onSubmit = async (value: IFormValues) => {
     if (!formUpdate) {
+      alert("Create");
       createMutation.mutate(
         { createCategoryInput: value },
         {
@@ -72,6 +73,7 @@ const CreateModal: React.FC<ICreateModal> = ({
         { updateCategoryInput: { ...value, id: formUpdate } },
         {
           onSuccess: () => {
+            console.log({ ...value, id: formUpdate });
             queryClient.invalidateQueries("getCategories");
             handleCloseModal();
             toast.success("Category update successfully");

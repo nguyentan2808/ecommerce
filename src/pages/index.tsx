@@ -1,11 +1,14 @@
 /* eslint-disable @next/next/no-page-custom-font */
 import CustomerLayout from "components/layouts/Customer";
 import { LayoutProps } from "components/layouts/PageWithLayouts";
-import Landing from "components/modules/Customer/Landing";
+import Home from "components/modules/Customer/Home";
+import { GRAPHQL_URL } from "constant";
+import { GetProductsDocument } from "generated/graphql";
+import request, { gql } from "graphql-request";
 import Head from "next/head";
 import React from "react";
 
-const _Index: React.FC & { layout: LayoutProps } = () => {
+const _Index: React.FC & { layout: LayoutProps } = ({ products }) => {
   return (
     <>
       <Head>
@@ -15,11 +18,24 @@ const _Index: React.FC & { layout: LayoutProps } = () => {
         />
         <title>Pickbazar - Modern e-commerce</title>
       </Head>
-      <Landing />
+
+      <Home />
     </>
   );
 };
 
 _Index.layout = CustomerLayout;
+
+export async function getStaticProps() {
+  const query = gql`
+    ${GetProductsDocument}
+  `;
+  const { products } = await request(GRAPHQL_URL, query, {
+    page: 1,
+    limit: 10,
+  });
+
+  return { props: { products } };
+}
 
 export default _Index;

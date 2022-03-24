@@ -166,9 +166,9 @@ export type QueryProductsArgs = {
 };
 
 export type UpdateCategoryInput = {
-  description?: InputMaybe<Scalars['String']>;
-  id: Scalars['Int'];
-  name?: InputMaybe<Scalars['String']>;
+  description: Scalars['String'];
+  id: Scalars['Float'];
+  name: Scalars['String'];
 };
 
 export type UpdateProductInput = {
@@ -237,7 +237,7 @@ export type GetProductsQueryVariables = Exact<{
 }>;
 
 
-export type GetProductsQuery = { __typename?: 'Query', products: { __typename?: 'GetProductsResponse', total: number, list: Array<{ __typename?: 'Product', id: number, name: string, description: string, price: number, quantity: number, status: string, type: string, createdAt: any, categories: Array<{ __typename?: 'Category', name: string }>, images: Array<{ __typename?: 'ProductImage', url: string, id: number }> }> } };
+export type GetProductsQuery = { __typename?: 'Query', products: { __typename?: 'GetProductsResponse', total: number, list: Array<{ __typename?: 'Product', id: number, name: string, description: string, price: number, quantity: number, status: string, type: string, createdAt: any, categories: Array<{ __typename?: 'Category', id: number, name: string }>, images: Array<{ __typename?: 'ProductImage', url: string, id: number }> }> } };
 
 export type GetPathsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -404,6 +404,7 @@ export const GetProductsDocument = `
       status
       type
       categories {
+        id
         name
       }
       images {

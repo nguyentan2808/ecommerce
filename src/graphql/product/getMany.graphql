@@ -10,6 +10,7 @@ query getProducts($limit: Float!, $page: Float!) {
       status
       type
       categories {
+        id
         name
       }
       images {

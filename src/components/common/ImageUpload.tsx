@@ -1,5 +1,5 @@
-/* eslint-disable @next/next/no-img-element */
 import axios from "axios";
+import Image from "next/image";
 import React from "react";
 import { useDropzone } from "react-dropzone";
 import { useFormContext, useWatch } from "react-hook-form";
@@ -91,15 +91,18 @@ const ImageUpload: React.FC<IImageUploadProps> = ({ isMultiple = false }) => {
               onClick={(e) => e.stopPropagation()}
             >
               <div
-                className="absolute -right-2 -top-2 p-1 rounded-full bg-gray-100 shadow-mui-3 flex justify-center items-center"
+                className="absolute -right-2 -top-2 p-1 rounded-full bg-gray-100 shadow-mui-3 flex justify-center items-center z-10"
                 onClick={() => handleDelete(preview)}
               >
                 <IoClose className="text-xl" />
               </div>
               <a href={fullSizeUrl(preview)} target="_blank" rel="noreferrer">
-                <img
+                <Image
                   className="rounded-lg"
                   src={thumbnailUrl(preview)}
+                  height={180}
+                  width={180}
+                  objectFit="cover"
                   alt="Oke"
                 />
               </a>
