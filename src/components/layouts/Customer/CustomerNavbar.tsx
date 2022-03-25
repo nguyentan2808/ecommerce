@@ -21,7 +21,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import { AiOutlineShop, AiOutlineWifi } from "react-icons/ai";
 import { CgMenuLeft, CgSearch, CgShoppingBag } from "react-icons/cg";
-import { FiUser } from "react-icons/fi";
+import { FiMenu, FiUser } from "react-icons/fi";
 import { IconType } from "react-icons/lib";
 import { MdOutlineHelpOutline, MdOutlineLocalOffer } from "react-icons/md";
 import { RiHome2Line } from "react-icons/ri";
@@ -171,12 +171,12 @@ const NavBar: React.FC = () => {
           </Link>
         </div>
 
-        {/* <div
-                    className={`absolute top-[100%] shadow z-11 left-0 p-3 cursor-pointer rounded-br-md select-none ${styles.navbar_bg}`}
-                    onClick={handleHideNavbar}
-                >
-                    <FiMenu className="text-xl" />
-                </div> */}
+        <div
+          className={`absolute top-[100%] shadow z-11 left-0 p-3 cursor-pointer rounded-br-md select-none ${styles.navbar_bg}`}
+          onClick={handleHideNavbar}
+        >
+          <FiMenu className="text-xl" />
+        </div>
       </header>
 
       <MobileNavBar menu={menu} setHideSearch={setHideSearch} />

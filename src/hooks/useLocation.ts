@@ -1,6 +1,4 @@
 import axios from "axios";
-import { Dispatch } from "react";
-import { SetStateAction } from "react";
 import React from "react";
 
 interface IProvince {

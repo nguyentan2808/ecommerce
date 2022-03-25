@@ -1,13 +1,13 @@
 // TODO: Split this component
 
-import { Box, Drawer, DrawerContent, useDisclosure } from "@chakra-ui/react";
+import { Box, useDisclosure } from "@chakra-ui/react";
 import React from "react";
 import type { LayoutProps } from "../PageWithLayouts";
 import AdminNavbar from "./AdminNavbar";
 import AdminSidebar from "./AdminSidebar";
 
 const SidebarWithHeader: LayoutProps = ({ children }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { onOpen, onClose } = useDisclosure();
 
   return (
     <Box className="min-h-screen bg-gray-100">

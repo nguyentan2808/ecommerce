@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState } from "react";
-import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
+import { useKeenSlider } from "keen-slider/react";
+import React, { useState } from "react";
 
 const Discounts = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -150,24 +150,24 @@ const Discounts = () => {
 
 export default Discounts;
 
-const Arrow = ({
-  disabled,
-  left,
-  onClick,
-}: {
-  disabled: boolean;
-  left: boolean;
-  onClick: () => void;
-}) => {
-  return (
-    <div
-      onClick={onClick}
-      className={`arrow ${left ? "arrow--left" : "arrow--right"} ${
-        disabled ? " arrow--disabled" : ""
-      }`}
-    >
-      {left && "<"}
-      {!left && ">"}
-    </div>
-  );
-};
+// const Arrow = ({
+//   disabled,
+//   left,
+//   onClick,
+// }: {
+//   disabled: boolean;
+//   left: boolean;
+//   onClick: () => void;
+// }) => {
+//   return (
+//     <div
+//       onClick={onClick}
+//       className={`arrow ${left ? "arrow--left" : "arrow--right"} ${
+//         disabled ? " arrow--disabled" : ""
+//       }`}
+//     >
+//       {left && "<"}
+//       {!left && ">"}
+//     </div>
+//   );
+// };

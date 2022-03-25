@@ -85,7 +85,7 @@ const SignUp: React.FC<ISignUpProps> = ({ isOpen, onClose }) => {
     const { ward, district, province, ...rest } = values;
     const body = { ...rest, address: [ward, district, province].join(", ") };
     try {
-      const { data } = await axios.post("http://localhost:5000/users", {
+      await axios.post("http://localhost:5000/users", {
         ...body,
       });
 

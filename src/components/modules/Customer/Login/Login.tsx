@@ -6,7 +6,6 @@ import InputField from "components/common/InputField";
 import InputFieldPassword from "components/common/InputFieldPassword";
 import SignUpModal from "components/modules/Customer/SignUp";
 import useI18n from "hooks/useI18n";
-import jwtDecode from "jwt-decode";
 import Link from "next/link";
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -48,7 +47,7 @@ const Login: React.FC = () => {
         username: email,
         password: password,
       });
-      const decode = jwtDecode(access_token);
+      // const decode = jwtDecode(access_token);
 
       localStorage.setItem("access_token", access_token);
     } catch (error: any) {

@@ -1,14 +1,22 @@
 /* eslint-disable @next/next/no-page-custom-font */
 import CustomerLayout from "components/layouts/Customer";
 import { LayoutProps } from "components/layouts/PageWithLayouts";
-import Home from "components/modules/Customer/Home";
+import Discounts from "components/modules/Customer/Home/Discounts";
+import Landing from "components/modules/Customer/Home/Landing";
+import Products from "components/modules/Customer/Home/Products";
 import { GRAPHQL_URL } from "constant";
-import { GetProductsDocument } from "generated/graphql";
+import { GetProductsDocument, GetProductsResponse } from "generated/graphql";
 import request, { gql } from "graphql-request";
 import Head from "next/head";
 import React from "react";
 
-const _Index: React.FC & { layout: LayoutProps } = ({ products }) => {
+export interface IProductsResponse {
+  products: GetProductsResponse;
+}
+
+const Index: React.FC<IProductsResponse> & { layout: LayoutProps } = ({
+  products,
+}) => {
   return (
     <>
       <Head>
@@ -19,12 +27,14 @@ const _Index: React.FC & { layout: LayoutProps } = ({ products }) => {
         <title>Pickbazar - Modern e-commerce</title>
       </Head>
 
-      <Home />
+      <Landing />
+      <Discounts />
+      <Products products={products} />
     </>
   );
 };
 
-_Index.layout = CustomerLayout;
+Index.layout = CustomerLayout;
 
 export async function getStaticProps() {
   const query = gql`
@@ -38,4 +48,4 @@ export async function getStaticProps() {
   return { props: { products } };
 }
 
-export default _Index;
+export default Index;
